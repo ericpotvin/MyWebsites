@@ -1,0 +1,63 @@
+<p>HTML5 and CSS3 (including media queries) are getting very popular lately. Reliable Internet browsers, such as Firefox or Chrome, adjust to the latest technologies quickly to insure we get the best user experience we can get. On the other hand, some editor didn't adapt (yet) to the latest new way to code and syntaxes.</p>
+
+<p>This is the case for my favorite editor: <span class="bold">VIM</span>.</p>
+
+<p>Gladly, I have a solution for those who share this feeling and love using VIM as their editor.</p>
+
+<p>First, let's create the folder where we will create the <code>.vim</code> files.</p>
+
+<pre>
+mkdir -p ~/.vim/after/syntax/css
+</pre>
+
+<p>Then edit the HTML5 file:</p>
+<pre>
+vi .vim/after/syntax/html.vim
+</pre>
+<p>and use the following code:</p>
+<pre>
+" Vim syntax file
+" Language: HTML (version 5)
+" Maintainer: Rodrigo Machado &lt;rcmachado [at] gmail [dot] com&gt;
+" URL: http://rm.blog.br/vim/syntax/html.vim
+" Last Change: 2009 Aug 19
+" License: Public domain
+" (but let me know if you liked it :) )
+"
+" Note: This file just adds the new tags from HTML 5
+" and don't replace default html.vim syntax file
+
+" HTML 5 tags
+syn keyword htmlTagName contained article aside audio bb canvas command datagrid
+syn keyword htmlTagName contained datalist details dialog embed figure footer
+syn keyword htmlTagName contained header hgroup keygen mark meter nav output
+syn keyword htmlTagName contained progress time ruby rt rp section time video
+
+" HTML 5 arguments
+syn keyword htmlArg contained autofocus placeholder min max step
+syn keyword htmlArg contained contenteditable contextmenu draggable hidden item
+syn keyword htmlArg contained itemprop list subject spellcheck
+" this doesn't work because default syntax file alredy define a 'data' attribute
+syn match htmlArg "\&lt;\(data-[\-a-zA-Z0-9_]\+\)=" contained
+
+syn include @htmlCss syntax/css/css3-mediaqueries.vim
+</pre>
+
+<p>Now, let's create the CSS3 media queries file.</p>
+<pre>
+vi .vim/after/syntax/css/css3-mediaqueries.vim
+</pre>
+
+<p>and use the following code:</p>
+
+<pre>
+syn region cssMediaType start='(' end=')' contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape nextgroup=cssMediaComma,cssMediaAnd,cssMediaBlock skipwhite skipnl
+syn match cssMediaAnd "and" nextgroup=cssMediaType skipwhite skipnl
+syn clear cssMediaBlock
+syn region cssMediaBlock contained transparent matchgroup=cssBraces start='{' end='}' contains=cssTagName,cssSelectorOp,cssAttributeSelector,cssIdentifier,cssError,cssDefinition,cssPseudoClass,cssComment,cssUnicodeEscape,cssClassName,cssURL
+</pre>
+
+<p>Next time you will edit an HTML 5 file or a CSS3 that includes media queries, the "color syntax" will be adjusted to these new Web 2.0 features.</p>
+
+<p>Need more? This <a href="https://github.com/disusered/vim-config/tree/master/bundle/syntax-css3" title="css3" rel="nofollow" class="nw">bundle</a> will help you.</p>
+				

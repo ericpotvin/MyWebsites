@@ -1,0 +1,15 @@
+
+<p>When developing or debugging MySQL queries are not common if you don't want to display the query on one line. When using shell, and not a non GUI program, you might have to run the last command executed from the buffer (or temporary files) using the shortcut <code>\e</code>.</p>
+
+<p>Now, if you accidentally overwrite this query without entering in the <q>edit mode</q>, you will have to paste again the query and modify all over again what you did. This can be painful and here's a solution.</p>
+
+<p>The idea is very simple, map a command to save the current buffer to a specific file then if you make a mistake, you can always re-open the saved file.</p>
+
+<pre>
+nmap &lt;F7&gt; :w! /tmp/query.sql\| wq!&lt;CR&gt;
+</pre>
+
+<p>This will create a map to the <kbd>F7</kbd> key (you can change it of course). So every time you open a file either using edit or <code>\e</code>, you change it use the <kbd>F7</kbd> key.</p>
+
+<p>This will save a backup of your current query to /tmp/query.sql and then save and close the temporary file. This way, if you make a mistake, you just re-open the backup file and try again.</p>
+					

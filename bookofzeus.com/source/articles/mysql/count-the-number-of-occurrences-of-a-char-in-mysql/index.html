@@ -1,0 +1,31 @@
+
+<p>For some reason, could be good or not, you want to know the number of occurrences of a character (or a string) in a MySQL field or a string.</p>
+
+<p>Let's say we have the following table:</p>
+<pre>
+mysql&gt; desc `url`;
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(50)      | NO   |     |         |                |
+| url            | varchar(255)     | NO   |     |         |                |
+| fk_category_id | int(10) unsigned | NO   |     | NULL    |                |
++----------------+------------------+------+-----+---------+----------------+
+</pre>
+
+<p>We want to find how many slashes "/" each url have. The easy way is using the <span class="italic">length</span> and the <span class="italic">replace</span> command:</p>
+<pre>
+LENGTH(<span class="italic">[field]</span>) - LENGTH(REPLACE(<span class="italic">[field]</span>, '<span class="italic">[char_to_find]</span>', ''))
+</pre>
+
+<p>Here's an simple example:</p>
+<pre>
+mysql&gt; select `id`, `url`, <span class="bold">LENGTH(`url`) - LENGTH(REPLACE(`url`, '/', ''))</span> as `number` from `url`;
++----+-------------------------------+--------+
+| id | url                           | number |
++----+-------------------------------+--------+
+|  1 | http://www.thesunrisepost.com |      2 |
++----+-------------------------------+--------+
+</pre>
+

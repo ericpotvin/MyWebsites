@@ -1,0 +1,22 @@
+
+<p>Yesterday I had to import data that using more than 100,000 foreign keys. Obviously, putting these 100,000 keys in the where clause were kind of crazy and, I'll be honest, I was lazy to do it. So, I decided to use a sub query (one time thing you know).</p>
+
+<p>So I build this query:</p>
+
+<pre>
+mysqldump -uroot -harchive-db history orders --where="id IN (SELECT id FROM clients)" | mysql -uroot -hserver2 db
+</pre>
+
+<p>I thoughyt this was working until I got this errror:</p>
+
+<pre>
+ERROR 2005 (HY000): Unknown MySQL server host 'server2' (2)
+mysqldump: Couldn't execute 'SELECT /*!40001 SQL_NO_CACHE */ * FROM `orders` WHERE id IN (SELECT id FROM client)': Table 'client' was not locked with LOCK TABLES (1100)
+</pre>
+
+<p>To fix this, I simply had to add the <q>--lock-all-tables</q> option!</p>
+
+<pre>
+mysqldump --lock-all-tables -uroot -hlocalhost history orders --where="id IN (SELECT id FROM client)" | mysql -uroot -hserver2 db
+</pre>
+

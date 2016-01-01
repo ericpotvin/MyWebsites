@@ -1,0 +1,42 @@
+
+<p>VPN (virtual private network) extends a private network and the resources contained in the network across public networks like the Internet. It enables a host computer to send and receive data across shared or public networks as if it were a private network with all the functionality, security and management policies of the private network.[1] This is done by establishing a virtual point-to-point connection through the use of dedicated connections, encryption, or a combination of the two.</p>
+
+<p class="note">source: http://en.wikipedia.org/wiki/Virtual_private_network</p>
+
+<p>Ubuntu does not come with the VPN tool and for those who needs it, here's what to do.</p>
+
+<h4>Install Java JDK</h4>
+<pre>
+sudo apt-get install openjdk-7-jdk icedtea-7-plugin
+</pre>
+
+<h4>Install Juniper VPN Software</h4>
+<pre>
+mkdir ~/juniper_temp
+cd ~/juniper_temp
+wget https://github.com/udomsak/juniper-ncui/raw/master/ncLinuxApp.jar
+jar xf ncLinuxApp.jar
+chmod +x ./getx509certificate.sh
+./getx509certificate.sh <q>IP_OF_THE_SECURE_ENV</q> ~/.vpn-secure.crt
+chmod go-rwx ~/.vpn-secure.crt
+chmod a+x ./ncsvc
+</pre>
+
+<h4>Run</h4>
+<p>
+Run this in a console, it will ask you for your password (don't run it in the background) It will keep running until you stop it.
+</p>
+<pre>
+sudo ./ncsvc -h <q>IP_OF_THE_SECURE_ENV</q> -u <q>username</q> -f ~/.vpn-secure.crt
+</pre>
+
+<p>
+Once the password is entered, the connection will be now open to the secure environment. Simply open a new console and type:
+</p>
+
+<pre>
+ssh <q>IP_OF_THE_SECURE_ENV</q>
+</pre>
+
+<p>Then to close the connection from the secure environment, simply hit <kbd>control-c</kbd> from the process that was running in the other console.</p>
+

@@ -1,0 +1,65 @@
+<style>
+@-webkit-keyframes spin { from { -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg); } }
+@-moz-keyframes spin { from { -moz-transform: rotate(0deg); } to { -moz-transform: rotate(360deg); } }
+@-ms-keyframes spin { from { -ms-transform: rotate(0deg); } to { -ms-transform: rotate(360deg); } }
+#spinWrapper { position: relative; margin: 100px 0 0 200px; height: 250px; }
+#spinImage { position: absolute; top: -60px; left: -45px; width: 275px; height: 292px; -webkit-animation-name: spin; -webkit-animation-duration: 1000ms; -webkit-animation-iteration-count: infinite; -webkit-animation-timing-function: linear; -moz-animation-name: spin; -moz-animation-duration: 1000ms; -moz-animation-iteration-count: infinite; -moz-animation-timing-function: linear; -ms-animation-name: spin; -ms-animation-duration: 1000ms; -ms-animation-iteration-count: infinite; -ms-animation-timing-function: linear; }
+</style>
+<p>CSS3 brings a good variety of features to improve your web page, one of them is animation. With this you can easily replace animated GIFs or flash movies by creating simple CSS code.</p>
+
+<p>Here's a basic example of an image rotation:</p>
+
+<h4>CSS</h4>
+<pre>
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); } to { -webkit-transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg); } to { -moz-transform: rotate(360deg);
+  }
+}
+@-ms-keyframes spin {
+  from {
+    -ms-transform: rotate(0deg); } to { -ms-transform: rotate(360deg);
+  }
+}
+#spinWrapper {
+  position: relative;
+  margin: 100px 0 0 200px;
+}
+#spinImage {
+  background: url(spiral-1.png) 0 0 no-repeat;
+  position: absolute;
+  top: -60px;
+  left: -45px;
+  width: 275px;
+  height: 292px;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 1000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 1000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 1000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+}
+</pre>
+
+<h4>HTML</h4>
+<pre>
+&lt;div id="spinWrapper"&gt;
+  &lt;img src="http://www.bookofzeus.com/download/spiral.png" alt="spiral" id="spinImage" /&gt;
+&lt;/div&gt;
+</pre>
+
+<h4>Demo</h4>
+<div id="spinWrapper">
+  <img src="http://www.bookofzeus.com/download/spiral.png" alt="spiral" id="spinImage" />
+</div>

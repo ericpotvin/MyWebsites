@@ -1,0 +1,64 @@
+
+<p>As many have pointed out I am on a backup and disaster recovery kick lately. Some would say that it is about time, others are simply glad to see that data is now being backed up. I have found that it is easiest to zip up files on a local machine prior to moving them to a final destination. So lets get started:</p>
+<p>I have multiple Linux servers with many websites on each, as well as database. So I created a script that simply tar&rsquo;s the files, then gzips them with the date in the filename for archiving.</p>
+<p>Here is the file named &lsquo;backupall.sh&rsquo; that I save in a place reachable by the user I will use to schedule this cronjob:</p>
+<pre>
+#!/bin/sh
+date
+echo "############### Backing up files on the system... ###############"
+
+backupfilename=server_file_backup_`date '+%Y-%m-%d'`
+
+echo "----- First do the sql by deleting the old file and dumping the current data -----"
+rm -f /tmp/backup.sql
+mysqldump --user=mysqluser --password=password --all-databases --add-drop-table > /tmp/backup.sql
+
+echo "----- Now tar, then zip up all files to be saved -----"
+tar cvf /directory/to/store/file/${backupfilename}.tar /home/* /var/www/html/* /usr/local/svn/* /etc/php.ini /etc/httpd/conf/httpd.conf /tmp/backup.sql /var/trac/*
+gzip /directory/to/store/file/${backupfilename}.tar
+rm /directory/to/store/file/${backupfilename}.tar
+chmod 666 /directory/to/store/file/${backupfilename}.tar.gz
+
+echo "############### Completed backing up system... ###############"
+date
+</pre>
+
+<p>As you can see by the tar line I am backing up:</p>
+<ul>
+<li>The home directory so all users data is backed up.</li>
+<li>The html directory where all web sites reside.</li>
+<li>My subversion(svn) directory where all of my version control repositories reside because losing them would mean losing years of historical data.</li>
+<li>My php.ini</li>
+<li>The apache configuration file</li>
+<li>The sql file with the database backup created earlier in the script.</li>
+<li>Last my trac settings, that house all of my project related history.</li>
+</ul>
+
+<p>All of these will be saved in a tar file that I then zip using gzip, and store in a directory somewhere. Finally I then set the files permissions to 666 which allows pretty much any user copy it to another location for remote backup.</p>
+<p>You may also notice that I put &lsquo;date&rsquo; at the beginning and end of the backupall.sh file. This echos out the date and time so that I can see the time when the job started and ended.</p>
+<p>The script above should be saved somewhere, and then executed via CRON. Here is how I set up my crontab to handle that by using the command <code>crontab -e</code>. (Alternatively you can use <code>crontab -e -u anotheruser</code> to have the task added to a user other than the one you are logged on with. Many will add this to the root users crontab.)</p>
+
+<pre>
+* 1 * * * backupall.sh
+</pre>
+
+<p>This line in the crontab tells CRON to run this script every day at 1:00AM.</p>
+
+<p><span class="bold">Logging the output from CRON to a file.</span><br/>
+If I desired to keep a log of the events it would be nice to output the feedback from the backupall.sh to a file and use it as a log. I can do this by creating a file to use as a log file, and changing the owner of the file to be the cronjob user that is executing backupall.sh:</p>
+
+<pre>
+touch backup_log.txt
+chown cronjobuser backup_log.txt
+</pre>
+<p>
+And then editing the crontab line to be as follows:
+</p>
+<pre>
+* 1 * * * backupall.sh > /path/to/backup_log.txt 2>&amp;1
+</pre>
+<p>Note that the cronjob line above will not append to the log file, but will clear it and then write the current contents to it. If you wish to append to the file like a true log file you can use >> instead of the single > making the crontab look like this:</p>
+<pre>
+* 1 * * * backupall.sh >> /path/to/backup_log.txt 2>&amp;1
+</pre>
+

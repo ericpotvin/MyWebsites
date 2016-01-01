@@ -1,0 +1,40 @@
+<style>
+.democss a { display: block; height: 25px; padding-left: 25px; color:#333; font: bold 15px Tahoma; text-decoration: none; background: url(/download/anchors-sprites.png) no-repeat; }
+.democss a[href$='.pdf'] { background-position: 0px -0x; }
+.democss a[href$='.xml'] { background-position: 0px -24px; }
+.democss a[href$='.zip'] { background-position: 0px -48px; }
+.democss a[href$='.vcard'] { background-position: 0px -76px; }
+</style>
+<p>Icons are usually a great indicator of what an action do. For example a little printer icon to print a page or a little PDF icon to download a PDF file.</p>
+
+<p>This practice is used commonly but if you have plenty, it can be hard to maintain if you don't organize your images and code correctly.</p>
+
+<p>Here's a quick spinet of code that will help you create easily action links without the overloading your anchors with CSS</p>
+
+<h4>CSS:</h4>
+
+<pre>
+a {
+ display: block;
+ height: 25px;
+ padding-left: 25px;
+ color:#333;
+ font: bold 15px Tahoma;
+ text-decoration: none;
+ background: url(http://www.bookofzeus.com/download/anchors-sprites.png) no-repeat;
+}
+a[href$='.pdf'] { background-position: 0px 0px; }
+a[href$='.xml'] { background-position: 0px -24px; }
+a[href$='.zip'] { background-position: 0px -48px; }
+a[href$='.vcard'] { background-position: 0px -76px; }
+</pre>
+
+<p>What <code>a[href$='.pdf']</code> means? It simply means for each <code>a</code> tag that has an <code>href</code> ending (because of the <code>$</code>) with <code>extension</code> will use the CSS code within the curly braces.</p>
+
+<p>This way, every file <span class="bold">ending</span> with a specific file extension will use the icon. Here's more information about the <a href="http://www.w3.org/TR/selectors/" title="selectors" rel="nofollow" class="nw">selectors</a></p>
+
+<h4>Demo:</h4>
+<p class="democss">
+<a href="http://www.bookofzeus.com/pdf/file-type-css-attribute-selector.pdf" title="download pdf">PDF File</a>
+<a href="http://www.bookofzeus.com/rss/latest.xml" title="rss feed">XML File</a>
+</p>

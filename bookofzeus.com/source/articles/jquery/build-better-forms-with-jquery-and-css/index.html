@@ -1,0 +1,125 @@
+<p>Reloading a web form to display errors is something we had to do long time ago. Does your website still has a form that does not display errors right away? If so, it is time for a change.</p>
+
+<p>jQuery (and jQuery validation) provides all the tools you need to display any errors to the users. The concept is very simple, each field can be validated simply by using a "class". For example:</p>
+
+<pre>
+&lt;input /* ... */ class="email" /&gt;
+</pre>
+
+<p>This one will validate if a valid email is entered ni the input field and display right away if the email is valid or not without refreshing the page.</p>
+
+<h4>Requirements:</h4>
+
+<ul>
+  <li><a href="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" class="nw" rel="nofollow">https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js</a></li>
+  <li><a href="/download/jquery.validator.js">http://www.bookofzeus.com/download/jquery.validator.js</a></li>
+</ul>
+
+<p>Now that we have included the mandatory files, we have to build rules for our form. Let's create a simple form with an email field, first name, last name, 3 radio buttons and 1 (one) checkbox.</p>
+
+<pre>
+&lt;input type="text" name="email" id="email" maxlength="80" size="30" value="" class="required email" /&gt;
+&lt;input type="text" name="first" id="first" maxlength="30" size="30" value="" class="required" /&gt;
+&lt;input type="text" name="last" id="last" maxlength="30" size="30" value="" class="required" /&gt;
+
+&lt;input type="radio" name="browser" class="required" /&gt;Firefox
+&lt;input type="radio" name="browser" /&gt;Chrome
+&lt;input type="radio" name="browser" /&gt;Safari
+
+&lt;input type="checkbox" name="privacy" id="privacy" value="y" class="required" /&gt;
+</pre>
+
+<p>In this case, each fields are required and the email field has a <q>email</q> validation. The beauty of this validation is nothing else on the form is required to validate those fields. All the code is build in a separate JavaScript file.</p>
+
+<p>To start, we have to declare the validation of the form itself, otherwise nothing will work.</p>
+
+<pre>
+$("form").validate({
+  errorClass: "errorForm",
+  rules: { },
+  messages: { }
+});
+</pre>
+
+<p>That will take care of the <q>class="required"</q>. Automatically, the jQuery validator will handle these and put the message above or bellow (depending on how you want to display it). Now, let's add the <q>email</q> validation.</p>
+
+<pre>
+$(".email").each(function() {
+  $(this).rules("add", {
+    required: true,
+    email: true,
+    minlength: 8,
+    messages: {
+      required: "Please enter your email",
+    }
+  });
+});
+</pre>
+
+<p>Now, email has to be treated differently from other fields since it needs to make sure an email is entered. jQuery validator has all the code to validate the email, the only difference here is you have to tell him which field is an email.</p>
+
+<p>Now, that we have our main fields set-up, we have to create the JavaScript code that will handle the submit button. That button will simply call the validation (we created above) and return true or false.</p>
+
+<pre>
+var valid = $("form").valid();
+</pre>
+
+<p>This one will automatically show the errors on the page. Would it be nice to focus on the first error? Yes. In case of an error, it would be nice to focus on the field and not let the user search for it.</p>
+
+<pre>
+if(!valid) {
+  $('#' + $('input.errorForm:first').attr('id')).focus();
+  return false;
+}
+</pre>
+
+<h4>Make it look nice.</h4>
+
+<p>Now, remember we had a <q>errorClass: "errorForm"</q> predefine when we declared our validation? This is will tell the jQuery validator which class to use to display or change the fields (to make it more obvious to the user).</p>
+
+<pre>
+input.errorForm, select.errorForm {
+  background: #ffdede;
+  color: red;
+  border: solid 1px red;
+  /* and other declaration */
+}
+label.errorForm {
+  color: red;
+  font-size: 10px;
+  /* and other declaration */
+}
+</pre>
+
+<p>This way, the fields with errors are easy to find. jQuery validator has a great advantage, it is very customizable. Here's a example of <a href="http://www.bookofzeus.com/articles/jquery-validator-adding-a-no-space-validation/">adding a validation that does not allow spaces in the field.</a></p>
+
+<h4>The full scripts:</h4>
+
+<pre>
+$(document).ready(function() {
+  $("form").validate({
+    errorClass: "errorForm",
+    rules: { },
+    messages: { }
+  });
+  $(".email").each(function() {
+    $(this).rules("add", {
+      required: true,
+      email: true,
+      minlength: 8,
+      messages: {
+        required: "Please enter your email",
+      }
+    });
+  });
+  $('input[type=button]').click(function() {
+    var valid = $("form").valid();
+    if(!valid) {
+      var id = $('input.errorForm:first').attr('id');
+      $('#' + id).focus();
+      return false;
+    }
+    return true;
+  });
+});
+</pre>

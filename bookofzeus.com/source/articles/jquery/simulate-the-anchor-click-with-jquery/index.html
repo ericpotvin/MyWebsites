@@ -1,0 +1,53 @@
+<p>Some search engines consider a lot of links on your page as not good for SEO. If you have more than 100 links on your page, it may be considered less useful.</p>
+<p>If someone asked you where to buy new clothes, would you recommend 100 clothing stores to them?  Of course not.  That wouldn't be helpful for them. You would want to provide the best stores you know.</p>
+<p>One hundred links in a web page is just a suggestion.  The more you have, the less of a chance that someone will be interested in them.</p>
+<p>An anchor tag might not be the best option to slide down a menu or remove duplicate links for SEO. Instead, using a span tag might be a better solution.</p>
+
+<h4>Slide down menu:</h4>
+<pre>
+$(document).ready(function() {
+  $('#triggerMenu').click(function() {
+    $('#menu').slideToggle('slow', function() {
+      // Animation complete.
+    });
+  });
+});
+</pre>
+
+<pre>
+&lt;span id="triggerMenu"&gt;open menu&lt;/span&gt;
+&lt;div id="menu"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="/" title="My Page"&gt;My Page&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/articles/" title="My Articles"&gt;My Articles&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
+
+<h4>Remove duplicate links</h4>
+<pre>
+$(document).ready(function() {
+  $('#mainLinkSpan').click(function(){
+    window.location = $('#mainLink').attr('href');
+  });
+});
+</pre>
+
+<pre>
+a, span.link {
+  font: normal 14px Tahoma;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+</pre>
+
+<pre>
+&lt;h1&gt;title&lt;/h1&gt;
+// some content
+&lt;a id="mainLink" href="/mypage/" title="my page"&gt;my page&lt;/a&gt;
+// some content
+&lt;span id="mainLinkSpan" class="link"&gt;my page&lt;/span&gt;
+</pre>
+
+<p>This way, search bots won't try to reference the "open menu" link.</p>

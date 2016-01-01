@@ -1,0 +1,11 @@
+
+<p>Here's a simple command to check the difference between two folders. </p>
+<pre>
+diff -qr /home/user/path/ /home/other_user/path/
+</pre>
+<p>For example, you are working on an SVN project X with a friend using different branches. You want to check which files he modified before committing your files.</p>
+<p>You simply need to fun this command:</p>
+<pre>
+diff --exclude=.svn -qr /home/user/path/ /home/other_user/path/
+</pre>
+					

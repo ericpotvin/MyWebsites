@@ -1,0 +1,28 @@
+
+<p>When creating an Ajax request you might have to set the headers to provide the correct information to be sent to the browser.</p>
+
+<p>Here's the most common way to force the headers when executing an AJAX request:</p>
+
+<h3>Common headers</h3>
+
+<pre>
+header("Expires: 0");
+header("Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
+header("Pragma: no-cache");
+</pre>
+
+<h4>For jSon (JavaScript Object Nation)</h4>
+<pre>
+header('Content-type: application/json');
+</pre>
+
+<h4>For XML (Extensible Markup Language)</h4>
+<pre>
+header('Content-Type: text/xml');
+</pre>
+
+<h4>For HTML (Hypertext Markup Language)</h4>
+<pre>
+header('Content-Type: text/html');
+</pre>
+

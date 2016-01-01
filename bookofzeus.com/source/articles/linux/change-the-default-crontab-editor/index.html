@@ -1,0 +1,17 @@
+
+<p>Some Linux Based OS does not comes with your favorites editor. And maybe in some case the default editor is not the one you are used to. For example, you need to update the <em>crontab</em>:
+</p>
+<pre>
+crontab -e
+</pre>
+<p><em>pico</em> or <em>nano</em>, (for example) opens up. I personally have a preference for <em>VI</em> and I wanted to change it to the editor I am used to. To update the default editor you simply need to execute:
+</p>
+<pre>
+export VISUAL='vi'
+</pre>
+<p>Now when you run:</p>
+<pre>
+crontab -e
+</pre>
+<p><em>VI</em> will open up. <span class="bold">enjoy!</span></p>
+					

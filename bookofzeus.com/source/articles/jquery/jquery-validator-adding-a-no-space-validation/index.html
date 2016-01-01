@@ -1,0 +1,41 @@
+<p>Validate any kind of web forms using javascript/jQuery is a common practice. It prevent server side validation, although it is very important to implement it.</p>
+<p>jQuery offers a great plugin for form validation: <a href="http://docs.jquery.com/Plugins/Validation" class="nw" rel="nofollow">http://docs.jquery.com/Plugins/Validation</a>. This plugin makes your validation easier than ever.</p>
+
+<p>In some cases, you might not want to allow white spaces for specific fields, like password. Here's a quick code that will allow you to prevent white spaces for these type of fields.</p>
+
+<h4>jQuery code:</h4>
+<pre>
+$(document).ready(function() {
+  jQuery.validator.addMethod("noSpace", function(value, element) { 
+    return value.indexOf(" ") &lt; 0 &amp;&amp; value != ""; 
+  }, "Space are not allowed");
+
+  $("#myform").validate({
+    errorLabelContainer: $("#error"),
+    rules: {
+      password: { required: true, noSpace: true }
+    },
+    messages: {
+      password: { required: 'Please enter your password' }
+    }
+  });
+
+  $('#submit').click(function() {
+    var valid = $("#myform").valid();
+    if(!valid) {
+      return false;
+    }
+    // other code
+  });
+});
+</pre>
+
+<h4>HTML Code</h4>
+<pre>
+&lt;form action="#" method="post" id="myform"&gt;
+&lt;input name="email" id="email" type="text" placeholder="Your Email" /&gt;
+&lt;input name="password" id="password" type="password" placeholder="Password" /&gt;
+&lt;input type="button" value="submit" class="submit" /&gt;
+&lt;/form&gt;
+</pre>
+

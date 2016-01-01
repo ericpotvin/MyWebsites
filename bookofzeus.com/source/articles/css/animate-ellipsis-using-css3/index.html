@@ -1,0 +1,118 @@
+<style>
+div.demo {
+	color: #432B21;
+	font-size: 3em;
+	margin: 1em 1em;
+	text-align: left;
+}
+div.demo:after {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    -moz-animation: ellipsis 2s infinite;
+	-webkit-animation:  ellipsis 2s infinite;
+	-o-animation:  ellipsis 2s infinite;
+	animation:  ellipsis 2s infinite;
+    content: "\2026"; /* ascii code for ellipsis */
+}
+@keyframes ellipsis {
+    from {
+        width: 2px;
+    }
+    to {
+        width: 55px;
+    }
+}
+
+@-moz-keyframes ellipsis {
+    from {
+        width: 2px;
+    }
+    to {
+        width: 55px;
+    }
+}
+
+@-webkit-keyframes ellipsis {
+    from {
+        width: 2px;
+    }
+    to {
+        width: 55px;
+    }
+}
+
+@-o-keyframes ellipsis {
+    from {
+        width: 2px;
+    }
+    to {
+        width: 55px;
+    }
+}
+</style>
+
+<p>Many people uses images to show to the user a "please wait loading" while some actions processing in the background. With CSS3, you can do it without using an actual image.</p>
+
+<p>By simply using the <q>animation</q> and the <q>keyframes</q> properties we can show nice animations. For example, let's use the ellipsis animation. The idea is to show one dot at a time giving the impression of something is loading.</p>
+
+<div class="demo">Loading</div>
+
+<p>Now, here's the simple CSS code we need to implement to make this work.</p>
+
+<pre>
+div.demo {
+  color: #432B21;
+  font-size: 3em;
+  margin: 1em 1em;
+  text-align: left;
+}
+div.demo:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -moz-animation: ellipsis 2s infinite;
+  -webkit-animation:  ellipsis 2s infinite;
+  -o-animation:  ellipsis 2s infinite;
+  animation:  ellipsis 2s infinite;
+  content: "\2026"; /* ascii code for ellipsis */
+}
+@keyframes ellipsis {
+  from {
+    width: 2px;
+  }
+  to {
+    width: 55px;
+  }
+}
+
+@-moz-keyframes ellipsis {
+  from {
+    width: 2px;
+  }
+  to {
+    width: 55px;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  from {
+    width: 2px;
+  }
+  to {
+    width: 55px;
+  }
+}
+
+@-o-keyframes ellipsis {
+  from {
+    width: 2px;
+  }
+  to {
+    width: 55px;
+  }
+}
+</pre>
+
+<p>Oh yeah, if you are using IE this won't work. I guess it's time to upgrade to Firefox or Chrome.</p>
+					

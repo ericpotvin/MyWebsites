@@ -1,0 +1,58 @@
+<p>What type of CSS developer are you? <q>Shorthand</q> or <q>Not a Shorthand</q> type? Writing CSS using either can create a long debate on how to build and maintain CSS files. For some people writing <code>property:value1 value2 value3;</code> is easier and faster to code than using all the properties.</p>
+
+<p>I don't want to start a debate here but here's why I think the shorthand is better to use. With the shorthand you can set several properties at once on a single declaration line. This will avoid lots of head aches if you have to debug your CSS. Not only it is easy to write, read and maintain but also reduce the file size. If your CSS is big, you will will end-up saving lots of kilobytes of data transfer on a high traffic website.</p>
+
+<p>Let's see some examples:</p>
+
+<h4>background</h4>
+<p>A shorthand syntax of the background can define as follow:</p>
+<pre>
+background: #ddd url('sample.jpg') no-repeat top center fixed;
+</pre>
+<p>instead of:</p>
+<pre>
+background-color: #ddd;
+background-image: url('sample.jpg');
+background-repeat: no-repeat;
+background-position: top center;
+background-attachment: fixed;
+</pre>
+
+<h4>Borders</h4>
+<p>A shorthand syntax of the border can define as follow:</p>
+<pre>
+border: 1px dotted #ddd;
+</pre>
+
+<p>instead of:</p>
+<pre>
+border-width: 1px;
+border-style: dotted;
+border-color: #ddd;
+</pre>
+
+<p>Similarly, the syntax applies to the border width (top, right, bottom and left) and can be defined like this:</p>
+<pre>
+border-width: 1em 1.5em 2em 2.5em;
+</pre>
+<p>instead of:</p>
+<pre>
+border-top-width: 1em;
+border-right-width: 1.5em;
+border-bottom-width: 2em;
+border-left-width: 2.5em;
+</pre>
+
+<p>There's many more tags you can use the shorthand declaration (like <q>font</q>, <q>margin</q>, <q>padding</q>, <q>transition</q>) and I am not going to go through all of them, you get the idea. </p>
+
+<p>One more reason why I prefer the shorthand declaration: CSS3. Some of the new CSS3 tags don't have multiples declaration, like <q>text-shadow</q>.</p>
+
+<p>For example, the text-shadow is defined as:</p>
+<pre>
+text-shadow: h-shadow v-shadow blur color;
+</pre>
+
+<p>But where are the <q>text-shadow-h-shadow</q>, <q>text-shadow-v-shadow</q>, <q>text-shadow-blur</q>, <q>text-shadow-color</q>?</p>
+
+<p>So why not make your code standard and use the shorthand everywhere?</p>
+

@@ -1,0 +1,24 @@
+<p><q>document.getElementById</q> is pretty useful when developing Web 2.0 websites. But, writing over and over "document.getElementById" can be annoying. There is a simple way to fix that problem.</p>
+<p>Creating an alias is a good way to simplify your code.</p>
+<pre>
+this.$ = function(elem) {
+    if(typeof(elem) != "string") {
+        return false;
+    }
+    if(!document.getElementById(elem)) {
+        return false;
+    }
+    return document.getElementById(elem);
+}
+</pre>
+
+<p>Now, if you want to reference a HTML tag using the ID, you simply need to use the <span class="bold">$</span></p>
+<pre>
+$('info');
+</pre>
+
+<p>instead of:</p>
+<pre>
+document.getElementById('info');
+</pre>
+

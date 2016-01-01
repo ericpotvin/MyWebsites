@@ -1,0 +1,34 @@
+<style>
+div#boxReflect {
+	height: 650px;
+}
+div#boxReflect img {
+	-webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent), to(white));
+}
+</style>
+<p>Image reflection is a cool effect when you want to display images. Before CSS3, this was a painful process to do, specially if you have lots of image to show. This is now a just memories from the past.</p>
+
+<p><em>Webkit</em> now introduce a new feature call <code>-webkit-box-reflect</code>. This new CSS code will automatically creates an image reflection. The negative point is, only Webkit supports it.</p>
+
+<h4>CSS Code</h4>
+<pre>
+div#boxReflect {
+  height: 650px;
+}
+div#boxReflect img {
+  -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.5, transparent), to(white));
+}
+</pre>
+
+<h4>HTML</h4>
+<pre>
+&lt;div id="boxReflect"&gt;
+  &lt;img src="http://www.bookofzeus.com/download/tron-legacy-racing-poster.jpg" width="300" height="429" alt="Tron Poster CSS3 Box Reflect" /&gt;
+&lt;/div&gt;
+</pre>
+
+<h5>Demo</h5>
+<div id="boxReflect">
+  <img src="/download/tron-legacy-racing-poster.jpg" width="300" height="429" alt="Tron Poster CSS3 Box Reflect" />
+</div>
+

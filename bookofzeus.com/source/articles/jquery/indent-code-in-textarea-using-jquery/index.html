@@ -1,0 +1,27 @@
+<p>How many times you wanted to write code using the "tab" in a textarea and realizing the cursor moved to the next form element and what you typed is lost?</p>
+<p>Here's a quick JavaScript code (with jQuery) that will fix this problem:</p>
+<pre>
+$(document).ready(function(e) {
+
+  // Using the &lt;TAB&gt;
+  $('textarea.tab').keydown(function(e) {
+    if(e.keyCode == 9) {
+      var start = $(this).get(0).selectionStart;
+      $(this).val($(this).val().substring(0, start) + "\t" + $(this).val().substring($(this).get(0).selectionEnd));
+      $(this).get(0).selectionStart = $(this).get(0).selectionEnd = start + 1;
+      return false;
+    }
+  });
+
+  // Using Spaces
+  $('textarea.space').keydown(function(e) {
+    if(e.keyCode == 9) {
+      var start = $(this).get(0).selectionStart;
+      $(this).val($(this).val().substring(0, start) + "    " + $(this).val().substring($(this).get(0).selectionEnd));
+      $(this).get(0).selectionStart = $(this).get(0).selectionEnd = start + 4;
+      return false;
+    }
+  });
+});
+</pre>
+

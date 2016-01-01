@@ -1,0 +1,255 @@
+
+<p>Are you tired of writing an authentication script or dropping in the same old authentication script every time you start a new project. Well this script may be your answer by linking your web site into Facebook's user authentication system.</p>
+<p>Before installing this script on your web site you will need to visit the <a href="https://developers.facebook.com">Facebook Developers</a> web site and register your app to get an ID and Secret code. If you need further help with this process visit the <a href="http://developers.facebook.com/docs/guides/web/#login">Facebook Authentication Guide</a> and <a href="http://developers.facebook.com/docs/authentication/">Authentication Overview</a> pages. Both pages have lots of great information on the process and are the resources I used to create this class.</p>
+
+<p>The PHP 5 class below does all the work by sending your user to Facebook to authenticate. After authentication the user is returned to your web site and two server-side requests are made against Facebook to validate the server and retrieve user information.</p>
+<pre>
+/**
+ * Facebook authentication class - makes requests against Facebook API to authorize user for web site.
+ *
+ * @author Troy Galloway
+ * @version 1.0
+ */
+class Facebook {
+
+  /**
+  * Application ID used by and obtained from Facebook
+  *
+  * @var string
+  */
+  const APP_ID = '';
+
+  /**
+  * Application Secret code used by and obtained from Facebook
+  *
+  * @var string
+  */
+  const APP_SECRET = '';
+
+  /**
+  * URL used to authenticate user to Facebook
+  *
+  * @var string
+  */
+  const URL_DIALOG = 'http://www.facebook.com/dialog/oauth?';
+
+  /**
+  * URL used to authenticate server to Facebook
+  *
+  * @var string
+  */
+  const URL_AUTH = 'https://graph.facebook.com/oauth/access_token?';
+
+  /**
+  * URL used to retrieve information about user from Facebook
+  *
+  * @var string
+  */
+  const URL_GRAPH = 'https://graph.facebook.com/me?';
+
+  /**
+  * KEY used to identify app id when making url requrest to Facebook
+  *
+  * @var string
+  */
+  const KEY_ID = 'client_id';
+
+  /**
+  * KEY used to identify where to send the user after authenticating with Facebook
+  *
+  * @var string
+  */
+  const KEY_URI = 'redirect_uri';
+
+  /**
+  * KEY used for security and to prevent cross-site hacking
+  *
+  * @var string
+  */
+  const KEY_STATE = 'state';
+
+  /**
+  * KEY used to identify app secret code when making url requrest to Facebook
+  *
+  * @var string
+  */
+  const KEY_SECRET = 'client_secret';
+
+  /**
+  * KEY used to identify user session to Facebook when connecting server-side
+  *
+  * @var string
+  */
+  const KEY_CODE = 'code';
+
+  /**
+  * KEY used to identify error in user authentication to Facebook
+  *
+  * @var string
+  */
+  const KEY_ERROR = 'error';
+
+  /**
+  * KEY used to identify user when retrieving information from Facebook
+  *
+  * @var string
+  */
+  const KEY_TOKEN = 'access_token';
+
+  /**
+  * URL of where to send user after authentication to Facebook
+  *
+  * @var string
+  * @private
+  */
+  private $sRedirect = '';
+
+  /**
+  * Construct function sets the redirect url
+  *
+  * @param string $sRedirect
+  * @param string $sSessionKey
+  * @public
+  */
+  public function __construct($sRedirect, $sSessionKey = 'UNIQ_ID') {
+    $this-&gt;sRedirect = $sRedirect;
+    $this-&gt;sSessionKey = $sSessionKey;
+  }
+
+  /**
+  * Build the login url for the user and redirect them to Facebook login
+  *
+  * @param string $sSessionKey
+  */
+  public function doLogin() {
+    $_SESSION[$this-&gt;sSessionKey] = md5(uniqid(microtime(true), true));
+    $sUrl = sprintf('%s%s=%s&amp;%s=%s&amp;%s=%s', self::URL_DIALOG, self::KEY_ID, self::APP_ID, self::KEY_URI, urlencode($this-&gt;sRedirect), self::KEY_STATE, $_SESSION[$this-&gt;sSessionKey]);
+    header(sprintf('Location: %s', $sUrl));
+    exit();
+  }
+
+  /**
+  * Validate server to Facebook and get user information
+  *
+  * @return array|boolean
+  */
+  public function getCredentials() {
+    if(checkSet($_GET, self::KEY_ERROR)) {
+      return false;
+    }
+    if(checkVar($_SESSION, $this-&gt;sSessionKey) !== checkVar($_GET, self::KEY_STATE)) {
+      return false;
+    }
+
+    //Auth Server
+    $sUrl = sprintf('%s%s=%s&amp;%s=%s&amp;%s=%s&amp;%s=%s', self::URL_AUTH, self::KEY_ID, self::APP_ID, self::KEY_URI, urlencode($this-&gt;sRedirect), self::KEY_SECRET, self::APP_SECRET, self::KEY_CODE, checkVar($_GET, self::KEY_CODE));
+    $Curl = new Curl($sUrl);
+    parse_str($Curl-&gt;getData(), $aParams);
+
+    //Get user info
+    $sUrl = sprintf('%s%s=%s', self::URL_GRAPH, self::KEY_TOKEN, $aParams['access_token']);
+    $Curl = new Curl($sUrl);
+    $Data = json_decode($Curl-&gt;getData());
+    return array('id'=&gt;$Data-&gt;id, 'name'=&gt;$Data-&gt;name);
+  }
+}
+
+</pre>
+
+<p>The following class is provided for the server side communications. If you would prefer to use a different method for server side communication, feel free to modifiy the getCredentials method of the Facebook class. Also provided are two helper functions for checking GET, POST and SESSION data.</p>
+<pre>
+/**
+ * CURL wrapper class - used to make requests against remote servers
+ *
+ * @author Troy Galloway
+ * @version 1.0
+ */
+class Curl {
+
+  /**
+  * Response data from remote server
+  *
+  * @var string
+  * @private
+  */
+  private $sData = '';
+
+  /**
+  * Sets CURL values and makes CURL request
+  *
+  * @param string $sUrl
+  */
+  public function __construct($sUrl) {
+    $rCurl = curl_init($sUrl);
+    curl_setopt($rCurl, CURLOPT_URL, $sUrl);
+    curl_setopt($rCurl, CURLOPT_RETURNTRANSFER, 1);
+    $sData = curl_exec($rCurl);
+    curl_close($rCurl);
+    $this-&gt;sData = $sData;
+  }
+
+  /**
+  * Returns string containing data recieved from remote web site
+  *
+  * @return string
+  */
+  public function getData() {
+    return $this-&gt;sData;
+  }
+}
+/**
+ * Check to see if the given key exists within the given array.
+ *
+ * @param Array $aArray
+ * @param String $sKey
+ * @return Boolean
+ */
+function checkSet(Array $aArray, $sKey) {
+  if(isset($aArray[$sKey])) {
+      return true;
+  }
+  return false;
+}
+
+/**
+ * Check to see if the given key exists and return its value.
+ *
+ * @param Array $aArray
+ * @param String $sKey
+ * @return Mixed
+ */
+function checkVar(Array $aArray, $sKey, $doEncode = false) {
+  if(checkSet($aArray, $sKey) &amp;&amp; (!empty($aArray[$sKey]) || $aArray[$sKey] == '0')) {
+    if($doEncode === true) {
+      return htmlentities(stripslashes($aArray[$sKey]), ENT_QUOTES);
+    }
+    return $aArray[$sKey];
+  }
+  return false;
+}
+</pre>
+
+<p>To use the Facebook authentication class you need to create two pages. The first page is your login page and should have the following code placed on the page. This code will be running a server-side redirect and should be executed before any content is sent to the user.</p>
+<pre>
+//Login Page
+$this-&gt;Module-&gt;getMessage(Module_Login::MESSAGE_LOGIN);
+$Facebook = new Facebook('http://magic.dungeonfantasy.com/App_Home');
+$Facebook-&gt;doLogin();
+</pre>
+
+<p>Next is the page requireing authorization. Just use the following code to either give a login link if user authentication failed or show the content you wish your users to see.</p>
+
+<pre>
+//Page requring login
+$this-&gt;Module-&gt;getMessage(Module_Home::MESSAGE_ID);
+$Facebook = new Facebook('http://magic.dungeonfantasy.com/App_Home');
+$aCredentials = $Facebook-&gt;getCredentials();
+if(!is_array($aCredentials)) {
+  //show_login_link
+}
+else {
+  //show authorized content
+}
+</pre>
+<p>And that's it! A simple to use and easy to incorporate Facebook authentication script.</p>
+	

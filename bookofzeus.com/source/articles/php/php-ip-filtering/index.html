@@ -1,0 +1,39 @@
+
+<p>Filtering IP is a common practice to block or restrict traffic coming to your site or system. If you suddenly see an increase of suspicious traffic coming to your site or you want to allow user to log from a specific IP or range or IPs, you might need to filters these IPs.</p>
+
+<p>Here's a piece of code you will need to use in order to block or restrict these unwanted visitors.</p>
+
+<p>For those looking for private ip checking, here's what you can use:</p>
+
+<pre>
+function isValidIP($ip) {
+	return filter_var($ip, FILTER_VALIDATE_IP) != FALSE;
+}
+var_dump(isValidIP('82.237.3.3')); // TRUE
+var_dump(isValidIP('748.1234.5.4')); // FALSE
+</pre>
+
+<p>If you look for a specific range of IPs such as <code>82.237.3.*</code> or <code>82.237.*.*</code>, here's what you need to do:</p>
+<pre>
+function testIP($ip) {
+  if($ip == '*' || $ip == '*.*.*.*') {
+    return TRUE;
+  }
+  if($_SERVER['REMOTE_ADDR'] == $ip) {
+    return TRUE;
+  }
+  $mask = str_replace('.*', '', $ip);
+  return strpos($_SERVER['REMOTE_ADDR'], $mask) === 0;
+}
+
+$_SERVER['REMOTE_ADDR'] = '70.69.68.67';
+
+var_dump(testIP('1.11.1.*')); // FALSE
+var_dump(testIP('2.34.9.1')); // FALSE
+var_dump(testIP('70.11.*.*')); // FALSE
+var_dump(testIP('70.69.68.*')); // TRUE
+var_dump(testIP('70.69.*.*')); // TRUE
+var_dump(testIP('70.*.*.*')); // TRUE
+var_dump(testIP('*.*.*.*')); // TRUE
+var_dump(testIP('*')); // TRUE
+</pre>

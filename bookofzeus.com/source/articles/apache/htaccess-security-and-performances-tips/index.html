@@ -1,0 +1,61 @@
+<h3>AllowOverride</h3>
+
+<p>If <em>AllowOverride</em> is enabled throughout the entire site, the server digs through every directory, searching for <em>.htaccess</em> files. To prevent this, simply disable the <em>AllowOverride</em> in the site's root <em>.htaccess</em> file.</p>
+<pre>
+AllowOverride None
+</pre>
+
+<h3>Preserving Bandwidth</h3>
+
+<p>To increase performance on PHP servers, simply add the following line to your <em>.htaccess</em>:</p>
+<pre>
+&lt;ifmodule mod_php5.c&gt;
+  php_value zlib.output_compression 16386
+&lt;/ifmodule&gt;
+</pre>
+<p class="note">Note: the number maybe vary depending on our server configuration.</p>
+
+<h3>Directory Browsing</h3>
+<p>To prevent directory browsing, simple add the following line to your <em>.htaccess</em></p>
+<pre>
+IndexIgnore *
+</pre>
+
+<h3>Server Signature</h3>
+<p>Here we are disabling the digital signature that would otherwise identify the server:</p>
+<pre>
+ServerSignature Off
+</pre>
+
+<h3>Control Access</h3>
+<p>If you have an admin section in your website and you only want specific users to access it (other than username and password). You can use the IP address to deny or allow unauthorized user to access it. Simply add the following lines to your <em>.htaccess</em></p>
+<pre>
+order deny,allow
+deny from all
+
+# allow some ips
+allow from 192.168.1.0/24
+
+# block one unique IP addresses
+deny from 192.168.1.101
+
+# allow one unique IP addresses
+allow from 192.168.1.102
+
+# block one ranges of IP addresses
+deny from 192.168
+deny from 192.168.1
+
+# allow one ranges of IP addresses
+allow from 192.168
+allow from 192.168.1
+</pre>
+<p class="note">Note: obviously the IPs will changed based on your network configuration or host ip.</p>
+
+<h3>Custom Error Documents</h3>
+<p>Creating custom error pages will improve your website looks as well as gives you the ability to catch easily visitors when they follow a bad url.</p>
+<pre>
+ErrorDocument 404 /error_404.php
+ErrorDocument 500 /error_500.php
+#... and all other page code errors
+</pre>

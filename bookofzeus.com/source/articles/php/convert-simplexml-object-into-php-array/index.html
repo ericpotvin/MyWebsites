@@ -1,0 +1,72 @@
+
+<p>Web Services are very useful when we need to send and receive information from third-party clients. These Web Services, generally, output or return the response in an XML format.</p>
+
+<p>XML can be easily parsed in PHP using the <code>simplexml_load_string</code> or the <code>SimpleXMLElement</code> object. Now, manipulating this object can be sometime painful.</p>
+
+<p>The solution: converting this object in an array. Here's two examples on how to convert this:</p>
+<p>
+Let's say we have this xml:
+</p>
+<pre>
+&lt;monitor&gt;
+  &lt;manufacturer&gt;Samsung&lt;/manufacturer&gt;
+  &lt;model&gt;XL30&lt;/model&gt;
+  &lt;display&gt;
+    &lt;screen_size&gt;30&lt;/screen_size&gt;
+    &lt;resolution&gt;2560x1600&lt;/resolution&gt;
+    &lt;brightness&gt;200&lt;/brightness&gt;
+    &lt;contrast_ratio&gt;1000:1&lt;/contrast_ratio&gt;
+    &lt;response_time&gt;6&lt;/response_time&gt;
+    &lt;viewing_angle_h&gt;178&lt;/viewing_angle_h&gt;
+    &lt;viewing_angle_v&gt;178&lt;/viewing_angle_v&gt;
+    &lt;colour_supported&gt;16.7&lt;/colour_supported&gt;
+    &lt;colour_supported_metric&gt;M&lt;/colour_supported_metric&gt;
+  &lt;/display&gt;
+&lt;/monitor&gt;
+</pre>
+
+<h4>Solution #1</h4>
+<pre>
+function xml2array($xml) {
+  $arr = array();
+  foreach ($xml as $element) {
+    $tag = $element->getName();
+    $e = get_object_vars($element);
+    if (!empty($e)) {
+      $arr[$tag] = $element instanceof SimpleXMLElement ? xml2array($element) : $e;
+    }
+    else {
+      $arr[$tag] = trim($element);
+    }
+  }
+  return $arr;
+}
+
+$xml = new SimpleXMLElement($string);
+</pre>
+
+<h4>Solution #2</h4>
+<pre>
+$xml = json_decode(json_encode((array) simplexml_load_string($string)), 1);
+</pre>
+
+<p>This will print out the following code using both solutions:</p>
+<pre>
+Array
+(
+ [manufacturer] => Samsung
+ [model] => XL30
+ [display] => Array
+  (
+   [screen_size] => 30
+   [resolution] => 2560x1600
+   [brightness] => 200
+   [contrast_ratio] => 1000:1
+   [response_time] => 6
+   [viewing_angle_h] => 178
+   [viewing_angle_v] => 178
+   [colour_supported] => 16.7
+   [colour_supported_metric] => M
+  )
+)
+</pre>

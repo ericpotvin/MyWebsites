@@ -1,0 +1,77 @@
+<p>Once you've dived into CSS you come across the term specificity.
+<p>What do most CSS developers do when they first start out? They learn the ropes on how to code out CSS and use a good frame of mind when it comes to UI architecture. Because lets all be honest, it never makes sense until you apply it. But what most don't realize is that you follow specificity guidelines without even knowing it. And this is the first battle to understanding one of the harder concepts to understand in css.</p>
+
+<h4>So what is specificity?</h4>
+<p>In simple terms, it's the weight of importance each selector/element carries when being applied. Did that make sense? Without all the very fancy terms&hellip; its how css applies style and who does it listen to when applying style.</p>
+
+<p>There are four rules to remember when determining the specificity of a selector:</p>
+
+<table id="rules" border="0" cellspacing="1" cellpadding="5" width="300">
+ <tr>
+  <th>Elements or Selectors</th>
+  <th>Weight</th>
+ </tr>
+ <tr>
+  <td>HTML Elements =</td>
+  <td class="wt">1</td>
+ </tr>
+ <tr>
+  <td>Class and pseudo-classes =</td>
+  <td class="wt">10</td>
+ </tr>
+  <tr>
+   <td>ID Descriptos =</td>
+  <td class="wt">100</td>
+ </tr>
+  <tr>
+   <td>Inline Styling =</td>
+   <td class="wt">1000</td>
+ </tr>
+</table>
+
+<p>Here are a few examples to better explain the concept.</p>
+
+<table border="0" cellspacing="1" cellpadding="9" width="750">
+ <tr>
+  <th>Elements or Selectors</th>
+  <th>Weight</th>
+ </tr>
+<tr>
+<td>div, ul, li</td>
+<td>3 html elements is 1 + 1 + 1 = 000<span class="bold">3</span></td>
+</tr>
+<tr>
+<td>div, .myclass</td>
+
+<td>1 html element, 1 class is 1 + 10 = 00<span class="bold">11</span></td>
+</tr>
+<tr>
+<td>.myclass, a:hover</td>
+<td>1 class, 1 pseudo-class is 10 + 10 = 00<span class="bold">20</span></td>
+</tr>
+
+<tr>
+<td>#yourid, p, ul</td>
+<td>1 id, 2 html element, is 100 + 1 + 1 = 0<span class="bold">102</span></td>
+</tr>
+<tr>
+<td>&lt; div id =&quot;myid&quot; style=&quot;color: #fff&quot; &gt;</td>
+
+<td>style set inline, 1 id, is 1000 + 100 = <span class="bold">1100</span></td>
+</tr>
+</table>
+
+<p>Looking at the number weight each carries explains why when you set something inline it will always overwrite any id, class, or html tag set in the style sheet. Inline carries the highest weight of 1000.</p>
+
+<p>When you set a global rule to a UL and then you set a more specific rule to a class, the class overwrites it. Again the reason would be a class carries the weight of 10 while the UL element carries only a weight of 1.</p>
+
+<p>If you were to give a &lt; div &gt; an <span class="bold">id</span> and a <span class="bold">class</span> and you happen to set a rule of color in both, the rule that would take precedence would be the id. <span class="bold">Reason again lies in that the id has a weight of 100 and the class is only of 10.</span></p>
+
+<p>So going back to my original comment of how we follow specificity but we might not know it is simply saying if the rule of specificity was not met you would not be able to make sense of how your html elements are inheriting rules and why. As you learn to trouble shoot CSS, you slowly start to understand specificity and follow its guidelines.</p>
+
+<p>This comes very handy when working in larger scale sites that have many developer hands in the pot. As a CSS developer you would need to understand how to trouble shoot the weight specifications in each rule and find the way to either overwrite the rule or find how to remove it. </p>
+
+<p>So when someone throws to you the fancy term of &quot;specificity&quot;, just answer them, &quot;its the base principle of style inheritance!&quot; This tends to be a very popular interview question.</p>
+
+<p>Happy CSSing!!!</p>
+

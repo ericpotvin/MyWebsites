@@ -1,0 +1,106 @@
+
+<style type="text/css">
+	.colors {
+		margin-left: 20px;
+	}
+	.colors span {
+		border: solid 1px black;
+		display: table-cell;
+		height: 20px;
+		text-align: center;
+		width: 80px;
+	}
+	.color1 { background:#FFFFFF; }
+	.color2 { background:#000; }
+	.color3 { background:#CCC; }
+	.color4 { background:#FFCC99; }
+	.color5 { background:#FF6600; }
+	.color6 { background:#FF9900; }
+</style>
+
+<p>Have you every wonder what kind of colors you should get to match your logo for your website? Here's a very simple script that generates a color palette for an image using the PHP GD library. This will help you find out which colors you can use to improve quality of your site.</p>
+
+<h4>Requirement:</h4>
+<ul>
+ <li>GD Library for PHP</li>
+</ul>
+
+<p>The script:</p>
+<pre>
+function detectColors($image, $num, $level = 5) {
+  $level = (int)$level;
+  $palette = array();
+  $size = getimagesize($image);
+  if(!$size) {
+    return FALSE;
+  }
+  switch($size['mime']) {
+    case 'image/jpeg':
+      $img = imagecreatefromjpeg($image);
+      break;
+    case 'image/png':
+      $img = imagecreatefrompng($image);
+      break;
+    case 'image/gif':
+      $img = imagecreatefromgif($image);
+      break;
+    default:
+      return FALSE;
+  }
+  if(!$img) {
+    return FALSE;
+  }
+  for($i = 0; $i &lt; $size[0]; $i += $level) {
+    for($j = 0; $j &lt; $size[1]; $j += $level) {
+      $thisColor = imagecolorat($img, $i, $j);
+      $rgb = imagecolorsforindex($img, $thisColor);
+      $color = sprintf('%02X%02X%02X', (round(round(($rgb['red'] / 0x33)) * 0x33)), round(round(($rgb['green'] / 0x33)) * 0x33), round(round(($rgb['blue'] / 0x33)) * 0x33));
+      $palette[$color] = isset($palette[$color]) ? ++$palette[$color] : 1;
+    }
+  }
+  arsort($palette);
+  return array_slice(array_keys($palette), 0, $num);
+}
+
+$img = 'icon.png';
+$palette = detectColors($img, 6, 1);
+echo '&lt;img src="' . $img . '" /&gt;';
+echo '&lt;table&gt;';
+foreach($palette as $color) {
+  echo '&lt;tr&gt;&lt;td style="background:#' . $color . '; width:36px;"&gt;&lt;/td&gt;&lt;td&gt;#' . $color . '&lt;/td&gt;&lt;/tr&gt;';
+}
+echo '&lt;/table&gt;';
+</pre>
+<h4>Example:</h4>
+<img src="http://www.bookofzeus.com/download/ubuntu-logo.png" alt="Ubuntu Logo" />
+
+<p>
+Will output:
+</p>
+
+<div class="colors">
+	<span class="color1"></span>
+	<span>#FFFFFF</span>
+</div>
+<div class="colors">
+	<span class="color2"></span>
+	<span>#000000</span>
+</div>
+<div class="colors">
+	<span class="color3"></span>
+	<span>#CCCCCC</span>
+</div>
+<div class="colors">
+	<span class="color4"></span>
+	<span>#FFCC99</span>
+</div>
+<div class="colors">
+	<span class="color5"></span>
+	<span>#FF6600</span>
+</div>
+<div class="colors">
+	<span class="color6"></span>
+	<span>#FF9900</span>
+</div>
+
+	

@@ -1,0 +1,102 @@
+<p>Modal dialog is one of great functionality to let the user focus on one particular action he needs to take.
+In C++ or other languages it's easy to create a modal window. Unfortunately, for Web, it is not by simple calling one function.</p>
+<p>Here's the code to implement a modal window using HTML, CSS and Javascript</p>
+
+<h4>CSS Code</h4>
+<pre>
+body {
+    margin: 0px;
+}
+#modalWindowWrapper {
+    display:none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+}
+.modalWindowBack {
+    -moz-opacity:0.4;
+    opacity:0.4;
+    width:100%;
+    height:100%;
+    background-color:#999999;
+    position:absolute;
+    z-index:500;
+    top:0px;
+    left:0px;
+}
+.modalWindowContainer {
+    position:absolute;
+    width:300px;
+    left:50%;
+    top:50%;
+    z-index:750;
+}
+.modalWindow {
+    background:#CEDCFF;
+    border:solid 1px #15295A;
+    position:relative;
+    top:-150px;
+    left:-200px;
+    z-index:1000;
+    width:400px;
+    height:100px;
+    padding:10px;
+    font:normal 12px verdana;
+}
+</pre>
+
+<h4>Javascript Code</h4>
+<pre>
+var disableScroll = 0;
+function ScrollingDetected() {
+    if(disableScroll) {
+        window.scrollTo(0,0);
+    }
+}
+
+if(window.addEventListener) {
+    window.addEventListener("scroll", ScrollingDetected, false);
+}
+else if(document.addEventListener) {
+    document.addEventListener("scroll", ScrollingDetected, false);
+}
+else if("onscroll" in self) {
+    self.onscroll = ScrollingDetected;
+}
+function revealModal(id) {
+    disableScroll = 1;
+    document.getElementById(id).style.display = "block";
+}
+function hideModal(id) {
+    disableScroll = 0;
+    document.getElementById(id).style.display = "none";
+}
+function showMessage() {
+    document.getElementById('result').innerHTML = 'You click no';
+}
+function resetMessage() {
+    document.getElementById('result').innerHTML = '';
+}
+</pre>
+
+<h4>HTML Code</h4>
+<pre>
+&lt;div id="modalWindowWrapper"&gt;
+    &lt;div class="modalWindowBack"&gt;&lt;/div&gt;
+    &lt;div class="modalWindowContainer"&gt;
+        &lt;div class="modalWindow"&gt;
+            This is a modal window.
+            &lt;br/>&lt;br/&gt;
+            Do you want to close this window?
+            &lt;input type="button" value="Yes" onclick="hideModal('modalWindowWrapper');resetMessage();"&gt;
+            &lt;input type="button" value="No" onClick="showMessage();"&gt;
+            &lt;br/&gt;
+            &lt;br/&gt;
+            &lt;div id="result"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+

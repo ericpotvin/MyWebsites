@@ -1,0 +1,137 @@
+<style>
+.arrowUp { border-top: 12px solid #ddd; border-left: 12px solid transparent; border-right: 12px solid transparent; font-size: 0; line-height: 0; width: 0; }
+.arrowDown { border-bottom: 12px solid #ddd; border-left: 12px solid transparent; border-right: 12px solid transparent; font-size: 0; line-height: 0; width: 0; }
+.arrowRight { border-left: 12px solid #ddd; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 12px solid transparent; font-size: 0; line-height: 0; width: 0; }
+.arrowLeft { border-left: 12px solid transparent; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 12px solid #ddd; font-size: 0; line-height: 0; width: 0; }
+ol.demoarrow { list-style-type: none; position: relative; }
+ol.demoarrow li { list-style-type: none; background: #ddd; border-right: solid 1px #aaa; height: 26px; position: relative; width: 100px; float:left; text-align:center; }
+ol.demoarrow li:last-child { border-right: none; }
+ol.demoarrow li.selected:after { content: ' '; height: 0; position: absolute; width: 0; border: 10px solid transparent; border-top-color: #ddd; top: 100%; left: 50%; margin-left: -10px; }
+ol.demoarrow li a { display: inline-block; color:#444; text-decoration: none; font: normal 12px verdana; line-height: 19px; padding: 4px; }
+</style>
+
+<p>Remember back in the days when we had to create little images (in this case arrows) for our menu? Well these days are over!</p>
+<p>By using a simple technique and by settings some borders we can create arrows just using CSS.</p>
+
+<h4>Simple Arrow</h4>
+<pre>
+.arrowUp {
+  border-top: 12px solid #ddd;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+}
+.arrowDown {
+  border-bottom: 12px solid #ddd;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+}
+.arrowRight {
+  border-left: 12px solid #ddd;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 12px solid transparent;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+}
+.arrowLeft {
+  border-left: 12px solid transparent;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 12px solid #ddd;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+}
+</pre>
+
+<p>HTML code:</p>
+<pre>
+&lt;div class="arrowUp"&gt;&lt;/div&gt;
+&lt;div class="arrowRight"&gt;&lt;/div&gt;
+&lt;div class="arrowDown"&gt;&lt;/div&gt;
+&lt;div class="arrowLeft"&gt;&lt;/div&gt;
+</pre>
+
+<h5>Demo:</h5>
+<p>
+	<div class="arrowUp"></div>
+	<div class="arrowRight"></div>
+	<div class="arrowDown"></div>
+	<div class="arrowLeft"></div>
+</p>
+
+<p>Way easier than images right?</p>
+
+<h4>Arrows for menus</h4>
+<p>
+Now let's see how can we add the "down arrow" to a menu. We need to add an arrow to the selected "menu 3".
+</p>
+<pre>
+ul
+{
+  list-style-type: none;
+  position: relative;
+}
+li {
+  list-style-type: none;
+  background-color: #ddd;
+  border-right: solid 1px #aaa;
+  height: 26px;
+  position: relative;
+  width: 100px;
+  float:left;
+  text-align:center;
+}
+li:last-child {
+  border-right: none;
+}
+li.selected:after {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border: 10px solid transparent;
+  border-top-color: #ddd;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+}
+li a {
+  display: inline-block;
+  color:#444;
+  text-decoration: none;
+  font: normal 12px verdana;
+  line-height: 19px;
+  padding: 4px;
+}
+</pre>
+<p>
+This will show the arrow on the menu 3 using the following code:
+</p>
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Menu 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Menu 2&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="selected"&gt;&lt;a href="#"&gt;Menu 3&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Menu 4&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#"&gt;Menu 5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+<p>
+<ol class="demoarrow">
+  <li class="demoarrow"><a href="#">Menu 1</a></li>
+  <li class="demoarrow"><a href="#">Menu 2</a></li>
+  <li class="selected demoarrow"><a href="#">Menu 3</a></li>
+  <li class="demoarrow"><a href="#">Menu 4</a></li>
+  <li class="demoarrow"><a href="#">Menu 5</a></li>
+</ol>
+</p>
+<div class="clear"></div>
+<p>Easy no?</p>

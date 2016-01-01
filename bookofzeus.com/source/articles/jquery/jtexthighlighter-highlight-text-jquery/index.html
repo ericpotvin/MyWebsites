@@ -1,0 +1,35 @@
+<p>HTML5 introduce a new HTML tag called <q>mark</q>. This tag can be useful to highlight important keywords or text in a page you want the use to focus.</p>
+
+<p>Now, this can be nice if you don't have to refresh the page or execute an ajax call just to highlight words. Here's a piece of code you can get in order to do what you need. jTextHighlighter is a jQuery plugin that allow you to highlight any text in a paragraph.</p>
+
+<h4>Basics</h4>
+<p>By default, the <q>mark</q> HTML tag comes with already what you need to get the attention of the user, but if you can always change the style to match the look and feel of your site.</p>
+
+<pre>
+mark {
+ background: #ff8;
+ color: #fff;
+}
+</pre>
+
+<h4>Make it work</h4>
+<p>To highlight a word, simply use the following code with the word you want to highlight:</p>
+<pre>
+$('p').jthighlight($(this).data('wordtohighlight'));
+</pre>
+
+<p>To clear a specific, use the following code:</p>
+<pre>
+$('p').clearHighlight($(this).data('word'));
+</pre>
+
+<p>or to clear clear all highlighted words:</p>
+
+<pre>
+&lt;a id="clearHighlight"&gt;Clear Highlights&lt;/a&gt;
+</pre>
+
+<p>That's it!</p>
+
+<h4>Download</h4>
+<p>You can download the file at: <a href="http://www.bookofzeus.com/download/jtexth.js" title="jTextHighlighter Plugin">http://www.bookofzeus.com/download/jtexth.js</a>.</p>

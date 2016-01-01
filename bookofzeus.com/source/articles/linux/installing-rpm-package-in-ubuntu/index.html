@@ -1,0 +1,22 @@
+
+<p>I recently had to use my VPN client to connect to work but for some reason the VPN didn't work correctly. After some digging, I found out I need the need to install ncui rpm package (ncui-1.2-1.i386.rpm & ncui-6.5R6.i386.rpm). Unfortunately, I wasn't able to find the Debian package (.deb) so I had to find a solution.</p>
+
+<h2>Alien is the answer</h2>
+
+<p>First, let's install alien:</p>
+<pre>
+sudo apt-get install alien
+</pre>
+
+<p>Now we need to convert them to .deb package.</p>
+<p>You can convert the rpm package to a Debian package by using the following commands:</p>
+<pre>
+sudo alien -k rpm-package.rpm
+</pre>
+
+<p class="note">The "-k" option will keep the version number.</p>
+<p>One the package is converted, you can install the Debian package by using the following commands:</p>
+<pre>
+sudo dpkg -i deb-package.deb
+</pre>
+				

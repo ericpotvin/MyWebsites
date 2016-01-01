@@ -1,0 +1,60 @@
+
+<p>For some reason, you work on a project with a lot of PHP files and, by "chance", all the php files are in the same folder. The application does not seem to work properly due to PHP error. So the easiest way to find which files are in trouble is by calling the php client with the "-l" option. The problem is there is way too many files.</p>
+
+<p>The solution is very simple:</p>
+<pre>
+for x in `ls *.php`; do php -l $x; done;
+</pre>
+
+<p>Let's say now you would like to perform the same operation in a SVN environment to make sure the modified or added files are valid.</p>
+
+<p>First, go in the project folder:</p>
+<pre>
+cd /var/www/project_y/trunk/
+</pre>
+
+<p class="note">* or can be any other folder</p>
+
+<p>Get the list of modified or added files:</p>
+<pre>
+svn status
+</pre>
+
+<p>That will output something like:</p>
+<pre>
+M      class/Main.class.php
+M      action.php
+A      access.php
+</pre>
+
+<p>Now, unfortunately you cannot perform the <code>for x in `svn status`; do php -l $x; done;</code>. The result will output an error saying: the file <span class="bold">M</span> cannot be found or open.</p>
+<pre>
+M
+Could not open input file: M
+action.php
+No syntax errors detected in action.php
+</pre>
+
+<p>To fix that problem, we need to use the <span class="bold">sed</span> command to remove the extra characters we don't really need.</p>
+<pre>
+svn status | sed -e 's/M      //g' | sed -e 's/A      //g'
+</pre>
+
+<p>The output result will look something like:</p>
+<pre>
+class/Main.class.php
+action.php
+access.php
+</pre>
+
+<p>Now, we can use the <span class="bold">for</span> command to validate the modified or added file:</p>
+<pre>
+for x in `svn status | sed -e 's/M      //g' | sed -e 's/A      //g'`; do php -l $x; done;
+</pre>
+
+<p>The output result will look something like:</p>
+<pre>
+No syntax errors detected in class/Main.class.php
+No syntax errors detected in action.php
+No syntax errors detected in access.php
+</pre>

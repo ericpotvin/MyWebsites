@@ -1,0 +1,28 @@
+
+<p>From the command line I have found many great tools for system management, but really needed to dig into ways of tracking hard disk usage on Linux without the aid of GUI tools. Google to the rescue! I found a few places with great tips and hints on how to do this, but one article on Linux.com came in very handy. Here were my findings:</p>
+<p>The <code>df</code> utility displays the disk space usage on all mounted filesystems. The <code>-T</code> option prints the filesystem type as well. By default, <code>df</code> measures the size in 1K blocks, which could be a little difficult for a desktop user to decipher. Use the <code>-h</code> option to get more understandable output:</p>
+
+<pre>
+$ df -h -T
+Filesystem    Type    Size  Used Avail Use% Mounted on
+/dev/hda6     ext3     20G  9.3G  9.1G  51% /
+/dev/hda7 reiserfs     13G  2.1G   11G  17% /mnt/suse
+/dev/sda1     vfat    241M  152M   90M  63% /media/usbdisk
+</pre>
+
+<p>You can use the <code>du</code> command to determine which files or directories need to be deleted - or at least trimmed. A simple <code>du</code> will print usage for the present working directory and its subdirectories, along with the size of each directory.</p>
+<p>If you want the size of an particular directory, specify it with <code>du directoryname</code>. For instance, <code>du -h /home/bodhi/podcasts</code> will print the size of the podcasts directory in a more readable format than the kilobytes used by default. The <code>-c</code> option prints the grand total size of the directory at the end. The <code>-a</code> option also displays the file names along with directories and can be of use when you want to see a list of files in a particular directory. The <code>-s</code> option will display a summary, without showing all of the subdirectories.</p>
+
+<p>Running <code>du -ch | grep total</code> prints just one line with the total size of the directory. If there’s a particular type of file that you would like to be excluded while calculating a directory’s usage, specify it with the <code>--exclude=type</code> option. Here we’ll check the disk usage of the current directory, and display all file names with their disk usage, and then sort them numerically using the sort utility:</p>
+
+<pre>
+$ du -ah | sort -n
+4.2M    ./eweek.10.28.05.mp3
+4.5M    ./LQ-Podcast-101105.mp3
+4.8M    ./LQ-Podcast-110905.mp3
+19M     ./LQRadio-Episode3.mp3
+20M     ./LQRadio-Searls.mp3
+36M     ./LQRadio-HiserAndAdelstein.mp3
+197M    .
+</pre>
+

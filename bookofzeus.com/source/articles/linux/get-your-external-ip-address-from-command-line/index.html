@@ -1,0 +1,26 @@
+
+<p>You can use either <q>curl</q> or <q>wget</q> to get your external (or public) IP address from the command line. Both tools will output the same results. In this article we will use curl.</p>
+
+<p>Now, when you want to know your external IP address in command line, you do not want to see anything other than your IP address. You don't want to see HTML code and waste time looking for your IP.</p>
+
+<p>For example, you can run this command:</p>
+<pre>
+curl mxtoolbox.com/WhatIsMyIP/
+</pre>
+
+<p>This will output the entire HTML page including your IP address. Now try to find it! Not fun right?</p>
+
+<p>To fix this issue, you can use one of these sites:</p>
+<ul>
+	<li>http://icanhazip.com</li>
+	<li>http://curlmyip.com</li>
+	<li>http://http://ipecho.net/plain</li>
+	<li>http://ident.me</li>
+</ul>
+
+<p>For example:</p>
+<pre>
+curl -s bot.whatismyipaddress.com; echo;
+</pre>
+
+<p>Better right?</p>

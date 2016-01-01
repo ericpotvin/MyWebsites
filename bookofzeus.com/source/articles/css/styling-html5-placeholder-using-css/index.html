@@ -1,0 +1,61 @@
+<style>
+.placeholder::-webkit-input-placeholder {
+color: #908681;
+font-size: 10px;
+text-transform:uppercase;
+}
+input.placeholder:-moz-placeholder {
+color: #908681;
+font-size: 10px;
+text-transform:uppercase;
+}
+.placeholder:-ms-input-placeholder {
+color: #908681;
+font-size: 10px;
+text-transform:uppercase;
+}
+input.large {
+	width: 300px;
+}
+</style>
+<p>One of the cool new feature in HTML5 is the placeholder. This feature allow to display any text in an form field (input and text area) and when a user focus in the field, it disappear and reappear if the field is empty. Before, if we wanted this feature, we had to create JavaScript code to manipulate and validate what the user enters and display the information.</p>
+
+<p>
+	I realized the colour is always the same and I wanted to make it more appealing. <br/>
+	<input class="large" type="text" placeholder="Some useful information here!" />
+</p>
+<p>
+	But how can I change it to something like this:<br/>
+	<input class="large" type="text" placeholder="Some useful information here!" class="placeholder"/>
+</p>
+<p>Every browsers use different pseudo selectors.</p>
+
+<ul>
+	<li><code>::-webkit-input-placeholder</code> for webkit browsers like Safari or Chrome</li>
+	<li><code>:-moz-placeholder</code> for mozilla browsers like Firefox</li>
+	<li><code>:-ms-input-placeholder</code> for Internet Explorer 10 (August 2012)</li>
+	<li>As of this day, Opera doesn't support styling placeholder</li>
+</ul>
+
+<h4>CSS</h4>
+
+<pre>
+::-webkit-input-placeholder {
+  color: #908681;
+  font-size: 10px;
+  text-transform:uppercase;
+}
+input:-moz-placeholder {
+  color: #908681;
+  font-size: 10px;
+  text-transform:uppercase;
+}
+:-ms-input-placeholder {
+  color: #908681;
+  font-size: 10px;
+  text-transform:uppercase;
+}
+</pre>
+
+<p class="note">Not all the CSS properties (link to learn css) are available for the placeholder. Keep it as simple as possible, after all it is just a label that will disappear once the user write something in these fields.</p>
+

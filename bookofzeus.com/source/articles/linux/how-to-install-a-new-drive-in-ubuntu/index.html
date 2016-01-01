@@ -1,0 +1,72 @@
+<p>GParted is a fantastic tool to create new partition and format hard drive in Ubuntu. But if you need to install a remove drive without having access to any GUI or remote desktop access this can be hard to accomplish. Here&#039;s how to install a brand new (or shredded disk drive) using the command line in Ubuntu.</p>
+
+<h3>Setup the disk</h3>
+
+<h4>Find the disk</h4>
+
+<pre>
+sudo lshw -C disk
+</pre>
+
+<p>This should output something like:</p>
+<pre>
+*-disk
+    description: ATA Disk
+    product: ST9160412AS
+    vendor: Seagate
+    physical id: 0
+    bus info: scsi@0:0.0.0
+    <span>logical name: /dev/sdb</span>
+    version: D005
+    serial: 5VG71M1T
+    size: 149GiB (160GB)
+    capabilities: partitioned partitioned:dos
+    configuration: ansiversion=5 signature=000bbc87
+</pre>
+
+<h4>Prepare the disk</h4>
+<pre>
+sudo fdisk /dev/sdb
+</pre>
+
+<ul>
+    <li>First, add a new partition. Type "n" and press enter;</li>
+    <li>Then create a primary partition. Enter "p" and enter;</li>
+    <li>Since this will be the only partition on the drive, number 1. Enter "1" and enter;
+        <small>If it asks about the first cylinder, just type "1" and enter. (We are making 1 partition to use the whole disk, so it should start at the beginning.)</small>
+    </li>
+    <li>Now that the partition is entered, choose option "w" to write the partition table to the disk;</li>
+</ul>
+
+<p>You now have a partitioned hard drive that is ready to be formatted.</p>
+
+<h4>Format the disk</h4>
+<pre>
+sudo mkfs -t ext3 /dev/sdb1
+</pre>
+<p>** sdb1: since it&#039;s the first partition</p>
+
+<h3>Create A Mount Point</h3>
+
+<h4>Create folder</h4>
+<pre>
+sudo mkdir /media/newdisk
+</pre>
+
+<p>Now let&#039;s edit the fstab so Ubuntu recognize the disk the next time you reboot.</p>
+<pre>
+sudo vi /etc/fstab
+</pre>
+
+<p>Add this line to the end (for ext3 file system):</p>
+<pre>
+/dev/sdb1    /media/newdisk   ext3    defaults     0        2
+</pre>
+
+<p>You can now run "sudo mount -a" (or reboot the computer) to have the changes take effect.</p>
+
+<p>If you want to allow a specific user to access files on this new drive, you need to change the user ownership of the root directory of the new drive</p>
+<pre>
+sudo chown -R myuser:myuser /media/newdisk
+</pre>
+

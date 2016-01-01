@@ -1,0 +1,52 @@
+
+<p>Here's how to setup quickly your SVN repository with your Apache using DAV.</p>
+
+<h3>** Requirement: **</h3>
+<p>In order to setup the svn repository, you need the to have apache and svn installed. for more info, view the following articles:</p>
+<ul>
+    <li><a href="/articles/create-a-svn-repository-with-ubuntu-and-subversion/" title="Create a SVN repository with Ubuntu and SubVersion">Create a SVN repository with Ubuntu and SubVersion</a></li>
+    <li><a href="/articles/install-a-lamp-apache-php-mysql-on-ubuntu/" title="Install a LAMP (Apache, PHP, Mysql) On Ubuntu">Install a LAMP (Apache, PHP, Mysql) On Ubuntu</a></li>
+</ul>
+
+<hr/>
+
+<p>First step, install the lib for apache:</p>
+<pre>
+sudo aptitude install libapache2-svn
+</pre>
+
+<p>Now, let's modify the apache svn module config file:</p>
+<pre>
+sudo vi /etc/apache2/mods-available/dav_svn.conf
+</pre>
+
+<p>and edit the file using the following configuration:</p>
+<pre>
+&lt;Location /svn&gt;
+    DAV svn
+
+    SVNParentPath /var/svn/repository
+    #SVNPath /var/svn/repository
+
+    AuthType Basic
+    AuthName "Subversion Repository"
+    AuthUserFile /etc/apache2/dav_svn.passwd
+    Require valid-user
+&lt;/Location&gt;
+</pre>
+
+<p>In order to be able to see who modify what, simply create your user using the following command:</p>
+<pre>
+sudo htpasswd -c /etc/apache2/dav_svn.passwd &lt;user&gt;
+</pre>
+
+<p>Restart Apache, just in case:</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>Done!</p>
+<p>Now you should be able to view your projects using Firefox or Chrome using the following address.</p>
+<pre>
+http://&lt;ip-of-my-computer&gt;/svn/&lt;my-project&gt;/
+</pre>

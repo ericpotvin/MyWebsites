@@ -1,0 +1,93 @@
+
+<p>Would it be awesome to edit any text on a web page without entering in an <q>edit</q> mode (which implies also to refresh the page)?</p>
+
+<p>Now it is possible and it is actually very simple by using the HTML attribute <code>contenteditable</code>. This live edit concept makes all your content editable and it is smart enough to process different type of tags as well. If you put the <code>contenteditable</code> on a <code>UL</code> you will end up creating a list whereas if you use the tag on a <code>P</code> you will simply edit text.</p>
+
+<p><code>contenteditable</code> has 3 possible values.</p>
+
+<ul>
+  <li>contenteditable="true": The content is editable</li>
+  <li>contenteditable="false": The content is not editable</li>
+  <li>contenteditable="inherit": Will inherit of its parent; This is the default value</li>
+</ul>
+
+<p>Browser Compatibility (source: http://caniuse.com/#feat=contenteditable)</p>
+
+<ul>
+  <li>IE: Since version 7</li>
+  <li>Firefox: Since version 12</li>
+  <li>Chrome: Since version 20</li>
+  <li>Safari: Since version 5.1</li>
+  <li>Opera: Since version 12</li>
+  <li>iOS Safari: Since version 5</li>
+  <li>Android Browser: Since version 3</li>
+  <li>Blackberry Browser: Since version 7</li>
+</ul>
+
+<p>Now, let's it make this feature more interesting. As mentioned previously, it would be great to edit the content and be able to save it to a database. Let's use this HTML document:</p>
+
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;editable&lt;/title&gt;
+  &lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script src="/download/live-edit.js"&gt;&lt;/script&gt;
+  &lt;style type="text/css"&gt;
+  div {
+   border: solid 1px #ddd;
+   height: 200px;
+   padding: 10px;
+   width: 400px;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Live Edit&lt;/h1&gt;
+
+&lt;div contenteditable="true" data-id="1"&gt;
+  My Content
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<p>Now let's edit the <q>live-edit.js</q>. In this one, we simply have to handle how the <q>blur</q> event will react when the user focus out of the tag. Then call the ajax call to save the info.</p>
+
+<pre>
+$(document).ready(function() {
+  $('body').on('blur',"div[contenteditable=true]",function() {
+    $.ajax({
+      type: 'POST',
+      url: 'save.php',
+      data: {
+        content: $.trim($(this).text()),
+        id: $(this).data('id')
+      },
+      success: function(msg) {
+        // handle the output
+      }
+    });
+  });
+});
+</pre>
+
+<p>Now in your <q>save.php</q> file you simply have to save to the database.</p>
+
+<pre>
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+  die();
+}
+// sanitize the $_POST, save to the database and output a result.
+</pre>
+
+<p>There you go, you have a nice and clean solution about editing data without refreshing any contents.</p>
+
+<h4>Demo</h4>
+
+<p contenteditable="true">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vestibulum porttitor purus, in auctor nulla fringilla eu. Cras placerat, sem ac lobortis bibendum, magna urna aliquam orci, at sodales dui turpis sit amet velit. Nullam ut libero vitae metus tempus feugiat. Sed sagittis aliquet dolor. Pellentesque a tellus neque. Suspendisse lorem felis, ultrices vel blandit posuere, pharetra in mi. Vestibulum eget adipiscing leo. Suspendisse potenti. Aenean mi arcu, tempus nec mattis at, iaculis ac felis. Donec sem diam, aliquet ut congue quis, bibendum eget nunc. Proin pellentesque elit quis mauris placerat sed gravida risus ultricies. Donec faucibus fermentum venenatis. Nam mi nunc, luctus nec tincidunt ac, tempor eget risus.</p>
+
+<p class="note">The ajax feature has been disable for the demo</p>
+

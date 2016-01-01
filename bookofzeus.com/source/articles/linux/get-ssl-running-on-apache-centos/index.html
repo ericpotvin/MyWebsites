@@ -1,0 +1,28 @@
+
+<p>I was playing with a new virtual server that had CentOS installed on it recently, and wanted to get SSL working for Apache.  Since I was only setting up a development server I really didn't need to purchase a certificate and decided to use a self-signed certificate. Here is what I did:</p>
+
+<p>First I needed to get 'make' and 'mod_ssl' running to allow for this. (I use sudo but you could login as su)</p>
+<pre>
+sudo yum install make
+sudo yum install mod_ssl
+</pre>
+
+<p>Next I did the following steps:</p>
+<ul>
+ <li>Go to <code>/etc/pki/tls/certs</code></li>
+ <li>Run the command <code>sudo make mycert.pem</code></li>
+ <li>Enter the information you are prompted for about country, state, city, host name etc, your certificate and key has been created</li>
+ <li>Now edit <code>/etc/httpd/conf.d/ssl.conf</code> and update the following items:
+  <ul>
+   <li><code>SSLCACertificateFile /etc/pki/tls/certs/mycert.pem</code></li>
+   <li><code>SSLCACertificateKeyFile /etc/pki/tls/mycert.pem</code></li>
+  </ul></li>
+ <li>I was forced to create a symbolic link for the <code>SSLCACertificateKeyFile</code> as follows: (I think this was supposed to happen automagically.)
+  <ul>
+   <li>I went to <code>/etc/pki/tls</code> and created the symbolic link using the next line.</li>
+   <li><code>sudo ln -s certs/mycert.pem mycert.pem</code></li>
+  </ul></li>
+<li>Restart Apache: <code>/etc/init.d/httpd restart</code></li>
+</ul>
+<p>There, now you have a self-signed certificate for your apache virtualhosts.</p>
+					

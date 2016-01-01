@@ -1,0 +1,127 @@
+
+<p>Have you ever forgot to take a backup of your files? or even modify them and wanted to rollback to the previous version but, unfortunately, you don't have the previous version?</p>
+<p>Whether it is a WebSite, personal documents, or any other project you working on, there is a simple solution to fix this issue; it's called <span class="bold">SubVersion</span>.</p>
+
+<p>Some websites offers you to host your project for you, such as:</p>
+<ul>
+    <li>Google Code</li>
+    <li>SourceForge</li>
+</ul>
+
+<p>But if you want more control on your repository and you don't want to pay monthly cost, you should install <span class="bold">SubVersion</span> on your Ubuntu.</p>
+<p>The process for installing subversion on Ubuntu and repository is simple. All the tools you will need to use <span class="bold">SubVersion</span> are included in the subversion package.</p>
+
+<h3>Get SubVersion</h3>
+<pre>
+sudo aptitude install subversion
+</pre>
+
+<h3>Setup a group</h3>
+
+<p>First, create a group named <span class="italic">svn</span> and then add your account to that group.</p>
+<pre>
+sudo addgroup svn
+sudo gpasswd -a "$USER" svn
+</pre>
+
+<h3>Setup the Repository home folder</h3>
+<p>In order to be able to use, create a repository home folder:</p>
+<pre>
+sudo mkdir -p /svn/repository
+</pre>
+
+<p>Give access to the <span class="italic">svn</span> group.</p>
+<pre>
+sudo chgrp -R svn /svn/repository
+sudo chmod -R 770 /svn/repository
+</pre>
+<p>To make sure the changes you made takes effect relating the security <span class="italic">svn</span> group, A logout of the GUI/shell and re-login is sufficient to re-read the permissions.</p>
+<p class="note">Don't forget to bookmark this page first **</p>
+
+
+<h3>Create a new repository project</h3>
+<p>To create your project repository, use the <span class="italic">svnadmin</span> command:</p>
+<pre>
+svnadmin create /svn/repository/my_project
+</pre>
+
+
+<h3>Create a SVN user</h3>
+<p>You will also need user who will need access to the repository. To create a user, use the following command:</p>
+<pre>
+vi /svn/repository/my_project/conf/svnserve.conf
+</pre>
+
+<p>and add to that file these three lines:</p>
+<pre>
+anon-access = none
+auth-access = read
+password-db = passwd
+</pre>
+
+<p>After, create a password file or edit the current one:</p>
+<pre>
+vi /svn/repository/my_project/conf/passwd
+</pre>
+
+<p>In that file add a line for your user:</p>
+<pre>
+myuser = mypassword
+</pre>
+
+<h3>Setup the SVN server Daemon</h3>
+
+<p>You can run manually the daemon on the host computer using the svnserve command:</p>
+<pre>
+svnserve -d -r /svn/repository
+</pre>
+
+<p>Or, you can setup to run automatically:</p>
+<p>Simply create a new file (I called mine svnserve) and type the command you’d like to run</p>
+<pre>
+cd /etc/init.d/
+sudo echo "svnserve -d -r /svn/repository/my_project" > svnserve
+</pre>
+
+<p>Make the script executable</p>
+<pre>
+sudo chmod +x svnserve
+</pre>
+
+<p>Add the script to the boot sequence</p>
+<pre>
+sudo update-rc.d svnserve defaults
+</pre>
+
+<h3>Import Your Project</h3>
+<p>Now that you have your project repository up and running, you will be able to add files and folders in it.</p>
+<pre>
+svn import /svn/repository/my_project file:///repository/my_project
+</pre>
+
+<h3>Checkout Your Project</h3>
+<p>Now your project is stored in your repository. You will need to check it out to work on it and make changes. </p>
+<pre>
+cd /my/www/path/
+svn co file:///repository/my_project my_project
+</pre>
+
+<h3>Create a trunk and branches folders</h3>
+<p>If you are the only user working on your project, you can create the <span class="italic">trunk</span> folder:</p>
+<pre>
+cd /my/www/path/
+mkdir trunk
+svn add trunk
+svn commit -m "Added trunk folder"
+</pre>
+
+<p>If you have more than one developers working on your project, you can create the branches folders.</p>
+<pre>
+cd /my/www/path/
+mkdir branch
+svn add branch
+svn commit -m "Added branch folder"
+</pre>
+
+<p><span class="bold">Done!</span> Enjoy your repository and feel free to update your code without thinking of taking backups every time the code has change.</p>
+

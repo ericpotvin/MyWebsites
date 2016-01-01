@@ -1,0 +1,90 @@
+
+<p>* Requirement: <a href="http://www.bookofzeus.com/articles/how-to-install-memcached-in-ubuntu/" title="how to install memcached in Ubuntu">how to install memcached in Ubuntu</a></p>
+
+<p>The most common way to validate if an IP is banned from a website will be to execute a query in the database and look if that IP is banned or not. Although this is a good implementation, you might experience a decrease of performance on your site. The solution: "memcached" the result.</p>
+
+<p>By using memcached, these records will be retrieve very fast and therefore increase the performance of your site.</p>
+
+<p>First, let's create a simple singleton class that extends the Memcache object.</p>
+<pre>
+
+// file: IpCache.class.php
+
+class IpCache extends Memcache {
+    const IP_GOOD = 0;
+    const IP_BANNED = 1;
+
+    private static $instance = NULL;
+
+    private function __construct() {
+    }
+
+    public function __destruct() {
+        $this->close();
+    }
+
+    public static function getInstance() {
+        if(!is_object(self::$instance)) {
+            self::$instance = new IpCache;
+            self::$instance->addServer('127.0.0.1', 11211) or throw new Exception('Cannot connect to memcached');
+        }
+        return self::$instance;
+    }
+
+    public function check($ip) {
+        return $this->get(ip2long($ip));
+    }
+
+    public function save($ip, $banned) {
+        $this->set(ip2long($ip), $banned);
+    }
+}
+</pre>
+
+<p>Now let's create the script to verify if the IP is banned</p>
+<pre>
+
+// file: index.php
+
+require('IpCache.class.php');
+
+$ip = $_SERVER['REMOTE_ADDR'];
+
+$MemCache = IpCache::getInstance();
+$result = $MemCache->check($ip);
+
+// if the record does not exists in memcache, add it
+if($result === FALSE) {
+    /* Do some sql query to check if the IP is banned and use IpCache::IP_BANNED OR IpCache::IP_GOOD */
+    $t = $MemCache->save($ip, IpCache::IP_BANNED);
+    // or
+    $t = $MemCache->save($ip, IpCache::IP_GOOD);
+}
+
+if($result === IpCache::IP_BANNED) {
+    header('location: http://www.bookofzeus.com');
+    die();
+}
+
+/* Load the rest of the page */
+</pre>
+
+<p>Once an Ip is added to memcached, it will stay (unless there's an expiration time or the server reboot) in the system. So if you added a good Ip to a blacklist of Ips and you need to move it to a white list, you will need to use the following code:</p>
+
+<pre>
+
+// file: admin/memcache-delete.php
+
+require('IpCache.class.php');
+
+$ip = '1.1.1.1'; // or can get it from the _GET or _POST
+$value = 0; // Not Banned
+
+$MemCache = IpCache::getInstance();
+$MemCache->delete(ip2long($ip));
+$MemCache->set(ip2long($ip), $value);
+
+</pre>
+
+<p>Done!</p>
+

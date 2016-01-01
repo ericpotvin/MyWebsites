@@ -1,0 +1,123 @@
+
+<p>This guide will help you to install a local web server using Apache, MySQL and PHP on Ubuntu.</p>
+
+<h3>Install apache2:</h3>
+<pre>
+sudo aptitude install apache2
+</pre>
+
+<p>Edit the <span class="bold">/etc/apache2/httpd.conf</span> to setup your ServerName</p>
+<pre>
+ServerName &lt;myhostname&gt;
+</pre>
+
+<p>Start apache2 and test:</p>
+<pre>
+sudo /etc/init.d/apache2 start
+</pre>
+
+<p>* If everything is OK you should see an ordinary HTML page when you type: http://localhost in your Firefox browser</p>
+Stop apache to install other component:
+<pre>
+sudo /etc/init.d/apache2 stop
+</pre>
+
+<h3>Let's install PHP</h3>
+<pre>
+sudo aptitude install php5 libapache2-mod-php5
+</pre>
+
+<p>Restart Apache</p>
+<pre>
+sudo /etc/init.d/apache2 start
+</pre>
+
+<p>To test the PHP installation, create a dummy file in <code>/var/www/</code></p>
+<pre>
+&lt;?php
+    //file: test.php
+    phpinfo();
+?&gt;
+</pre>
+
+
+<h3>PDO (PHP Data Objects)</h3>
+<p>If PDO (PHP Data Objects) is not installed, this is how to install it:</p>
+<p>First, install some needed modules:</p>
+<pre>
+sudo aptitude install php5-dev libmysqlclient15-dev
+</pre>
+<p class="note">libmysqlclient15-dev is needed by PDO mysql driver</p>
+
+<p>Next, install the PHP pear:</p>
+<pre>
+sudo aptitude install php-pear
+</pre>
+
+<p>Then, you can install the PDO itself an the database specific driver, for example mysql driver:</p>
+<pre>
+pecl install pdo
+pecl install pdo_mysql
+</pre>
+
+<p>Check the <code>php.ini</code>: open the <code>/etc/php5/apache2/php.ini</code> and add check if these following lines are there</p>
+<pre>
+extension=pdo.so
+extension=pdo_mysql.so
+</pre>
+<p>if not installed, you can simply add it</p>
+
+<p>And don't forget to restart your web server.</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<h3>Install MySQL</h3>
+<p>MySQL:</p>
+<pre>
+sudo aptitude install mysql-server
+</pre>
+
+<p>Set your root password</p>
+<pre>
+mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('mypass');
+</pre>
+
+<p>Try running it</p>
+<pre>
+mysql -uroot -p
+</pre>
+<p class="note">your password will be asked!</p>
+
+<p>Now let's install mysql with apache</p>
+<pre>
+sudo aptitude install libapache2-mod-auth-mysql php5-mysql
+</pre>
+
+<h4>Set the default engine</h4>
+<p>If you like to set the default engine to innodb or myisam you can easily change it using the <q>default-storage-engine</q> option in the <q>/etc/mysql/my.cnf</q> file.</p>
+
+<pre>
+default-storage-engine = innodb
+</pre>
+
+<p>Restart MySQL</p>
+<pre>
+/etc/init.d/mysql restart
+</pre>
+
+<p>Restart apache and test</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+<p class="note">(optional) you can setup your /etc/mysql/my.cnf file regarding your needs</p>
+
+<p>
+<span class="bold">Installation done! enjoy!</span>
+</p>
+
+<p>Once everything is installed, you might need some useful PHP extensions like:</p>
+<pre>
+sudo aptitude install php5-cli php5-curl php5-gd php5-imap php5-mcrypt
+</pre>
+

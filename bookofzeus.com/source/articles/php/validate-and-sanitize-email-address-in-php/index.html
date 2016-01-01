@@ -1,0 +1,23 @@
+
+<p>PHP added a very useful function to validate variables like email or url. Since PHP 5.2.0, the <a href="http://php.net/manual/en/function.filter-var.php" class="nw" rel="nofollow" title="PHP filter_var">filter_var</a> function allow the developer to validate email address using this simple code:</p>
+
+<pre>
+filter_var($email, FILTER_SANITIZE_EMAIL);
+</pre>
+
+<p>Now, this will not validate everything. Regarding <a href="http://en.wikipedia.org/wiki/Email_address#Local_part" class="nw" rel="nofollow" title="wikipedia">wikipedia</a>, an email address with non-alpha numeric characters, like double quotes, are considered valid.
+</p>
+
+<p class="note">A quoted string may exist as a dot separated entity within the local-part or it may exist when the outermost quotes are the outermost chars of the local-part (e.g. abc."defghi".xyz@example.com or "abcdefghixyz"@example.com are allowed. abc"defghi"xyz@example.com is not; neither is abc\"def\"ghi@example.com). Quoted strings and characters however, are not commonly used. RFC 5321 also warns that "a host that expects to receive mail SHOULD avoid defining mailboxes where the Local-part requires (or uses) the Quoted-string form" (sic).</p>
+
+<p>Here's how to fix this:</p>
+<pre>
+$email = 'user."name"@example.com';
+$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+</pre>
+<p>Will output:</p>
+<pre>
+string(21) "user.name@example.com"
+</pre>
+<p>Then you can validate the email using your validation.</p>
+

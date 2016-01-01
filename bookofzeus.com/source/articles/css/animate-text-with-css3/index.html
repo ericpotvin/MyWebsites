@@ -1,0 +1,346 @@
+<style>
+ul#css3animation {
+	background: -moz-radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	background: -ms-radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	background: -webkit-radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	background: radial-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 0;
+}
+ul#css3animation li {
+	color: transparent;
+	line-height: 100px;
+	height: 100px;
+	margin-top: -50px;
+	font-size: 100px;
+	position: absolute;
+	text-align: center;
+	top: 30%;
+	width: 100%;
+}
+
+/* delay between each text */
+ul#css3animation li:nth-child(1),
+ul#css3animation li:nth-child(2),
+ul#css3animation li:nth-child(3),
+ul#css3animation li:nth-child(4) {
+	-moz-animation: blurFadeInOut 3s ease-in backwards;
+	-ms-animation: blurFadeInOut 3s ease-in backwards;
+	-webkit-animation: blurFadeInOut 3s ease-in backwards;
+}
+
+ul#css3animation li:nth-child(1) {
+	-webkit-animation-delay: 0s;
+	-moz-animation-delay: 0s;
+	-ms-animation-delay: 0s;
+	animation-delay: 0s;
+}
+ul#css3animation li:nth-child(2) {
+	-webkit-animation-delay: 3s;
+	-moz-animation-delay: 3s;
+	-ms-animation-delay: 3s;
+	animation-delay: 3s;
+}
+ul#css3animation li:nth-child(3) {
+	-webkit-animation-delay: 6s;
+	-moz-animation-delay: 6s;
+	-ms-animation-delay: 6s;
+	animation-delay: 6s;
+}
+ul#css3animation li:nth-child(4) {
+	-webkit-animation-delay: 9s;
+	-moz-animation-delay: 9s;
+	-ms-animation-delay: 9s;
+	animation-delay: 9s;
+}
+ul#css3animation li:nth-child(5) {
+	-webkit-animation-delay: 12s;
+	-moz-animation-delay: 12s;
+	-ms-animation-delay: 12s;
+	animation-delay: 12s;
+}
+
+/* delay for the last slide */
+
+ul#css3animation li:nth-child(5) span {
+	-webkit-animation: blurFadeIn 3s ease-in 12s backwards;
+	-moz-animation: blurFadeIn 1s ease-in 12s backwards;
+	-ms-animation: blurFadeIn 3s ease-in 12s backwards;
+	animation: blurFadeIn 3s ease-in 12s backwards;
+	color: transparent;
+	text-shadow: 0px 0px 1px #fff;
+}
+ul#css3animation li:nth-child(5) span:nth-child(2) {
+	-webkit-animation-delay: 13s;
+	-moz-animation-delay: 13s;
+	-ms-animation-delay: 13s;
+	animation-delay: 13s;
+}
+ul#css3animation li:nth-child(5) span:nth-child(3) {
+	-webkit-animation-delay: 14s;
+	-moz-animation-delay: 14s;
+	-ms-animation-delay: 14s;
+	animation-delay: 14s;
+}
+
+/* default config */
+
+@-moz-keyframes appear {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@-webkit-keyframes appear {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes appear {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@-moz-keyframes blurFadeIn {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -moz-transform: scale(1.3); }
+	100% { opacity: 1; text-shadow: 0px 0px 1px #fff; -moz-transform: scale(1); }
+}
+@-webkit-keyframes blurFadeIn {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -webkit-transform: scale(1.3); }
+	50% { opacity: 0.5; text-shadow: 0px 0px 10px #fff; -webkit-transform: scale(1.1); }
+	100% { opacity: 1; text-shadow: 0px 0px 1px #fff; -webkit-transform: scale(1); }
+}
+@keyframes blurFadeIn {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; transform: scale(1.3); }
+	50% { opacity: 0.5; text-shadow: 0px 0px 10px #fff; transform: scale(1.1); }
+	100% { opacity: 1; text-shadow: 0px 0px 1px #fff; transform: scale(1); }
+}
+
+@-moz-keyframes blurFadeInOut {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -moz-transform: scale(1.3); }
+	20%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; -moz-transform: scale(1); }
+	100% { opacity: 0; text-shadow: 0px 0px 50px #fff; -moz-transform: scale(0); }
+}
+@-webkit-keyframes blurFadeInOut {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -webkit-transform: scale(1.3); }
+	20%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; -webkit-transform: scale(1); }
+	100% { opacity: 0; text-shadow: 0px 0px 50px #fff; -webkit-transform: scale(0); }
+}
+@keyframes blurFadeInOut {
+	0% { opacity: 0; text-shadow: 0px 0px 40px #fff; transform: scale(1.3); }
+	20%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; transform: scale(1); }
+	100% { opacity: 0; text-shadow: 0px 0px 50px #fff; transform: scale(0); }
+}
+
+@-moz-keyframes fadeInBack {
+	0% { opacity: 0; -moz-transform: scale(0); }
+	50% { opacity: 0.4; -moz-transform: scale(2); }
+	100% { opacity: 0.2; -moz-transform: scale(5); }
+}
+@-webkit-keyframes fadeInBack {
+	0% { opacity: 0; -webkit-transform: scale(0); }
+	50% { opacity: 0.4; -webkit-transform: scale(2); }
+	100% { opacity: 0.2; -webkit-transform: scale(5); }
+}
+@keyframes fadeInBack {
+	0% { opacity: 0; transform: scale(0); }
+	50% { opacity: 0.4; transform: scale(2); }
+	100% { opacity: 0.2; transform: scale(5); }
+}
+
+@-moz-keyframes fadeInRotate {
+	0% { opacity: 0; -moz-transform: scale(0) rotate(360deg); }
+	100% { opacity: 1; -moz-transform: scale(1) rotate(0deg); }
+}
+@-webkit-keyframes fadeInRotate {
+	0% { opacity: 0; -webkit-transform: scale(0) rotate(360deg); }
+	100% { opacity: 1; -webkit-transform: scale(1) rotate(0deg); }
+}
+@keyframes fadeInRotate {
+	0% { opacity: 0; transform: scale(0) rotate(360deg); }
+	100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+</style>
+<p>Flash, a tool use to create animations, games and everything in between we need for our sites. Unfortunately, this tool is not great for SEO purposes and sometimes this can be an obstacle when we want to promote a brand or a product using a nice effect.</p>
+
+<p>Well, with CSS3 it is possible now to accomplish something like this now. CSS3 now provides a nice feature that creates animation for you. First of all I would recommend to read the <a href="http://www.w3.org/TR/css3-animations/" title="css3 animations" class="nw">css3-animations</a> guideline from the W3 to make sure you understand the concept. Once your are done with this, here's what you need:</p>
+
+<p>You need the following code to create your animation:</p>
+<pre>
+@-moz-keyframes appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-webkit-keyframes appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes blurFadeIn {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -moz-transform: scale(1.3); }
+  100% { opacity: 1; text-shadow: 0px 0px 1px #fff; -moz-transform: scale(1); }
+}
+@-webkit-keyframes blurFadeIn {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -webkit-transform: scale(1.3); }
+  50% { opacity: 0.5; text-shadow: 0px 0px 10px #fff; -webkit-transform: scale(1.1); }
+  100% { opacity: 1; text-shadow: 0px 0px 1px #fff; -webkit-transform: scale(1); }
+}
+@keyframes blurFadeIn {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; transform: scale(1.3); }
+  50% { opacity: 0.5; text-shadow: 0px 0px 10px #fff; transform: scale(1.1); }
+  100% { opacity: 1; text-shadow: 0px 0px 1px #fff; transform: scale(1); }
+}
+@-moz-keyframes blurFadeInOut {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -moz-transform: scale(1.3); }
+  25%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; -moz-transform: scale(1); }
+  100% { opacity: 0; text-shadow: 0px 0px 50px #fff; -moz-transform: scale(0); }
+}
+@-webkit-keyframes blurFadeInOut {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; -webkit-transform: scale(1.3); }
+  25%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; -webkit-transform: scale(1); }
+  100% { opacity: 0; text-shadow: 0px 0px 50px #fff; -webkit-transform: scale(0); }
+}
+@keyframes blurFadeInOut {
+  0% { opacity: 0; text-shadow: 0px 0px 40px #fff; transform: scale(1.3); }
+  25%, 75% { opacity: 1; text-shadow: 0px 0px 1px #fff; transform: scale(1); }
+  100% { opacity: 0; text-shadow: 0px 0px 50px #fff; transform: scale(0); }
+}
+@-moz-keyframes fadeInBack {
+  0% { opacity: 0; -moz-transform: scale(0); }
+  50% { opacity: 0.4; -moz-transform: scale(2); }
+  100% { opacity: 0.2; -moz-transform: scale(5); }
+}
+@-webkit-keyframes fadeInBack {
+  0% { opacity: 0; -webkit-transform: scale(0); }
+  50% { opacity: 0.4; -webkit-transform: scale(2); }
+  100% { opacity: 0.2; -webkit-transform: scale(5); }
+}
+@keyframes fadeInBack {
+  0% { opacity: 0; transform: scale(0); }
+  50% { opacity: 0.4; transform: scale(2); }
+  100% { opacity: 0.2; transform: scale(5); }
+}
+@-moz-keyframes fadeInRotate {
+  0% { opacity: 0; -moz-transform: scale(0) rotate(360deg); }
+  100% { opacity: 1; -moz-transform: scale(1) rotate(0deg); }
+}
+@-webkit-keyframes fadeInRotate {
+  0% { opacity: 0; -webkit-transform: scale(0) rotate(360deg); }
+  100% { opacity: 1; -webkit-transform: scale(1) rotate(0deg); }
+}
+@keyframes fadeInRotate {
+  0% { opacity: 0; transform: scale(0) rotate(360deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+</pre>
+<p>This create the base structure of animations. Of course this is more code than you need, but this can be used in all your projects.</p>
+
+<p>With this base code we simply have to create our HTML structure.</p>
+<pre>
+&lt;ul&gt;
+  &lt;li&gt;This is something totaly cool&lt;/li&gt;
+  &lt;li&gt;It is something easy to do&lt;/li&gt;
+  &lt;li&gt;No FLASH required&lt;/li&gt;
+  &lt;li&gt;Using only CSS3&lt;/li&gt;
+  &lt;li&gt;&lt;span&gt;Stop using Flash.&lt;/span&gt; &lt;span&gt;USE CSS3.&lt;/span&gt; &lt;span&gt;Love It.&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+
+<p>With this structure, we need to add the animation code:</p>
+<pre>
+* {
+  margin: 0;
+  padding: 0;
+}
+body{
+  background: #422A20;
+  font-size: 2em;
+}
+ul {
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+}
+ul li {
+  color: transparent;
+  font-size: 250%;
+  position: absolute;
+  text-align: center;
+  top: 35%;
+  width: 100%;
+}
+
+/* delay between each text */
+ul li:nth-child(1),
+ul li:nth-child(2),
+ul li:nth-child(3),
+ul li:nth-child(4) {
+  -moz-animation: blurFadeInOut 3s ease-in backwards;
+  -ms-animation: blurFadeInOut 3s ease-in backwards;
+  -webkit-animation: blurFadeInOut 3s ease-in backwards;
+}
+ul li:nth-child(1) {
+  -webkit-animation-delay: 0s;
+  -moz-animation-delay: 0s;
+  -ms-animation-delay: 0s;
+  animation-delay: 0s;
+}
+ul li:nth-child(2) {
+  -webkit-animation-delay: 3s;
+  -moz-animation-delay: 3s;
+  -ms-animation-delay: 3s;
+  animation-delay: 3s;
+}
+ul li:nth-child(3) {
+  -webkit-animation-delay: 6s;
+  -moz-animation-delay: 6s;
+  -ms-animation-delay: 6s;
+  animation-delay: 6s;
+}
+ul li:nth-child(4) {
+  -webkit-animation-delay: 9s;
+  -moz-animation-delay: 9s;
+  -ms-animation-delay: 9s;
+  animation-delay: 9s;
+}
+ul li:nth-child(5) {
+  -webkit-animation-delay: 12s;
+  -moz-animation-delay: 12s;
+  -ms-animation-delay: 12s;
+  animation-delay: 12s;
+}
+/* delay for the last slide */
+ul li:nth-child(5) span {
+  -webkit-animation: blurFadeIn 3s ease-in 12s backwards;
+  -moz-animation: blurFadeIn 1s ease-in 12s backwards;
+  -ms-animation: blurFadeIn 3s ease-in 12s backwards;
+  animation: blurFadeIn 3s ease-in 12s backwards;
+  color: transparent;
+  text-shadow: 0px 0px 1px #fff;
+}
+ul li:nth-child(5) span:nth-child(2) {
+  -webkit-animation-delay: 13s;
+  -moz-animation-delay: 13s;
+  -ms-animation-delay: 13s;
+  animation-delay: 13s;
+}
+ul li:nth-child(5) span:nth-child(3) {
+  -webkit-animation-delay: 14s;
+  -moz-animation-delay: 14s;
+  -ms-animation-delay: 14s;
+  animation-delay: 14s;
+}
+
+</pre>
+
+<p>This will triggers each elements of the LI one by one and create the animation</p>
+
+<p class="note">If this does not work, well most probably it's because you are using IE 9 (or before) or opera 11 (or before). Don't worry, this feature should be supported in version 10 of IE and 12 of Opera.</p>
+

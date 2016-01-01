@@ -1,0 +1,44 @@
+<p>Setting and clearing cookies with jQuery is really easy (especially when compared with regular JavaScript) but it's not included in the jQuery core and requires a plug-in. This post shows how to set, get the value of and clear cookies with jQuery.</p>
+
+<h2>The plug-in</h2>
+<p>Download the jQuery cookie plugin here: <a href="http://jquerybyexample.blogspot.com/2012/06/jquery-cookies-get-set-and-delete.html" class="nw" rel="nofollow">http://jquerybyexample.blogspot.com/2012/06/jquery-cookies-get-set-and-delete.html</a></p>
+<p class="note">Note that I am not the author of this plug-in.</p>
+
+<h2>Set a cookie</h2>
+<p>Setting a cookie with jQuery is as simple as this, where a cookie is created called "example" with a value of "test":</p>
+<pre>
+$.cookie("example", "test");
+</pre>
+
+<p>This is a session cookie which is set for the current path level and will be destroyed when the user exits the browser. To make the same cookie last for e.g. 7 days do this:</p>
+<pre>
+$.cookie("example", "test", { expires: 7 });
+</pre>
+
+<p class="note">Note: the above examples will apply the cookie to the current path level.</p>
+
+<p>If the page requested is http://www.bookofzeus.com/ then it will be set for the / path and will be available for all paths at the domain. If the page is http://www.bookofzeus.com/articles/ then it will be set for the /articles level and will not be accessible at / (or other path).</p>
+
+<p>To explicitly make the cookie available for all paths on your domain, make sure the path is set:</p>
+<pre>
+$.cookie("example", "test", { path: '/' });
+</pre>
+
+<p>To limit it to a specific path instead:</p>
+<pre>
+$.cookie("example", "test", { path: '/articles/' });
+</pre>
+
+<h2>Get the cookie's value</h2>
+
+<p>Getting the cookie's value is also very easy with jQuery. The following would show the value of the "example" cookie in a dialog window:</p>
+<pre>
+alert( $.cookie("example") );
+</pre>
+
+<h2>Delete the cookie</h2>
+<p>And finally, to delete a cookie set the value to null. Setting it to e.g. an empty string doesn't remove it; it just clears the value.</p>
+<pre>
+$.cookie("example", null);
+</pre>
+	

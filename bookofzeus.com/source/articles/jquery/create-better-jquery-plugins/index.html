@@ -1,0 +1,66 @@
+<p>jQuery, used by the major companies and the top websites, is pretty much the standard in the <q>I want to make things cool and easy</q>.</p>
+
+<p>Most of the time we create simple script that do whatever we need but we have to think about the big picture. In this case, we have to create more robust script that will last longer ... such as jQuery Plugins.</p>
+
+<p>Now, when you create jQuery you have to think on what and how you can do it! Here's some tips you have to learn and remember everything you create your plugins.</p>
+
+<h4>Always return a value</h4>
+<p>If your script does not return a specific value, you can either return true or false or return the current object.</p>
+<pre>
+// JS code
+  return true;
+}
+</pre>
+<p>or returning the object</p>
+<pre>
+// JS code
+  return this;
+}
+</pre>
+<p>On the first example, you make sure nothing after the return is executed and stop your script and on the second example you can do something like this:</p>
+<pre>
+$("#item").plugin().fadeIn();
+</pre>
+
+<h4>Use clean and simple code</h4>
+<p>By using clean and simple code, you will make your plugin very easy to maintain and very easy to update. If your plugin requires a lot of parameters or function calls, you might have a problem here. Try to take advantage of the DOM, the HTML5 tags and the class or ID attributes without overloading your code. Example:</p>
+
+<pre>
+&lt;article id="uniqueName"&gt;
+  &lt;div&gt;My content&lt;/div&gt;
+&lt;/article&gt;
+</pre>
+<p>Then simply call your plugin like this:</p>
+<pre>
+$("article#uniqueName").myPlugin();
+</pre>
+
+<h4>Use unique non-reserved name</h4>
+<p>jQuery has a big plugin library. Before naming your plugin, make sure it is not already taken and also don't use reserved words like: <em>css</em> or <em>fadeIn</em>.</p>
+
+<h4>HTML5 data attributes</h4>
+<p>HTML5 brings a new set of attributes: the data type. This can be very power full and take advantage of it. Example:</p>
+<pre>
+&lt;article id="uniqueName" data-id="1" data-label="Label"&gt;
+  // some code
+&lt;/section&gt;
+</pre>
+<p>These data attributes can be accessed using the <code>.data</code> method. Example:</p>
+<pre>
+$('#id').data("id").
+</pre>
+
+<h4>Document, document, and document</h4>
+<p>When writing a plugin, make sure you write documentation. Not all the users of your plugin is an experimented developer. Here's some tips to write your documentations:</p>
+<ul>
+ <li>What exactly your plugin do</li>
+ <li>Easy to understand</li>
+ <li>If you have parameters, give details explanations</li>
+ <li>Plenty of examples</li>
+ <li>Write for unexperienced users</li>
+ <li>Make an Offline documentation</li>
+</ul>
+
+<h4>Test, test, and test again</h4>
+<p>Remember to test your plugin over and over, using a different Internet Browser each time.</p>
+

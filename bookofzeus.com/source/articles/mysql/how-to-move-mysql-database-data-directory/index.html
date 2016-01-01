@@ -1,0 +1,53 @@
+
+<p>If for some reason your database expands at a high rate, you might need to consider to move your data to another disk. Here's a simple trick on how to move the MySQL database directory to another location or drive.</p>
+
+<p>First stop the mysql service :</p>
+<pre>
+sudo /etc/init.d/mysql stop
+</pre>
+
+<p>Create new MySQL directory</p>
+<pre>
+sudo mkdir /path/to/new/mysql
+</pre>
+
+<p>Move the data from the current data directory to new data directory.</p>
+<pre>
+sudo mv /var/lib/mysql /path/to/new/mysql
+</pre>
+
+<p>Or</p>
+<pre>
+sudo cp -R /var/lib/mysql/* /path/to/new/mysql/
+</pre>
+
+<p>Assign the MySQL group and owner for the new data directory.</p>
+<pre>
+chown -R mysql:mysql /data/mysql
+</pre>
+
+<p>Edit the my.cnf file to update the new path</p>
+<pre>
+sudo vi /etc/mysql/my.cnf
+</pre>
+
+<p>Look for:</p>
+<pre>
+datadir = /var/lib/mysql
+</pre>
+
+<p>and update to:</p>
+<pre>
+datadir = /path/to/new/mysql
+</pre>
+
+<p>Restart the mysql deamon (best during off-peak hours in case of errors)</p>
+<pre>
+sudo /etc/init.d/mysqld restart
+</pre>
+
+<p>After few days or weeks if you feel confident and everything is good you can remove the old data:</p>
+<pre>
+sudo rm -rf /var/lib/mysql
+</pre>
+

@@ -1,0 +1,23 @@
+
+<p>Looking for code in PHP files with grep is great! Grep is one of the best command of Linux to find what you need quickly.</p>
+<p>But if you are like me, you don't want to see what's in the SVN repository hidden folder and/or the smarty cached files.</p>
+<p>To remove SVN repository files, you need to add to the grep:</p>
+<pre>
+grep -v "\.svn"
+</pre>
+
+<p>Now to remove the smarty files:</p>
+<pre>
+grep -v %%
+</pre>
+
+<p>Now let's add some color (mandatory):</p>
+<pre>
+grep "search_criteria" --color
+</pre>
+
+<p>Now the final command: </p>
+<pre>
+grep -r "search_criteria" /home/user/path/* | grep -v "\.svn" | grep -v %% | grep "search_criteria" --color
+</pre>
+

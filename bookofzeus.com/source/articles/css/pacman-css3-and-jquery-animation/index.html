@@ -1,0 +1,111 @@
+<style>
+.pacmanClose, .pacmanOpen { width: 0.1em; height: 0.1em; border-right: 60px solid transparent; border-top: 60px solid yellow; border-left: 60px solid yellow; border-bottom: 60px solid yellow; border-top-left-radius: 60px; border-top-right-radius: 60px; border-bottom-left-radius: 60px; border-bottom-right-radius: 60px; -webkit-transform: scale(1.001); -moz-transform: scale(1.001); -o-transform: scale(1.001); -ms-transform: scale(1.001); position: relative; }
+.pacmanOpen:after { content: "."; display: inline-block; color: black; font: bold 80px Times; position: absolute; top: -70px; left: 40px; }
+.pacmanClose:before { -moz-transform: rotate(-12deg); -webkit-transform: rotate(-12deg); -ms-transform: rotate(-12deg); -o-transform: rotate(-12deg); transform: rotate(-12deg); background: yellow; border-top-right-radius: 56px; border-bottom-right-radius: 0px; content:""; top: -64px; height: 59px; left: -17px; position: absolute; width: 67px; }
+.pacmanClose:after { -moz-transform: rotate(12deg); -webkit-transform: rotate(11deg); -ms-transform: rotate(11deg); -o-transform: rotate(11deg); transform: rotate(11deg); background: yellow; border-bottom-right-radius: 56px; border-top-right-radius: 0px; content:""; height: 59px; left: -17px; position: absolute; top: 6px; width: 67px; }
+</style>
+<p>Here's a simple tutorial on how to create a CSS/jQuery animated Pacman.</p>
+
+<h4>First of all, let's create the main shape:</h4>
+<pre>
+.pacmanClose, .pacmanOpen {
+ width: 0.1em;
+ height: 0.1em;
+ border-right: 60px solid transparent;
+ border-top: 60px solid yellow;
+ border-left: 60px solid yellow;
+ border-bottom: 60px solid yellow;
+ border-top-left-radius: 60px;
+ border-top-right-radius: 60px;
+ border-bottom-left-radius: 60px;
+ border-bottom-right-radius: 60px;
+ -webkit-transform: scale(1.001);
+ -moz-transform: scale(1.001);
+ -o-transform: scale(1.001);
+ -ms-transform: scale(1.001);
+ position: relative;
+}
+.pacmanOpen:after {
+ content: ".";
+ display: inline-block;
+ color: black;
+ font: bold 80px Times;
+ position: absolute;
+ top: -70px;
+ left: 40px;
+}
+</pre>
+
+<p>This will create the default (open mouth) shape of the pacman with the "dot":</p>
+<div class="pacmanOpen"></div>
+<p class="note">Note: I use the <code>transform: scale</code> in order to make it sharp and remove the border color.</p>
+
+<h4>The closed shape</h4>
+<p>This shape will use the CSS pseudo-code <code>:after</code> and <code>:before</code> to simulate the close mouth.</p>
+<pre>
+.pacmanClose:before {
+ -moz-transform: rotate(-12deg);
+ -webkit-transform: rotate(-12deg);
+ -ms-transform: rotate(-12deg);
+ -o-transform: rotate(-12deg);
+ transform: rotate(-12deg);
+ background: yellow;
+ border-top-right-radius: 56px;
+ border-bottom-right-radius: 0px;
+ content:"";
+ top: -64px;
+ height: 59px;
+ left: -17px;
+ position: absolute;
+ width: 67px;
+}
+.pacmanClose:after {
+ -moz-transform: rotate(12deg);
+ -webkit-transform: rotate(11deg);
+ -ms-transform: rotate(11deg);
+ -o-transform: rotate(11deg);
+ transform: rotate(11deg);
+ background: yellow;
+ border-bottom-right-radius: 56px;
+ border-top-right-radius: 0px;
+ content:"";
+ height: 59px;
+ left: -17px;
+ position: absolute;
+ top: 6px;
+ width: 67px;
+}
+</pre>
+
+<p>This will create the closed shape of the pacman:</p>
+<div class="pacmanClose"></div>
+<br/>
+
+<h4>The jQuery part (that creates the animation - 10 iterations for examples):</h4>
+<pre>
+var iteration = 10;
+function togglePacman() {
+  var c = $('#pacman').hasClass('pacmanOpen');
+  if(c) {
+    $('#pacman').removeClass('pacmanOpen').addClass('pacmanClose');
+  }
+  else {
+    $('#pacman').removeClass('pacmanClose').addClass('pacmanOpen');
+  }
+  iteration--;
+  if(iteration) {
+    setTimeout(togglePacman, 250);
+  }
+  else {
+    iteration = 10;
+  }
+}
+$('#buttonPacman').click(togglePacman);
+</pre>
+
+<h4>The HTML:</h4>
+<pre>
+&lt;div class="pacmanOpen" id="Pacman"&gt;&lt;/div&gt;
+&lt;input type="button" id="button" value="Start Animation" /&gt;
+</pre>
+

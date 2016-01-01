@@ -1,0 +1,19 @@
+
+<p>If you use a template engine, such as Smarty, you might find annoying to delete the compiled files every time you check which files are modified.</p>
+
+<pre>
+eric@unbuntu:/var/www/my_project/trunk$ svn status
+M      template/index.html
+?      template/templates_c/%%3C^3C7^3C7803F8%%index.html.php
+</pre>
+
+<p>To avoid that situation, you simply need to ignore the folder in your repository by using the following command:</p>
+<pre>
+svn propset svn:ignore "*" template/templates_c
+</pre>
+
+<p>Next time you will perform an <q>svn status</q>the compiled templates will be ignored.</p>
+<pre>
+eric@unbuntu:/var/www/my_project/trunk$ svn status
+M      template/index.html
+</pre>

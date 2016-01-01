@@ -1,0 +1,20 @@
+<p>Development is made easier by running a full development environment on your workstation. I personally run a full LAMP (Linux, Apache, MySQL, PHP) environment that allows me to test what I am developing on my workstation. In this case I am on my new Dell Inspiron E1505n running Ubuntu 7.04 Feisty Fawn.</p>
+<p>One of the problems with doing this is the need to play with permissions on ever site in the server root. So instead I am using ‘userdir’ to keep the sites for easy development and testing. In other words I use apache to pull the site from my home directory for display in my browser. Here is how I did it.</p>
+<p>First I needed to activate the module in Apache. It is easy to enable Apache modules on Ubuntu by using the command ‘a2enmod’, or you can disable the module by using the command ‘a2dismod’. (en = enable, dis = disable). Here is how I enabled the userdir module:</p>
+<pre>
+$ sudo a2enmod userdir
+
+$ sudo /etc/init.d/apache2 restart
+</pre>
+<p>
+You will need to make sure that you have a sub-directory "public_html" in your home directory, as this is where the userdir is pointed to by default. You can test things out now in the browser of your choice by using the address below:
+</p>
+<pre>
+http://localhost/~username/
+</pre>
+<p>
+The "username" should be whatever user you desire to use, and of course you can use an IP address instead of "localhost".
+</p>
+<p>
+If you would like to use another directory in your home besides "public_html" you can modify the file <code>/etc/apache2/mods-enabled/userdir.conf</code> to suit your needs. (Make sure to modify both lines that contain "public_html".)
+</p>

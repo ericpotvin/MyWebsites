@@ -1,0 +1,53 @@
+<style>
+nav.demo a { color: black; margin: 0 0 0 10px; padding: 0; text-align:right; text-decoration: none; }
+nav.demo a:after { color:#aaa; content: "|"; margin-left: 12px; }
+nav.demo a:last-child:after { content:""; }
+</style>
+<p>Remember back in the old days when we had to create images or add a "special div" to separate items in a menu?</p>
+
+<p>Well, here's a quick and easy way to implement a nice menu without using these extra annoying images or text</p>
+
+<h4>The Menu</h4>
+<p>First, let's build the menu:</p>
+<pre>
+&lt;nav&gt;
+ &lt;a href="#"&gt;Menu 1&lt;/a&gt;
+ &lt;a href="#"&gt;Menu 2&lt;/a&gt;
+ &lt;a href="#"&gt;Menu 3&lt;/a&gt;
+ &lt;a href="#"&gt;Menu 4&lt;/a&gt;
+&lt;/nav&gt;
+</pre>
+
+<h4>The CSS</h4>
+<pre>
+* {
+  outline: none;
+}
+nav a {
+  color: black;
+  margin: 0 0 0 10px;
+  padding: 0;
+  text-align:right;
+  text-decoration: none;
+}
+nav a:after {
+  color:#aaa;
+  content: "|";
+  margin-left: 12px;
+}
+nav a:last-child:after {
+  content:"";
+}
+</pre>
+
+<p>This will output:</p>
+
+<nav class="demo">
+ <a href="#">Menu 1</a>
+ <a href="#">Menu 2</a>
+ <a href="#">Menu 3</a>
+ <a href="#">Menu 4</a>
+</nav>
+
+<p>No more excuses now!</p>
+

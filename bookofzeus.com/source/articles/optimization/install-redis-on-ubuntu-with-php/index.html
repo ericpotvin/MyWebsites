@@ -1,0 +1,198 @@
+
+<p>Isn't good to have traffic on your website? The more traffic the merrier right? Sometime we need a little help from tools to help our site be more responsive to the demand. One of these tools is Redis.</p>
+
+<p>Redis is an open source, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.</p>
+
+<p>Here's a simple tutorial on how to install Redis on Ubuntu.</p>
+
+<pre>
+sudo aptitude install redis-server
+</pre>
+
+<p>You will see something like this:</p>
+
+<pre>
+Setting up redis-server (2:2.2.12-1build1) ...
+Starting redis-server: redis-server.
+</pre>
+
+<p>You can always change the redis config file for your needs. To do so, simply edit the redis.conf file:</p>
+
+<pre>
+sudo /etc/init.d/redis-server stop
+sudo vi /etc/redis/redis.conf
+sudo /etc/init.d/redis-server start
+</pre>
+
+<p>Verifying installation.</p>
+<pre>
+redis-cli
+</pre>
+
+<p>this will prompt:</p>
+
+<pre>
+redis 127.0.0.1:6379&gt;
+</pre>
+
+<p>and type: <q>INFO</q></p>
+
+<pre>
+redis_version:2.2.12
+redis_git_sha1:00000000
+redis_git_dirty:0
+arch_bits:32
+multiplexing_api:epoll
+process_id:4376
+uptime_in_seconds:46
+uptime_in_days:0
+lru_clock:1245433
+used_cpu_sys:0.01
+used_cpu_user:0.00
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+connected_clients:1
+connected_slaves:0
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+used_memory:547620
+used_memory_human:534.79K
+used_memory_rss:1187840
+mem_fragmentation_ratio:2.17
+use_tcmalloc:0
+loading:0
+aof_enabled:0
+changes_since_last_save:1
+bgsave_in_progress:0
+last_save_time:1354631602
+bgrewriteaof_in_progress:0
+total_connections_received:1
+total_commands_processed:1
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+hash_max_zipmap_entries:512
+hash_max_zipmap_value:64
+pubsub_channels:0
+pubsub_patterns:0
+vm_enabled:0
+role:master
+</pre>
+
+<h4>Installing PHP with Redis</h4>
+
+<p>Here you have 2 options. You can either go with a PHP solution or the compiled PHP module.</p>
+
+<h5>PHP Version</h5>
+
+<p>This one only requires the PHP library for Redis. Here's two of them:</p>
+
+<h6>Predis</h6>
+<p>Predis is a flexible and feature-complete PHP (>= 5.3) client library for the Redis key-value store.</p>
+
+<p>The library does not require any additional extension loaded in PHP but it can be optionally paired with the phpiredis C extension to lower the overhead of serializing and parsing the Redis protocol. Predis is also available in an asynchronous fashion through the experimental client provided by the Predis\Async library.</p>
+
+<p>For a list of frequently asked questions about Predis, see FAQ.md in the root of the repository. More details are available on the official wiki of the project.</p>
+
+<p>Main features</p>
+<ul>
+ <li>Wide range of Redis versions supported (from 1.2 to 2.6 and unstable) using server profiles.</li>
+ <li>Smart support for redis-cluster (Redis >= 3.0).</li>
+ <li>Client-side sharding via consistent hashing or custom distribution strategies.</li>
+ <li>Support for master / slave replication configurations (write on master, read from slaves).</li>
+ <li>Transparent key prefixing strategy capable of handling any command known that has keys in its arguments.</li>
+ <li>Command pipelining on single and aggregated connections.</li>
+ <li>Abstraction for Redis transactions (Redis >= 2.0) with support for CAS operations (Redis >= 2.2).</li>
+ <li>Abstraction for Lua scripting (Redis >= 2.6) capable of automatically switching between EVAL and EVALSHA.</li>
+ <li>Connections to Redis instances are lazily established upon the first call to a command by the client.</li>
+ <li>Ability to connect to Redis using TCP/IP or UNIX domain sockets with support for persistent connections.</li>
+ <li>Ability to specify alternative connection classes to use different types of network or protocol backends.</li>
+ <li>Flexible system to define and register your own set of commands or server profiles to client instances.</li>
+</ul>
+
+<p>Available at: <a href="https://github.com/nrk/predis" title="redis c client">https://github.com/nrk/predis</a></p>
+
+<h6>redisent</h6>
+<p>Redisent is a simple, no-nonsense interface to the Redis data structure store for modest developers. It is designed to flexible and tolerant of changes to the Redis protocol.</p>
+
+<p>Available at: <a href="https://github.com/jdp/redisent" title="redis client">https://github.com/jdp/redisent</a></p>
+
+
+<h4>Compiled version</h4>
+
+<p>The compiled version is available at https://github.com/nicolasff/phpredis.</p>
+<pre>
+cd /tmp && wget https://github.com/nicolasff/phpredis/archive/master.zip && unzip master.zip && cd phpredis-master/
+</pre>
+
+<p>Compiling shared PECL extensions.</p>
+<pre>
+phpize
+</pre>
+
+<p>If you would like phpredis to serialize your data using the igbinary library, run configure with --enable-redis-igbinary. </p>
+<pre>
+./configure [--enable-redis-igbinary]
+</pre>
+
+<p>Make it!</p>
+<pre>
+make
+</pre>
+
+<p>You will see something like this:</p>
+<pre>
+Build complete.
+Don't forget to run 'make test'.
+</pre>
+
+<p>Then make the package:<p>
+<pre>
+sudo make install
+</pre>
+
+<p>This will create the module file:<p>
+<pre>
+Installing shared extensions:     /usr/lib/php5/20090626+lfs/
+</pre>
+
+<p>Then add it to apache:</p>
+<pre>
+sudo vi /etc/php5/apache2/conf.d/redis.ini
+</pre>
+
+<p>And add this configuration:</p>
+<pre>
+; configuration for php PDO module
+extension=/path/to/php5/redis.so
+</pre>
+
+<p>Stop and start Apache:</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>Now, if you create a php file with the <q>phpinfo();</q> you will see something like:</p>
+<pre>
+redis
+Redis Support	enabled
+Redis Version 	2.2.2
+
+Registered save handlers 	files user memcache memcached redis
+</pre>
+
+<p>Then use it with PHP</p>
+
+<pre>
+$redis = new Redis();
+$redis-&gt;connect('127.0.0.1', 6379);
+if($redis-&gt;exists('key')) {
+  $redis-&gt;set('key', 'value');
+}
+$redis-&gt;get('key');
+</pre>
+
+<p>All the commands are available at: <a href="https://github.com/nicolasff/phpredis/blob/master/README.markdown#classes-and-methods" title="redis client">https://github.com/nicolasff/phpredis/blob/master/README.markdown#classes-and-methods</a></p>
+

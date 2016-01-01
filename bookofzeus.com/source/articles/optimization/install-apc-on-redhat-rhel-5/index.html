@@ -1,0 +1,51 @@
+
+<p>After attending php|tek 2009 I decided it was finally time for me to play with APC, and at least install it on a server to see what all of the excitement is about. After all, if it is good enough for Facebook it must be pretty beneficial, right?</p>
+<p>According to the documentation the following command is what it takes to install:</p>
+<pre>
+pecl install apc
+</pre>
+<p>However, then I tried this I quickly received an error stating "phpize: command not found". So after a little searching I discovered that I needed to install php-devel.i386 to enable pear to install packages. (You may also need to install autoconf, automake and libtool to do phpize. I must have already had them installed.)</p>
+<pre>
+sudo yum install php-devel.i386
+</pre>
+
+<p class="note">I used sudo, but you can also use su to change to the root user and then run the command as root.</p>
+<p>Now after installing that, which also installed a couple of dependencies and updated a couple of other applications, I figured I would be all set. To the contrary I tried the install apc command again and I received one prompt asking:</p>
+<pre>
+Use apxs to set compile flags (if using APC with Apache)? [yes]:
+</pre>
+
+<p>I received a new error after answering "yes" :</p>
+<pre>
+Sorry, I was not able to successfully run APXS.  Possible reasons:
+
+1.  Perl is not installed;
+2.  Apache was not compiled with DSO support (--enable-module=so);
+3.  'apxs' is not in your path.  Try to use --with-apxs=/path/to/apxs
+The output of apxs follows
+/tmp/tmpArfGXr/APC-3.0.10/configure: line 3196: apxs: command not found
+configure: error: Aborting
+ERROR: `/tmp/tmpArfGXr/APC-3.0.10/configure --enable-apc-mmap=yes
+--with-apxs' failed
+</pre>
+
+<p>After a few minutes of searching I found a post somewhere that informed me that httpd-devel.i386 also needed to be installed.</p>
+<pre>
+sudo yum install httpd-devel.i386
+</pre>
+
+<p>Once the package installed, along with a few more dependencies and updates, I was then ready to try again. This time all went well, and APC was installed.</p>
+<p>One final step was to activate it in the php.ini file. I added the following:</p>
+<pre>
+extension=apc.so
+apc.enabled = On
+</pre>
+
+<p>Next I was ready to restart Apache and see APC in action:</p>
+<pre>
+sudo /etc/init.d/httpd restart
+</pre>
+
+<p>After creating a quick phpinfo() call I could now see that the APC module was indeed active. Once I copied the apc.php file that comes with the APC install files into a web accessible directory (preferably password protected) I was clearly able to see stats associated with APC.</p>
+<p>There is much more you can do with APC settings, etc. However, that is another story for another time. Here are a couple of links to help get you started though.</p>
+				

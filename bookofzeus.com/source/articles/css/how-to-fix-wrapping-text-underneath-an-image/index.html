@@ -1,0 +1,46 @@
+<p>Web articles and blog are all over the place now. Within all these blogs, many articles are written with lots of information and images. Many of them display images within text to illustrate what they are talking about but in most cases the alignment of these images and text is not perfectly aligned. One of the common case is when the text of the article is displayed bellow an image. If you are one of them that does not like this and you would like to know how to fix this, read this.</p>
+
+<p>For example, the current HTML has the image we need and text that describes it.</p>
+
+<pre>
+&lt;section class="classname"&gt;
+ &lt;h2&gt;Monk&lt;/h2&gt;
+ &lt;figure&gt;
+  &lt;img src="d3monk150.jpg" /&gt;
+  &lt;figcaption&gt;
+   &lt;h3&gt;Diablo 3 Monk&lt;/h3&gt;
+   &lt;p&gt;Monks are sacred warriors who channel divine power through sheer force of will. Healing waves, mantras of protection and attacks empowered with holy might are all within their purview.Skilled monks deliver rapid-fire attacks unarmed or with a variety of well-balanced weapons. In combat, they emphasize high manoeuvrability over staying power, darting in and out of melees and avoiding protracted slugfests. Monks' attacks are primarily melee-focused. They can eliminate single foes with extreme damage, or deliver short-range area-of-effect assaults with waves of elemental power that emanate from palm strikes or crescent kicks.&lt;/p&gt;
+  &lt;/figcaption&gt;
+ &lt;/figure&gt;
+&lt;/section&gt;
+</pre>
+
+<h4>Solution #1</h4>
+
+<p>This one is very easy. The technique is to simply float left the image then add a margin to the left of the text. The only property you need to know is the width of the image (and add margin or padding if necessary).</p>
+
+<pre>
+section.fix1 img {
+ float: left;
+}
+section.fix1 figcaption {
+ margin-left: 180px;
+}
+</pre>
+
+<h4>Solution #2</h4>
+
+<p>This one is different from the previous one. This one actually float left both the image and the text. You need to know both of the image (and add margin or padding if necessary) and the width of the text.</p>
+
+<pre>
+section.fix img {
+ float: left;
+}
+section.fix figcaption {
+ float: left;
+ width: 410px;
+}
+</pre>
+
+<h4>My 2 cents</h4>
+<p>Both solution will work, I personally prefer the first one since the only width I have to measure with the image one (for the margin-left). This way, I can readjust the width of the wrapper and everything will work properly.</p>

@@ -1,0 +1,62 @@
+<p>You do not need any specific tools (like Eclipse or Android Studio) to sign your app. The easiest way to sign your app, is by using the command line tools.</p>
+
+<p class="note">Make sure your application was compiled in release mode before you sign your app.</p>
+
+<h2>Generate a private key</h2>
+<p>Before signing any application, you need to generate your private key. This can be done by using the <q>keytool</q> tool. You only need to create your private key once.</p>
+
+<p>This command will ask for a password. Make sure the password is stored safely.</p>
+
+<pre>
+keytool -genkey -v -keystore my-private-key.keystore -alias my_alias -keyalg RSA -keysize 2048 -validity 10000
+</pre>
+<p>This command will create a file called <q>my-private-key.keystore</q> using the name (alias) <q>my_alias</q>. This key is valid for 10,000 days.</p>
+
+<p>The result of this command should output something like this:</p>
+
+<code><pre>
+Enter keystore password:
+Re-enter new password:
+What is your first and last name?
+  [Unknown]:  John Doe
+What is the name of your organizational unit?
+  [Unknown]:  Technology
+What is the name of your organization?
+  [Unknown]:  BookOfZeus
+What is the name of your City or Locality?
+  [Unknown]:  Miami
+What is the name of your State or Province?
+  [Unknown]:  Florida
+What is the two-letter country code for this unit?
+  [Unknown]:  US
+Is CN=John Doe, OU=Technology, O=BookOfZeus, L=Miami, ST=Florida, C=US correct?
+  [no]:  yes
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA1withRSA) with a validity of 10,000 days
+	for: CN=John Doe, OU=Technology, O=BookOfZeus, L=Miami, ST=Florida, C=US
+Enter key password for <my_alias>
+	(RETURN if same as keystore password):
+[Storing my-private-key.keystore]
+</pre></code>
+
+<h2>Signing your app</h2>
+<p>You will need the <q>jarsigner</q> tool to sign your app. This tool requires the private key created before.</p>
+<pre>
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-private-key.keystore my_application.apk my_alias
+</pre>
+<p>This command will ask for the keystore and key passwords.</p>
+
+<h2>Verify that your APK is signed</h2>
+<p>You can verify that your application is properly sign by using this command:</p>
+<pre>
+jarsigner -verify -verbose -certs my_application.apk
+</pre>
+
+<h2>Align the application</h2>
+<p>Aligning the application ensures that all uncompressed data starts with a particular byte alignment relative to the start of the file. This reduces the amount of RAM consumed by an app.</p>
+
+<pre>
+zipalign -v 4 my_application-unaligned.apk my_applications.apk
+</pre>
+
+

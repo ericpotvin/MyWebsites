@@ -1,0 +1,56 @@
+
+<h3>Use isEqualToString for string comparisons</h3>
+
+<p>While working on my last project, I encountered few problems regarding "strings". On the simulator, everything worked well, but once
+on the device, my app had a different behavior. I was using the basic double equals comparison:</p>
+
+<pre>
+if (MyObject.name != value1) {
+   // The rest of my code ...
+}
+</pre>
+
+<p>After spending few times on that issue, I realize I was comparing a NSString-typed property to a NSString variable. Therefore, I was supposed to use the "isEqualToString" comparison method instead of the double equal comparison:</p>
+
+<pre>
+if ([MyObject.name isEqualToString:value]) {
+   // The rest of my code ...
+}
+</pre>
+
+<p>In the iPhone Simulator (running on 10.6.2) this comparison returned false, but on the iPhone running 3.1.2 it returned true. </p>
+
+<p class="note">Never assume your result will be the same from simulator and the device.</p>
+
+
+
+<h3>The Compare Method</h3>
+<p>NSString object have a method called "compare". That method gives you the ability to get the difference between the two (2) strings:</p>
+<ul>
+    <li>both string are identical</li>
+    <li>the comparing string is in ascending sort order from the other string</li>
+    <li>the comparing string is in descending sort order from the other string</li>
+</ul>
+
+<p>Here's an example:</p>
+<pre>
+NSString *str = @"ubuntu";
+NSComparisonResult result = [str compare:@"apple"];
+
+switch (result) {
+	case NSOrderedAscending:
+		// Ascending code
+		break;
+	case NSOrderedSame:
+		// Same code
+		break;
+	case NSOrderedDescending:
+		// Descending code
+		break;
+	default:
+		break;
+}
+</pre>
+
+<p>You can also use the "caseInsensitiveCompare" if you like to compare these strings using case with case sensitivity.</p>
+

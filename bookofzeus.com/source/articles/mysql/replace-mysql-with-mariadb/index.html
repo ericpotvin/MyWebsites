@@ -1,0 +1,97 @@
+
+<p>It think it's time for a change. I don't know if you got the news but <a href="https://blog.mariadb.org/mysql-man-pages-silently-relicensed-away-from-gpl/" title="" rel="nofollow">MySQL man pages silently relicensed away from GPL</a>.</p>
+
+<p>So what about switching to a better, optimize and faster solution? Yes, I am talking about MariaDB!</p>
+
+<p>Before you start, you have to know which version you want between 10.0.x and 5.5. The major difference is MariaDB 10.0 has more features than 5.5:</p>
+
+<ul>
+ <li>Multi-source Replication</li>
+ <li>NoSQL Cassandra Storage Engine</li>
+ <li>Engine Independent Statistics</li>
+ <li>SHOW EXPLAIN of a running thread</li>
+ <li>InnoDB Improvements</li>
+ <li>Performance Schema Improvements</li>
+</ul>
+
+<p>The full list is available at: <u>http://www.skysql.com/blogs/max-mether/mysql-56-vs-mariadb-100</u></p>
+
+<h4>Prepare the installation</h4>
+<pre>
+sudo apt-get install python-software-properties
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+</pre>
+
+<h5>For 10.0</h5>
+<pre>
+sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu precise main
+</pre>
+
+<h5>For 5.5</h5>
+<pre>
+sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main
+</pre>
+
+<p>You can change the source and version at: <u>https://downloads.mariadb.org/mariadb/repositories/</u></p>
+
+<p class="note">If you install version 10.0 you will probably need to recompile the PHP with MariaDB to use the latest version. Otherwise, you will see a notice like this:</p>
+<pre>
+---Warning: mysqli::mysqli() [mysqli.mysqli]: Headers and client library minor version mismatch.
+</pre>
+
+<p>You can also create a custom MariaDB sources.list file. To do so, copy and paste the following into a file under <q>/etc/apt/sources.list.d/</q>
+(we suggest naming the file MariaDB.list or something similar), or add it to the bottom of your /etc/apt/sources.list file.<p>
+
+<pre>
+# MariaDB 5.5 repository list - created 2013-06-24 12:18 UTC
+# http://mariadb.org/mariadb/repositories/
+deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main
+deb-src http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu precise main
+</pre>
+
+<h4>Now, let's install it.</h4>
+<pre>
+sudo apt-get update
+sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev libmariadbd-dev
+</pre>
+
+<p>The service should start automatically, if it does not you can run it manually:</p>
+<pre>
+sudo /etc/init.d/mysql start
+</pre>
+
+<h4>Test the install</h4>
+<pre>
+service mysql status
+ * /usr/bin/mysqladmin  Ver 9.1 Distrib 10.0.3-MariaDB, for debian-linux-gnu on i686
+Copyright (c) 2000, 2013, Oracle, Monty Program Ab and others.
+
+Server version		10.0.3-MariaDB-1~precise-log
+Protocol version	10
+Connection		Localhost via UNIX socket
+UNIX socket		/var/run/mysqld/mysqld.sock
+Uptime:			1 hour 2 min 7 sec
+
+Threads: 1  Questions: 118  Slow queries: 0  Opens: 103  Flush tables: 2  Open tables: 79  Queries per second avg: 0.031
+</pre>
+
+<p>Then when you type:</p>
+<pre>
+mysql
+</pre>
+
+<p>You should see:</p>
+<pre>
+mysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 44
+Server version: 10.0.3-MariaDB-1~precise-log mariadb.org binary distribution
+
+Copyright (c) 2000, 2013, Oracle, Monty Program Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]>
+</pre>
+
+<p>That's it!</p>

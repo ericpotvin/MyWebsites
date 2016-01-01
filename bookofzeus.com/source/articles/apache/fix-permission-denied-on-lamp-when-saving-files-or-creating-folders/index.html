@@ -1,0 +1,36 @@
+<p>Have you ever got a warning when uploading files or creating folder in your PHP script? Such as:</p>
+
+<pre>
+Warning: mkdir(/home/user/public_html/folder): Permission denied in /home/user/public_html/folder/index.php on line 224
+</pre>
+
+<p>Or</p>
+<pre>
+Warning: DOMDocument::save(projects.xml) [function.DOMDocument-save]: failed to open stream: Permission denied in /home/user/public_html/folder/process.php on line 63
+</pre>
+
+<p>If so, there's a quick way to fix this. Simply edit the envvars located in the <code>/etc/apache2/</code> folder.</p>
+<pre>
+sudo vi /etc/apache2/envvars
+</pre>
+
+<p>Change the APACHE_RUN_USER and APACHE_RUN_GROUP to add your username.</p>
+<pre>
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+</pre>
+
+<p>to:</p>
+<pre>
+export APACHE_RUN_USER=myuser
+export APACHE_RUN_GROUP=myuser
+</pre>
+
+<p>Restart apache:</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>
+Done!
+</p>

@@ -1,0 +1,67 @@
+<p>Few years ago, we couldn't do (or think) what we can do today with our smart phone. These inseparable devices makes our life lazier but, let's be honest, we like it that way. As mobile traffic grows rapidly, we have to be updated on the latest technologies and make sure we use it right. This will not tells you all the new technologies (obviously) but a specific one called: <q>Geolocation</q>.</p>
+
+<p>Before the arrival of this feature, we had to retrieve the client IP address, then using some database find out the location of the person. Well, this is something from the past now. by simply adding simple JavaScript, we can easily find out the Geolocation if, of course, the user allows it.</p>
+
+<p>Geolocation can be very useful if you run a website that allow the user to interact with a map or find some kind of coupons/deals near them. This feature can be easily used on iPhone and Android with GPS hardware capability.</p>
+
+<p>Here's how:</p>
+
+<h4>HTML</h4>
+<pre>
+&lt;button&gt;Get my location&lt;/button&gt;
+
+&lt;div&gt;
+  Latitude: &lt;span id="lat"&gt;&lt;/span&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  Longitude: &lt;span id="lon"&gt;&lt;/span&gt;
+&lt;/div&gt;
+  &lt;br/&gt;
+&lt;a href="#" target="google"&gt;Map This&lt;/a&gt;
+</pre>
+
+<h4>Javascript/jQuery</h4>
+<pre>
+$(document).ready(function(){
+  $("button").click(function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(processSuccess, processError);
+    }
+  });
+
+});
+
+function processSuccess(position) {
+  $('#lat').html(position.coords.latitude);
+  $('#lon').html(position.coords.longitude);
+  var mapUrl = 'http://maps.google.com/maps?q=' + position.coords.latitude + ',' + position.coords.longitude + '+%28My+Test%29&z=14&ll=' + position.coords.latitude + ',' + position.coords.longitude;
+  $('a').attr('href', mapUrl);
+}
+
+function processError(err) {
+  switch(error.code)
+  {
+    case error.TIMEOUT:
+      alert ('Timeout');
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert ('Unable to find the current position');
+      break;
+    case error.PERMISSION_DENIED:
+      alert ('Permission denied by the user');
+      break;
+    case error.UNKNOWN_ERROR:
+      alert ('Unknown error');
+      break;
+  }
+}
+</pre>
+
+<p>This will give you a message like:</p>
+
+<img src="/source/geo.png" width="320" height="480" alt="geolocation screenshot iphone" />
+
+<p class="note">Sorry, I only have the iPhone version</p>
+
+<p>If the user allows this action, you will be able to determine the Geolocation (Latitude and Longitude) of where the user is located. In any other cases, like the user denied the request or a time-out occur, you can simply display an error message or anything that is useful to the user.</p>
+

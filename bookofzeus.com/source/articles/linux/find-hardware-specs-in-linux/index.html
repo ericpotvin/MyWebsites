@@ -1,0 +1,58 @@
+
+<p>It might be important, at some point, to know what your computer really is. The "lshw" tool tells you the truth about what do you have in hand. This tool also can be filtered by components such as memory, disk, graphic or network.</p>
+
+<p>To get all specs for your computer simply type:</p>
+<pre>
+sudo lshw
+</pre>
+
+<h4>Memory check</h4>
+<pre>
+sudo lshw -C memory
+</pre>
+
+<p>To see the status of your memory, simply type:</p>
+<pre>
+cat /proc/meminfo
+</pre>
+
+<h4>CPU check</h4>
+<pre>
+sudo lshw -C cpu
+</pre>
+<p>or</p>
+<pre>
+cat /proc/cpuinfo
+</pre>
+
+<h4>Disk check</h4>
+<pre>
+sudo lshw -C disk
+</pre>
+
+<p>or</p>
+<pre>
+sudo hdparm -I /dev/sda
+</pre>
+<p class="note">You might have to run: sudo fdisk -l to find out where your drive is.</p>
+
+<h4>Network check</h4>
+<pre>
+sudo lshw -C network
+</pre>
+<p>or</p>
+<pre>
+lspci | egrep 'Ethernet|Network'
+</pre>
+
+<h4>Graphic (GPU) check</h4>
+<pre>
+sudo lshw -C display
+</pre>
+<p>or</p>
+<pre>
+lspci | egrep 'VGA|Display'
+</pre>
+
+<p>Is there any discrepancy between what the sales men told you and the computer specs?</p>
+

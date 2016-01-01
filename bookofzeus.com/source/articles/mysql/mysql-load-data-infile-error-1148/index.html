@@ -1,0 +1,43 @@
+
+<p>The MySQL <q>LOAD DATA INFILE</q> can be very useful if you need to import hundreds of thousands of records from a CSV file. It inserts these records in practically no time (few seconds) and mostly if your table structure is correct, you won't get any errors or warnings.</p>
+
+<p>If everything works fine using this kind of command:</p>
+
+<pre>
+LOAD DATA INFILE '/path/to/my/data.csv' INTO TABLE db.test
+  FIELDS TERMINATED BY '\t' ENCLOSED BY '' ESCAPED BY '\\'
+  LINES TERMINATED BY '\n' STARTING BY ''
+</pre>
+
+<p>But you get the following error message 1148:</p>
+<pre>
+ERROR 1148 (42000) at line 4: The used command is not allowed with this MySQL version
+</pre>
+
+<p>In my version:</p>
+<pre>
+mysql --version
+mysql  Ver 14.14 Distrib 5.5.31, for debian-linux-gnu (x86_64) using readline 6.2
+</pre>
+
+<p>The fix is easy, and you might need both options (I did). Both resides in the <q>/etc/mysql/my.cnf</q> file. The first one under <q>[mysql]</q> and the second one under <q>[client]</q>.</p>
+<pre>
+[mysql]
+local-infile = 1
+
+[client]
+loose-local-infile=1
+</pre>
+
+<p>Restart Mysql deamon:</p>
+<pre>
+sudo /etc/init.d/mysql restart
+</pre>
+
+<p>Now time for import. You can use the same command in the MySQL client or if you run from the command line you have to specific the <q>--local-infile</q> option.</p>
+
+<p>Then once the query is executed, you get something like this:</p>
+<pre>
+Query OK, 3167348 rows affected (0 min 41.37 sec)
+Records: 3167348 Deleted: 0 Skipped: 0 Warnings: 0
+</pre>

@@ -1,0 +1,130 @@
+<p>If you run multiple sites (including multiple domains) on the same hosting plan, you will have to setup each of them before using them, otherwise all the domains will go the same place.</p>
+
+<p>Here's a quick solution to efficiently maintain all these domains and easily enable or disable some in case of emergency.</p>
+
+<p>For this article we will use three (3) domains:</p>
+<ul>
+ <li>domain1.com</li>
+ <li>domain2.com</li>
+ <li>domain2.net</li>
+</ul>
+
+<p>The ".com" domains has nothing in common and the ".net" domain belongs to domain2.com. The "domain1.com" belongs to you and the "domain2.com" and "domain2.net" belongs to a friend.</p>
+
+<h4>Preparing the folder directory</h4>
+<p>Let's create the directory structure. Let's create the structure for the "domain1.com". Because this domain belongs to you, you can use the default webroot <code>/var/www/</code> or <code>/usr/local/httpd/</code>.</p>
+
+<pre>
+sudo -p mkdir /var/www/domain1.com/public_html/
+chown myuser:myuser 755 /var/www/domain1.com/
+</pre>
+
+<p>Now, let's create the account for the second domain.</p>
+<pre>
+bookofzeus@ubuntu:~$ sudo adduser domain1
+</pre>
+
+<p>This will display something like:</p>
+<pre>
+[sudo] password for bookofzeus:
+Adding user `domain2' ...
+Adding new group `domain2' (1001) ...
+Adding new user `domain2' (1001) with group `domain2' ...
+Creating home directory `/home/domain2' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+Changing the user information for domain2
+Enter the new value, or press ENTER for the default
+	Full Name []: John Doe
+	Room Number []:
+	Work Phone []:
+	Home Phone []:
+	Other []:
+Is the information correct? [Y/n] y
+</pre>
+<p>This will create the account and the folder structure for the user.</p>
+<p>Now, let's create the public_html where the website files will be uploaded.</p>
+<pre>
+sudo mkdir -p /home/domain2/{public_html,private,logs}
+</pre>
+
+<p>Let's give the permissions:</p>
+<pre>
+sudo chown -R domain2:domain2 /home/domain2/
+</pre>
+<p>This will create the basic structure:</p>
+<pre>
+bookofzeus@ubuntu:/home/domain2$ ll
+total 12
+drwxr-xr-x 2 domain2 domain2 4096 2012-02-20 07:46 logs
+drwxr-xr-x 2 domain2 domain2 4096 2012-02-20 07:46 private
+drwxr-xr-x 2 domain2 domain2 4096 2012-02-20 07:46 public_html
+</pre>
+
+<h4>Setup the VirtualHost</h4>
+<p>Now the directory structure is created, we can setup the VirtualHost.</p>
+<p>Make sure the <code>sites-enabled</code> is in the apache configuration. If not, you need to add it to the file.</p>
+<pre>
+sudo vi /etc/apache2/apache2.conf
+</pre>
+<p>And add the following line:</p>
+<pre>
+# Include the virtual host configurations:
+Include sites-enabled/
+</pre>
+<p>Now, let's create the configuration file for both domains. Let's create the first domain (domain1.com).</p>
+<pre>
+vi /etc/apache2/sites-available/domain1.conf
+</pre>
+
+<p>and use the following config:</p>
+<pre>
+&lt;VirtualHost *:80&gt;
+ DocumentRoot "/var/www/domain1.com/"
+ ServerName domain1.com
+ ServerAlias domain1.com www.domain1.com
+ &lt;Directory "/var/www/domain1.com/"&gt;
+  allow from all
+  Options +Indexes
+ &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+<p>Same idea for the domain2 (.com and .net)</p>
+<pre>
+vi /etc/apache2/sites-available/domain2.conf
+</pre>
+<p>and use the following config:</p>
+<pre>
+&lt;VirtualHost *:80&gt;
+ DocumentRoot "/home/domain2/public_html/"
+ ServerName domain2.com
+ ServerAlias domain2.com www.domain2.com domain2.net www.domain2.net
+
+ LogLevel warn
+ ErrorLog  /home/domain2/logs/error.log
+ CustomLog /home/domain2/logs/access.log combined
+
+ &lt;Directory "/home/domain2/public_html/"&gt;
+  allow from all
+  Options +Indexes
+ &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+
+<p class="note">You notice the <code>ServerAlias</code> use both .com and .net domains and the <code>ServerName</code> use only the .com. Very important not to mix both.</p>
+
+<p>Now that both configuration is created, let's enable them.</p>
+<pre>
+ln -s /etc/apache2/sites-available/domain1.conf /etc/apache2/sites-enabled/
+ln -s /etc/apache2/sites-available/domain2.conf /etc/apache2/sites-enabled/
+</pre>
+
+<p>By creating the symbolic link, you can easily enable (create a symlink) or disable (delete the symlink) the website.</p>
+<p>Now, re-start the web server:</p>
+<pre>
+/etc/init.d/apache2 restart
+</pre>
+<p>If everything went well, when you go to the domain1.com you will see your website and when you go to the domain2.com or domain2.net you will see the other website.</p>
+

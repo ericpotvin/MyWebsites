@@ -1,0 +1,196 @@
+<style>
+figure.slide {
+	border: solid 1em #fff;
+	-webkit-box-shadow: 0 0 8px #333;
+	-moz-box-shadow: 0 0 8px #333;
+	box-shadow: 0 0 8px #333;
+	height: 240px;
+	margin: 2em;
+	overflow: hidden;
+	position: relative;
+	text-align: center;
+	width: 240px;
+}
+figure.slide figcaption {
+	background-color: #034656;
+	height: 240px;
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	-webkit-transform: translateX(-300px);
+	-moz-transform: translateX(-300px);
+	-o-transform: translateX(-300px);
+	-ms-transform: translateX(-300px);
+	transform: translateX(-300px);
+	-webkit-transition: all 0.4s linear 0s;
+	-moz-transition: all 0.4s linear 0s;
+	-o-transition: all 0.4s linear 0s;
+	-ms-transition: all 0.4s linear 0s;
+	transition: all 0.4s linear 0s;
+	width: 240px;
+}
+figure.slide:hover figcaption {
+	-webkit-transform: translateX(0px);
+	-moz-transform: translateX(0px);
+	-o-transform: translateX(0px);
+	-ms-transform: translateX(0px);
+	transform: translateX(0px);
+}
+figure.slide figcaption a {
+	filter: dropshadow(color=#fff, offx=1, offy=1);
+	color: #fff;
+	padding: 7px 14px;
+	text-shadow: 1px 1px 6px #fff;
+	text-transform: uppercase;
+}
+figure.slide figcaption div {
+	-webkit-box-shadow: 0px 1px 3px #fff;
+	-moz-box-shadow: 0px 1px 3px #fff;
+	box-shadow: 0px 1px 3px #fff;
+	background: #222;
+	color: #fff;
+	padding: 10px;
+	text-align: center;
+	text-transform: uppercase;
+}
+figure.slide figcaption p {
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	-webkit-transition: all 0.2s linear 0s;
+	-moz-transition: all 0.2s linear 0s;
+	-o-transition: all 0.2s linear 0s;
+	-ms-transition: all 0.2s linear 0s;
+	transition: all 0.2s linear 0s;
+}
+figure.slide img {
+	display: block;
+	position: relative;
+	-webkit-transition: all 0.4s linear 0s;
+	-moz-transition: all 0.4s linear 0s;
+	-o-transition: all 0.4s linear 0s;
+	-ms-transition: all 0.4s linear 0s;
+	transition: all 0.4s linear 0s;
+}
+figure.slide:hover img {
+	-webkit-transform: translateX(300px);
+	-moz-transform: translateX(300px);
+	-o-transform: translateX(300px);
+	-ms-transform: translateX(300px);
+	transform: translateX(300px);
+}
+</style>
+<p>Most of the image gallery display nice little image with a cute description underneath it. If you want to make yours a little better, here's a quick tutorial on how to improve the the user experience of your image gallery.</p>
+
+<p>The concept is easy, each images are displayed but not the text. The text will be displayed when you will move over the image using a nice sliding effect. This will give a slick animation and display the text of the image.</p>
+
+<p>This effect can be done by simply using the CSS3 <code>transform</code> and <code>transition</code> and without Javascript.</p>
+
+
+<h4>CSS Code</h4>
+<pre>
+figure.slide {
+  border: solid 1em #fff;
+  -webkit-box-shadow: 0 0 8px #333;
+  -moz-box-shadow: 0 0 8px #333;
+  box-shadow: 0 0 8px #333;
+  height: 240px;
+  margin: 2em;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 240px;
+}
+figure.slide figcaption {
+  background-color: #034656;
+  height: 240px;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  -webkit-transform: translateX(-300px);
+  -moz-transform: translateX(-300px);
+  -o-transform: translateX(-300px);
+  -ms-transform: translateX(-300px);
+  transform: translateX(-300px);
+  -webkit-transition: all 0.4s linear 0s;
+  -moz-transition: all 0.4s linear 0s;
+  -o-transition: all 0.4s linear 0s;
+  -ms-transition: all 0.4s linear 0s;
+  transition: all 0.4s linear 0s;
+  width: 240px;
+}
+figure.slide:hover figcaption {
+  -webkit-transform: translateX(0px);
+  -moz-transform: translateX(0px);
+  -o-transform: translateX(0px);
+  -ms-transform: translateX(0px);
+  transform: translateX(0px);
+}
+figure.slide figcaption a {
+  filter: dropshadow(color=#fff, offx=1, offy=1);
+  color: #fff;
+  padding: 7px 14px;
+  text-shadow: 1px 1px 6px #fff;
+  text-transform: uppercase;
+}
+figure.slide figcaption div {
+  -webkit-box-shadow: 0px 1px 3px #fff;
+  -moz-box-shadow: 0px 1px 3px #fff;
+  box-shadow: 0px 1px 3px #fff;
+  background: #222;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+figure.slide figcaption p {
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  -webkit-transition: all 0.2s linear 0s;
+  -moz-transition: all 0.2s linear 0s;
+  -o-transition: all 0.2s linear 0s;
+  -ms-transition: all 0.2s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+figure.slide img {
+  display: block;
+  position: relative;
+  -webkit-transition: all 0.4s linear 0s;
+  -moz-transition: all 0.4s linear 0s;
+  -o-transition: all 0.4s linear 0s;
+  -ms-transition: all 0.4s linear 0s;
+  transition: all 0.4s linear 0s;
+}
+figure.slide:hover img {
+  -webkit-transform: translateX(300px);
+  -moz-transform: translateX(300px);
+  -o-transform: translateX(300px);
+  -ms-transform: translateX(300px);
+  transform: translateX(300px);
+}
+</pre>
+
+<h4>HTML Code</h4>
+<pre>
+&lt;figure class="slide"&gt;
+	&lt;img src="/download/kate-beckinsale-underworld-awakening.jpg" width="240" height="240" alt="Kate Beckinsale Underworld Awakening" /&gt;
+	&lt;figcaption class="text"&gt;
+		&lt;div&gt;Kate Beckinsale&lt;/div&gt;
+		&lt;p&gt;Kate Beckinsale is back in fighting wearing a nice spandex form in the vampire-werewolves series, Underworld: Awakening.&lt;/p&gt;
+		&lt;a href="http://www.imdb.com/title/tt1496025/" class="nw" rel="nofollow" title="Underworld: Awakening"&gt;Underworld: Awakening&lt;/a&gt;
+	&lt;/figcaption&gt;
+&lt;/figure&gt;
+</pre>
+
+<h4>Demo</h4>
+<figure class="slide">
+	<img src="/download/kate-beckinsale-underworld-awakening.jpg" width="240" height="240" alt="Kate Beckinsale Underworld Awakening" />
+	<figcaption class="text">
+		<div>Kate Beckinsale</div>
+		<p>Kate Beckinsale is back in fighting wearing a nice spandex form in the vampire-werewolves series, Underworld: Awakening.</p>
+		<a href="http://www.imdb.com/title/tt1496025/" class="nw" rel="nofollow" title="Underworld: Awakening">Underworld: Awakening</a>
+	</figcaption>
+</figure>

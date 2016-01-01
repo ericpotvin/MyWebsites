@@ -1,0 +1,52 @@
+<p>Defining your own function can be very useful in any languages. jQuery it's a very rich JavaScript library that gives you the ability to add this functionality very easily. The goal will be to simply call any of your custom functions to be called like this: </p>
+<pre>
+$(element).function();
+</pre>
+
+<p>You will have to create the function using the "$.fn", which is a prototype of jQuery object. For example, you want to disable/enable input or select input in a form. Here's the definition: </p>
+<pre>
+$.fn.enable = function() { /* code */ };
+$.fn.disable = function() { /* code */ };
+</pre>
+
+<p>In this case, the "code" inside the function will check if the element is a valid input or select.</p>
+<pre>
+if(this.is("input") || this.is("select")) {
+/* code */
+}
+</pre>
+<p>If so, based on the action (enable or disable), update the element:</p>
+
+<pre>
+// enable:
+this.removeAttr("disabled");
+//disable:
+this.attr("disabled", true);
+</pre>
+
+<p>Here's the final result:</p>
+<pre>
+$.fn.disabled = function() {
+    if(this.is("input") || this.is("select")) {
+        this.attr("disabled", true);
+    }
+};
+
+$.fn.enable = function() {
+    if(this.is("input") || this.is("select")) {
+        this.removeAttr("disabled");
+    }
+};
+</pre>
+
+<p>Now you simply need to call them:</p>
+<pre>
+$('input').enable();
+</pre>
+
+<p>to enable, or</p>
+<pre>
+$('input').disable();
+</pre>
+
+<p>to disable</p>

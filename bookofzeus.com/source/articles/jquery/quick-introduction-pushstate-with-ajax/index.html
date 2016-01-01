@@ -1,0 +1,83 @@
+<p>As web technologies keep improving, new way to develop solutions for website evolves. One of them is of course Ajax, this very simple technique is used on a lot of websites now. The one I am more interesting now to talk about is pushState. </p>
+
+<p>The pushState function is a simple way to push a fake URL onto the browser's history stack. It requires three (3) parameters:</p>
+
+<h4>State object</h4>
+<p>The state object is a JavaScript object which is associated with the new history entry created by pushState().
+
+<h4>Title</h4>
+<p>Title of the current HTML page. Firefox currently ignores this parameter. Passing the empty string here should be safe against future changes to the method.</p>
+
+<h4>URL</h4>
+<p>The URL you want to load. This URL is pushed in its history automatically.</p>
+
+<p class="note">Source: <a href="https://developer.mozilla.org/en-US/docs/DOM/Manipulating_the_browser_history#The_pushState%28%29.C2.A0method" title="Manipulating the browser history" rel="nofollow">Mozilla website</a></p>
+
+<p>That's should be it for the theory, now let's put these words into code.</p>
+
+<h4>HTML</h4>
+<p>In this example I will have a simple HTML file that shows a welcome message.</p>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;history.pushState() Example&lt;/title&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="/download/pushstate.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;pushState + Ajax Example&lt;/h1&gt;
+&lt;nav&gt;
+  &lt;a href="/pushstateajax/"&gt;Home&lt;/a&gt;
+  &lt;a href="/pushstateajax/page/1/"&gt;Page 1&lt;/a&gt;
+  &lt;a href="/pushstateajax/page/2/"&gt;Page 2&lt;/a&gt;
+  &lt;a href="/pushstateajax/page/3/"&gt;Page 3&lt;/a&gt;
+&lt;/nav&gt;
+&lt;article&gt;
+  &lt;h2&gt;Welcome to PSA&lt;/h2&gt;
+  &lt;p&gt;This demonstrate how the history.pushState + Ajax works!&lt;/p&gt;
+&lt;/article&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h4>Javascript</h4>
+<p>Now, let's have the Javascript code for this page (defined in the <q>/download/pushstate.js</q>).</p>
+<pre>
+window.onpopstate = function(event) {
+  getContent();
+};
+function getContent() {
+  var u = location.pathname;
+  $.ajax({
+    data: {href: u},
+    success: function(result) {
+      $("p").html(result);
+    }
+  });
+}
+$(document).ready(function() {
+  $.ajaxSetup ({  
+    cache: false,
+    url: "/path/to/script.php"
+  }); 
+  $('nav a').click(function(e) {
+    var href = $(this).attr("href");
+    document.title = 'blah';
+    history.pushState('', '', href);
+    getContent();
+    e.preventDefault();
+  });
+});
+</pre>
+
+<p>The <q>window.onpopstate</q> is used when the use navigates on the website using the <q>back</q> and the <q>foward</q> button. You want to make sure the previous or current content loads properly.</p>
+
+<p>Now simply add your logic in your PHP script. In this case, you will use the <q>$_GET['href']</q> to process or validate which page to load. Of course in this example I am using the SEO clean URLs and if you are using the same logic, make sure your configure properly your .htaccess file or your Apache config.</p>
+
+<h4>IE Issue (yes of course)</h4>
+<p>IE 9 and 10 (until preview 2) are not supporting the pushState() feature. The https://github.com/balupton/history.js from GitHub might be the solution.</p>
+

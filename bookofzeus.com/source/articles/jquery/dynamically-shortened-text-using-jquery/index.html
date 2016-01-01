@@ -1,0 +1,46 @@
+<p>You ever read long, almost never ending paragraphs without thinking <q>seriously, this should be shorter or I should be able to shrink this!</q>?</p>
+
+<p>For those who thinks this or saying: <q>I can do this?</q>, there's a very simple solution for this using jQuery.</p>
+
+<h4>The HTML</h4>
+<p>Let start with a simple text (lorem ipsum) that look like this:</p>
+
+<pre>
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum laoreet, nunc eget laoreet sagittis,&lt;p/p&gt;
+&lt;p&gt;quam ligula sodales orci, congue imperdiet eros tortor ac lectus. Duis eget nisl orci. Aliquam mattis purus non mauris blandit id luctus felis convallis.&lt;/p&gt;
+&lt;p&gt;Integer varius egestas vestibulum. Nullam a dolor arcu, ac tempor elit. Donec.&lt;p/p&gt;
+</pre>
+
+<h4>CSS</h4>
+<p>Let create a basic style, sorry I won't do this for you.</p>
+<pre>
+* {
+  margin: 0px;
+  padding: 0px;
+}
+a {
+  color: blue;
+  cursor: pointer;
+}
+p {
+  margin: 1em 0;
+}
+</pre>
+
+<h4>jQuery Code</h4>
+<p>Now, the fun part. This will take the text and turn it into: <q>Lorem ipsum dolor ... more</q>. The "more" will be clickable and the text will automatically expand. In this case, I use only the first 20 characters: <q>$('#more').text().substr(0, 20)</q>, if you need more, simply change the number from 20 to the one you like.</p>
+
+<pre>
+$(document).ready(function() {
+  var orgContent = $('#more').html();
+  var txtContent = $('#more').text().substr(0, 20) + ' ... &lt;a id="morelink"&gt;more&lt;/a&gt;';
+  $('#more').html(txtContent);
+  $("body").on("click", '#morelink', function(){
+    $('#more').html(orgContent);
+    $('&lt;a id="lesslink"&gt;less&lt;/a&gt;').appendTo('#more p:last-child');
+  });
+  $("body").on("click", '#lesslink', function(){
+    $('#more').html(txtContent);
+  });
+});
+</pre>

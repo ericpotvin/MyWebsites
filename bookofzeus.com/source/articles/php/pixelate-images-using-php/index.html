@@ -1,0 +1,53 @@
+
+<p>On January 24th, 2011 "lasers" from StackOverFlow asked <a href="http://stackoverflow.com/questions/8981262/php-gd-pixelate-too-sharp" title="pixelate image" rel="nofollow" class="nw">how can he make the edges smoother on an image</a>.
+Effectivly, the script he uses to generate the pixelate image has very sharp edges. After some digging, I found a very <a href="http://www.talkphp.com/19670-post1.html" title="pixelate script" class="nw" rel="nofollow">good script</a>.
+This script generates a pixelate image with smooth edges and sharp edges.
+</p>
+
+<p>The smooth edges look way better for my taste and here's what kept from the script:</p>
+
+<pre>
+function convertToPixel($image, $size) {
+ $im = imagecreatefromjpeg($image);
+ $size = (int)$size;
+ $sizeX = imagesx($im);
+ $sizeY = imagesy($im);
+ if($sizeX &lt; 3 &amp;&amp; $sizeX &lt; 3) { // or you can choose any size you want
+  return;
+ }
+ for($i = 0;$i &lt; $sizeX; $i += $size) {
+  for($j = 0;$j &lt; $sizeY; $j += $size) {
+  $colors = Array('alpha' => 0, 'red' => 0, 'green' => 0, 'blue' => 0, 'total' => 0);
+   for($k = 0; $k &lt; $size; ++$k) {
+    for($l = 0; $l &lt; $size; ++$l) {
+     if($i + $k >= $sizeX || $j + $l >= $sizeY) {
+      continue;
+     }
+     $color = imagecolorat($im, $i + $k, $j + $l);
+     imagecolordeallocate($im, $color);
+     $colors['alpha'] += ($color >> 24) &amp; 0xFF;
+     $colors['red'] += ($color >> 16) &amp; 0xFF;
+     $colors['green'] += ($color >> 8) &amp; 0xFF;
+     $colors['blue'] += $color &amp; 0xFF;
+     ++$colors['total'];
+    }
+   }
+   $color = imagecolorallocatealpha($im, $colors['red'] / $colors['total'], $colors['green'] / $colors['total'], $colors['blue'] / $colors['total'], $colors['alpha'] / $colors['total']);
+   imagefilledrectangle($im, $i, $j, ($i + $size - 1), ($j + $size - 1), $color);
+  }
+ }
+ header('Content-type: image/jpg');
+ imagejpeg($im, '', 100);
+}
+$image = 'lion.jpg';
+convertToPixel($image, 10);
+</pre>
+
+<p>This will convert this image:</p>
+<img src="http://www.bookofzeus.com/download/lion.jpg" alt="Lion Original" width="434" height="341" />
+
+<p>To:</p>
+<img src="http://www.bookofzeus.com/download/lion-pixel.jpg" alt="Lion pixelated" width="434" height="341" />
+
+<p class="note">If you want to change the pixel size you can simply change the second parameters to a lower or higher number.</p>
+

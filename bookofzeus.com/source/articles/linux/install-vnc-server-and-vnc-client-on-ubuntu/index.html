@@ -1,0 +1,36 @@
+
+<p>Here's a quick tutorial on how to install VNC (client and server) on Ubuntu.</p>
+
+<h4>Server:</h4>
+<p>First of all, let's install <code>vnc4server</code></p>
+<pre>
+sudo aptitude install vnc4server
+</pre>
+<p>After this is installed, run it. This will show something like:</p>
+<pre>
+You will require a password to access your desktops.
+
+Password:
+Verify:
+Password too long - only the first 8 characters will be used
+xauth:  creating new authority file /home/server/.Xauthority
+
+New 'server:1 (root)' desktop is server:1
+
+Creating default startup script /home/server/.vnc/xstartup
+Starting applications specified in /home/server/.vnc/xstartup
+Log file is /home/media/.vnc/media:1.log
+</pre>
+
+<p>Once this is completed, you have to allow access using the remote desktop tool.</p>
+
+<h4>Client:</h4>
+<p>Install the client using this command:</p>
+<pre>
+sudo aptitude install xvnc4viewer
+</pre>
+<p>Then simply run it:</p>
+<pre>
+xvnc4viewer LowColourLevel=1 server.host
+</pre>
+

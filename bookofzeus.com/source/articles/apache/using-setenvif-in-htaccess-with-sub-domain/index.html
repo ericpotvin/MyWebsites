@@ -1,0 +1,30 @@
+<p>Here's a quick hint on how to easily  use the <code>SetEnvIf</code> in .htaccess with multiple sub-domain.</p>
+
+<p>If you use sub-domain for languages or you using sub-domain to differentiate mobile versus non-mobile version of your site, you can simply use the <code>SetEnvIf</code> and then use it in your code.</p>
+
+<p>Let say you have a multi-language website setup like this:</p>
+<ul>
+ <li>www.domain.com</li>
+ <li>en.domain.com</li>
+ <li>fr.domain.com</li>
+ <li>es.domain.com</li>
+</ul>
+
+<p>The idea here is to assign an variable to the apache environment and then pass it to the script or using the environment variables if available.</p>
+
+<pre>
+RewriteEngine On
+RewriteBase /
+
+SetEnvIf Host ^www\. lang=en
+SetEnvIf Host ^en\. lang=en
+SetEnvIf Host ^fr\. lang=fr
+SetEnvIf Host ^es\. lang=es
+
+# other rules ...
+RewriteRule ^([a-z0-9_\-]+)/?$ index.php?lang=%{ENV:lang}&amp;page=$1 [L,NC,QSA]
+</pre>
+
+<p>The <code>%{ENV:lang}</code> will be read from the <code>SetEnvIf</code> (from the sub-domain) and set the correct language you will get from <code>$_GET['lang'];</code> (in your PHP code - assuming it's PHP)</p>
+
+<p>This way, any of the sub-domain will be dynamically loaded without creating rules over and over for sub-domain. I also added a rule that prevent loading images or JavaScript as page.</p>

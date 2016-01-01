@@ -1,0 +1,150 @@
+<h3>Load the framework from Google Code</h3>
+
+<p>Google is hosting several JavaScript libraries. The advantages of using Google are simple:</p>
+<ul>
+   <li>Save bandwidth</li>
+    <li>Loads the library very quickly</li>
+    <li>It must already be cached from a different sites</li>
+</ul>
+
+<pre>
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"; type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+
+
+<h3>Keep DOM manipulation to a minimum</h3>
+<p>When you need to concatenate strings, do not use the DOM each time you loop through records or array. Operation such as .append() or .prepend() can be costly and can slow down your script. To improve performance, simply create a temporary variable and concatenate the results to it.</p>
+
+<p>For example:</p>
+<pre>
+var list = $('input:checkbox:checked'); // we have over 100
+var len = list.length;
+
+for (i=0; i &lt; len; ++i){
+    $('#result').append(list[i].value);
+}
+</pre>
+
+<p>Can be optimized by doing:</p>
+
+<pre>
+var list = $('input:checkbox:checked');
+var len = list.length;
+var result = '';
+for (i=0; i &lt; len; ++i){
+    result += list[i].value;
+}  
+$('#result').html(result);
+</pre>
+
+<h3>Use IDs instead of classes wherever possible</h3>
+<p>The fastest way to select an item in jQuery is to use the ID selector ($('#id')) which is mapped directly to a native JavaScript method, getElementById(). For example, we have this code sample:</p>
+
+<pre>
+&lt;div id="content"&gt;
+    &lt;div id="wrapperLeft"&gt;
+        &lt;h1&gt;Page Title&lt;/h1&gt;
+        &lt;h4&gt;Article Title&lt;/h4&gt;
+        &lt;p&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus augue enim, imperdiet sed dignissim non, rutrum at orci.
+            Etiam pharetra mi sit amet erat consequat a tincidunt neque accumsan. Cras ut est ligula, vitae cursus purus. Cras non velit leo.
+            Mauris sit amet ipsum tortor. Nulla justo orci, auctor in egestas sed, varius tempor ligula.
+            Nam pretium neque at dui consectetur et tempor nulla tristique.
+        &lt;/p&gt;
+        &lt;p&gt;
+            Sed rhoncus, massa vel dapibus dignissim, mauris nulla consequat nibh, suscipit molestie nisl urna nec mi.
+            Ut a leo eget dolor scelerisque blandit ut facilisis mi.
+            In et justo in leo vestibulum malesuada sed sed augue. Integer magna nibh, auctor rhoncus porttitor quis, egestas at lorem.
+            Vestibulum magna neque, consectetur ut adipiscing suscipit, luctus quis ligula. Nunc id leo ac nulla semper placerat.
+        &lt;/p&gt;
+        &lt;div&gt;
+            &lt;h6&gt;Send your comment&lt;/h6&gt;
+            &lt;form&gt;
+                Name: &lt;input type="text"&gt;
+                Comment: &lt;textarea&gt;&lt;/textarea&gt;
+                &lt;input type="submit" class="sendComment"&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id="wrapperRight"&gt;
+        &lt;h6&gt;Signup for our newsletter&lt;/h6&gt;
+        &lt;form&gt;
+            Name: &lt;input type="text"&gt;
+            email: &lt;input type="text"&gt;
+            &lt;input type="submit" class="newsletter"&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>In this case, we will have to call the submit button this way:</p>
+<pre>
+$('#content #wrapperLeft .sendComment');
+</pre>
+
+<p>To fix this, simply use a unique ID for each button and then call then with their respective id.</p>
+<pre>
+$('#sendComment');
+</pre>
+
+<h3>Use For Instead of Each</h3>
+<p>Native JavaScript functions are always faster than any custom or jQuery functions. However, it is easier to use these custom functions when looping through an XML or jSon object. If you can, always use the native loops (for, while, do while). Here's some benchmark using native and jQuery .each function.</p>
+
+<pre>
+var array = new Array ();  
+for (var i=0; i&lt;10000; ++i) {  
+    array[i] = 0;  
+}  
+</pre>
+
+<h4>Using the for loop:</h4>
+<pre>
+console.time('native');  
+var len = array.length;  
+for (var i=0;i&lt;len; ++i) {  
+    array[i] = i;
+}  
+console.timeEnd('native');  
+</pre>
+
+<p>Result: 0ms</p>
+
+<h4>Using .each function</h4>
+<pre>
+console.time('jquery');  
+$.each (array, function (i) {  
+    array[i] = i;  
+});  
+console.timeEnd('jquery');  
+</pre>
+<p>Result: 3ms</p>
+
+
+<h3>Do not call selector over and over and over and over ...</h3>
+
+<pre>
+$('div.message').css('color', 'red');
+$('div.message').css('font', 'red');
+$('div.message').css('background-color', '#eee');
+$('div.message').css('font-size', '16px');
+$('div.message').css('font-weight' : 'bold');
+$('div.message').css('text-align' : 'center');
+$('div.message').html('Your name is required');
+$('div.message').fadeIn('fast');
+</pre>
+
+<p>Instead write:</p>
+<pre>
+$('div.message')
+    .css({
+        'color', 'red',
+        'font', 'red',
+        'background-color', '#eee',
+        'font-size', '16px',
+        'font-weight' : 'bold',
+        'text-align' : 'center',
+    })
+    .html('Your name is required')
+    .fadeIn('fast');
+</pre>
+

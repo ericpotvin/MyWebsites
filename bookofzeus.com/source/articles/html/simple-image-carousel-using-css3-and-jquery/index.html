@@ -1,0 +1,164 @@
+<?php
+
+$meta['title'] = 'Simple Image carousel using CSS3 and jQuery';
+$meta['description'] = 'Create a simple CSS3 and jQuery Carousel using minimal code.';
+
+$meta['created_date'] = 1336881600;
+$meta['updated_date'] = '';
+
+$meta['author'] = 'Eric Potvin';
+
+$meta['comments'] = array(
+
+	1359954000 => array(
+		'msg' => "This is a simple carousel made in CSS3, with a little help with javascript/jQuery you can make this auto animated I am pretty sure, I'll have to lookup it up.",
+		'by' => 'Eric'
+	),
+	1359694800 => array(
+		'msg' => "Thank you for this clean slider! Is it possible to make an autoslide?",
+		'by' => 'Tom'
+	),
+	1337140800 => array(
+		'msg' => "Awesome article. Wanted to implement something like this on my homepage.",
+		'by' => 'Tom'
+	)
+
+);
+
+?>
+
+<p>The wave of implementing visually attractive web pages is very popular lately. CSS3 and jQuery can be a very good help when you need to build these new fancy way to display information to the user.</p>
+
+<p>One of these is definitely the <q>carousel</q>. This way to display images is getting very popular but can be cumbersome or difficult if you like to match it with your current website design.</p>
+
+<p>Here's a simple code to create a nice and easy carousel with minimal CSS3 and jQuery code.</p>
+
+<h4>HTML</h4>
+<p>In this example, I put 4 of the 7 wonders of this world. Using a simple menu and the list of these images and a small description.</p>
+<pre>
+&lt;nav id="list"&gt;
+  &lt;a&gt;Stonehenge&lt;/a&gt;
+  &lt;a&gt;Machu Picchu&lt;/a&gt;
+  &lt;a&gt;Great Wall of China&lt;/a&gt;
+  &lt;a&gt;Giza Pyramids&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;section id="carousel"&gt;
+  &lt;div id="images"&gt;
+    &lt;figure&gt;
+      &lt;img src="/images/7-wonders-stonehenge.jpg" width="400" height="300" alt="7 Wonders Stonehenge" /&gt;
+      &lt;figcaption&gt;
+        Stonehenge &lt;span&gt;United Kingdom&lt;/span&gt;
+      &lt;/figcaption&gt;
+    &lt;/figure&gt;
+    
+    &lt;figure&gt;
+      &lt;img src="/images/7-wonders-machu-picchu.gif" width="400" height="300" alt="7 Wonders Machu Picchu" /&gt;
+      &lt;figcaption&gt;
+        Machu Picchu &lt;span&gt;Peru&lt;/span&gt;
+      &lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure&gt;
+      &lt;img src="/images/7-wonders-great-wall-of-china.jpg" width="400" height="300" alt="7 Wonders Great Wall of China" /&gt;
+      &lt;figcaption&gt;
+        Great Wall of China &lt;span&gt;China&lt;/span&gt;
+      &lt;/figcaption&gt;
+    &lt;/figure&gt;
+
+    &lt;figure&gt;
+      &lt;img src="/images/7-wonders-giza-pyramids.jpg" width="400" height="300" alt="Giza Pyramids" /&gt;
+      &lt;figcaption&gt;
+        Giza Pyramids &lt;span&gt;Egypt&lt;/span&gt;
+      &lt;/figcaption&gt;
+    &lt;/figure&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</pre>
+
+<h4>Javascript (jQuery)</h4>
+<p>This little code will display the image and description based on the wonder the user selected.</p>
+<pre>
+$(document).ready(function() {
+  $('#list a').click(function() {
+    var index = $(this).index();
+    pos = index * -400;
+    $("figure").css("-webkit-transform","translate(" + pos + "px, 0px)");
+    $("figure").css("-moz-transform","translate(" + pos + "px, 0px)");
+    $("figure").css("-o-transform","translate(" + pos + "px, 0px)");
+    $("figure").css("-ms-transform","translate(" + pos + "px, 0px)");          
+    $("figure").css("transform","translate(" + pos + "px, 0px)");              
+    $("#list a").removeClass('selected');
+    $(this).addClass('selected');
+  });
+  $("#list a:first-child").addClass('selected');
+});
+</pre>
+
+<h4>CSS</h4>
+<p>Now, here's the CSS code that will make everything works properly.</p>
+<pre>
+div#images {
+  width: 1600px;
+}
+nav#list {
+  margin: 1em auto;
+  text-align:center;
+}
+nav#list a {
+  color: #333;
+  display: inline-block;
+  marign: 0;
+  padding: 0;
+  text-shadow: 1px 1px 1px #bbb;
+}
+nav#list a {
+  border: dotted 1px #aaa;
+  cursor: pointer;
+  padding: 2px;
+}
+nav#list a:hover, nav#list a.selected {
+  background: #eee;
+  border: solid 1px #aaa;
+}
+
+figure {
+  float: left;
+  height: 300px;
+  left: 0px;
+  margin: 0;
+  padding: 0;
+  width: 400px;
+  -webkit-transition:all 1.0s ease-in-out 0s;
+  -moz-transition:all 1.0s ease-in-out 0s;
+  -o-transition:all 1.0s ease-in-out 0s;
+  -ms-transition:all 1.0s ease-in-out 0s;        
+  transition:all 1.0s ease-in-out 0s;        
+}
+figcaption {
+  background: rgba(255,255,255,0.7);
+  bottom: 20px;
+  font-size: 1.4em;
+  margin: 0;
+  padding: 0.5em 1em;
+  position: absolute;
+  text-shadow: 1px 1px 1px #fff;
+  width: 100%;
+}
+figcaption span {
+  color: #666;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+section#carousel {
+  height: 300px;
+  overflow: hidden;
+  margin: 0 auto;    
+  position: relative;
+  width: 400px;
+}
+</pre>
+
+<p>Now, you can easily add the other 3</p>
+

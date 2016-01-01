@@ -1,0 +1,107 @@
+
+<p>Because the <q>mongodb-10gen</q> package is not included in the default source (maybe one day it will be) you need to get and add the public key to your source. To import the 10gen public GPG Key, simply run the following command:</p>
+
+<pre>
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+</pre>
+
+<p>Now, to make sure the Ubuntu package management tool understands and is able to get it, you need to create a list file and include the debian package URL.</p>
+
+<pre>
+sudo -s
+echo "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen" > /etc/apt/sources.list.d/10gen.list
+</pre>
+
+<p>Now, update your repository</p>
+
+<pre>
+sudo apt-get update
+</pre>
+
+<p>and install</p>
+
+<pre>
+sudo apt-get install mongodb-10gen
+</pre>
+
+<p>You can always modify the config file based on your needs. The file is located at <q>/etc/mongodb.conf</q>. If you change the config file, you will have to restart the service using this command:</p>
+
+<pre>
+sudo service mongodb restart
+</pre>
+
+<p>To test the installation, in the shell simply run:</p>
+
+<pre>
+mongo
+</pre>
+
+<p>You can run all the mongo commands like:</p>
+
+<pre>
+>show dbs
+local	(empty)
+
+>db.version()
+2.2.2
+
+>db.stats()
+{
+	"db" : "test",
+	"collections" : 0,
+	"objects" : 0,
+	"avgObjSize" : 0,
+	"dataSize" : 0,
+	"storageSize" : 0,
+	"numExtents" : 0,
+	"indexes" : 0,
+	"indexSize" : 0,
+	"fileSize" : 0,
+	"nsSizeMB" : 0,
+	"ok" : 1
+}
+</pre>
+
+<h4>Install Mongo with PHP</h4>
+
+<p>To install Mongo with PHP you will need the <q>pear</q> package. If this package is not installed, you will need to run:</p>
+
+<pre>
+apt-get install php-pear
+</pre>
+
+<p>Now, install the mongo php module:</p>
+
+<pre>
+sudo pecl install mongo
+</pre>
+
+<p>This will output something like:</p>
+
+<pre>
+Build process completed successfully
+Installing '/usr/lib/php5/20090626+lfs/mongo.so'
+install ok: channel://pecl.php.net/mongo-1.3.0
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=mongo.so" to php.ini
+</pre>
+
+<p>Add it to the apache config:</p>
+
+<pre>
+sudo vi /etc/php5/apache2/php.ini
+</pre>
+
+<p>or</p>
+
+<pre>
+sudo vi /etc/php5/apache2/conf.d/mongo.ini
+</pre>
+
+<p>Then restart apache:</p>
+
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>Done!</p>

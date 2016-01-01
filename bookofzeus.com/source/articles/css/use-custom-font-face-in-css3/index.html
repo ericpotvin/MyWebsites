@@ -1,0 +1,43 @@
+<style>
+@font-face  { font-family: 'squealer'; src: url('/download/squealer-webfont.eot'); src: url('/download/squealer-webfont.eot?iefix') format('eot'), url('/download/squealer-webfont.woff') format('woff'), url('/download/squealer-webfont.ttf') format('truetype'); font-weight: normal; font-style: normal; }
+.sampleFont { font: normal 30px "squealer"; margin: 20px; display: block; }
+</style>
+<p>A great new feature in CSS3 is the ability to import your font to your website without creating an image. This allow the website to not use the default font like arial, tahoma or verdana which are native to most Internet browsers.</p>
+
+<p><code>@font-face</code> <code>url</code> or <code>src</code> will load the external site to download the required font and then use it.</p>
+
+<p>For example:</p>
+
+<pre>
+@font-face  {
+  font-family: 'squealer';
+  src: url('/path/to/font/squealer-webfont.eot');
+  src: url('/path/to/font/squealer-webfont.eot?iefix') format('eot'),
+  url('/path/to/font/squealer-webfont.woff') format('woff'),
+  url('/path/to/font/squealer-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+h1 { font: normal 50px "squealer"; }
+</pre>
+
+<p>and then use it</p>
+<pre>
+&lt;h1&gt;Use custom @font-face in CSS3&lt;/h1&gt;
+</pre>
+
+<h4>Demo</h4>
+<span class="sampleFont">Use custom @font-face in CSS3</span>
+
+<h4>Cross Browser Compatibility</h4>
+<p>Each browser supports different font formats:</p>
+<ul>
+	<li>Firefox supports Embedded Open Type (.eot) and TrueType (.ttf)</li>
+	<li>IE supports Embedded Open Type (.eot)</li>
+	<li>Safari supports OpenType (.otf), TrueType (.ttf), and Scalable Vector Graphics (.xvg)</li>
+</ul>
+
+<p class="note">note: using all types makes your site compatible with most users.</p>
+
+<p>This is an elegant solution for replacing images and make your site loads faster!</p>
+

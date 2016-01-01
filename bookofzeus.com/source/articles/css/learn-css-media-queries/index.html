@@ -1,0 +1,110 @@
+<style>
+article img{
+	height: auto;
+	margin: 0 auto;
+	text-align: center;
+}
+article img.old {
+	max-width: 390px;
+}
+article img.new {
+	max-width: 208px;
+}
+</style>
+<p>The new CSS features (mostly in CSS 3) significantly improved the way we code our pages, specially for mobile devices, TV and many more. One of these new features is the Media Queries, or also known as the Responsive Web Design. This Media Queries consists of types that have specific properties mobiles devices, TV, desktop monitors (and more) that limits the styles to be executed or not. By executing these sets of rules, the presentation of the web pages changes dynamically without changing any HTML code.</p>
+
+<h4>Here's a concept:</h4>
+
+<p>We have a website with this layout:</p>
+
+<img src="/download/media-queries-1.jpg" alt="old design layout" width="390" height="418" class="old" />
+
+<p>To something like this:</p>
+
+<img src="/download/media-queries-2.jpg" alt="responsive design layout" width="208" height="417" class="new" />
+
+<p>Before the arrival of Media Queries, we had to hard-code and create multiples versions of our websites (HTML and CSS files).
+Although, this was very easy to identify which CSS file goes with a specific media type or HTML code, you have to create, and duplicate CSS codes in multiples CSS files.</p>
+
+<p>By using Media Queries (and having the HTML that goes with it), you can now only use one CSS file and therefore, write smarter CSS. This way, maintaining your only HTML templates and only CSS files is very easy.</p>
+
+
+<h4>What is Media Queries?</h4>
+
+<p>A media query consists of a media type and zero or more expressions that check for the conditions of particular media features. A media query is a logical expression that is either true or false.
+
+A media query is true if the media type of the media query matches the media type of the device where the user agent is running (as defined in the "Applies to" line), and all expressions in the media query are true.</p>
+
+<p class="note">source: http://www.w3.org/TR/css3-mediaqueries/</p>
+
+<p>Media queries allow designers to build multiple layouts using the same HTML documents by selectively serving stylesheets based on the user agent's features, such as the browser window's size.</p>
+
+<p>Other parameters Media Queries deal with:</p>
+<ul>
+ <li>Orientation</li>
+ <li>Screen Resolution</li>
+ <li>Color</li>
+</ul>
+
+<h4>Media Queries features:</h4>
+
+<p>Media Queries provides lots of features that will allow you to easily distinguish the type of device the users are using. The features are:</p>
+
+<ul>
+ <li><em>width, min-width, max-width:</em> The <q>width</q> media feature describes the width of the targeted display area of the output device.</li>
+ <li><em>height, min-height, max-height:</em> The <q>height</q> media feature describes the height of the targeted display area of the output device.</li>
+ <li><em>device-width:</em> The <q>device-width</q> media feature describes the width of the rendering surface of the output device.</li>
+ <li><em>device-height:</em> The <q>device-height</q> media feature describes the height of the rendering surface of the output device.</li>
+ <li><em>orientation:</em> The <q>orientation</q> media feature is portrait when the value of the height media feature is greater than or equal to the value of the width media feature. By default orientation is landscape.</li>
+ <li><em>aspect-ratio, device-aspect-ratio:</em> The <q>aspect-ratio</q> or <q>device-aspect-ratio</q> media feature is defined as the ratio of the value of the width or device-width media feature to the value of the height or device-height media feature.</li>
+ <li><em>color:</em> The <q>aspect-ratio</q> media feature describes the number of bits per color component of the output device. If the device is not a color device, the value is zero.</li>
+ <li><em>color-index:</em> The <q>color-index</q> The <q>color-index</q> media feature describes the number of entries in the color lookup table of the output device. If the device does not use a color lookup table, the value is zero.</li>
+ <li><em>aspect-ratio, device-aspect-ratio:</em> The <q>aspect-ratio</q> or <q>device-aspect-ratio</q> feature is defined as the ratio of the value of the width or device-width media feature to the value of the height or device-height media feature.</li> <li><em>monochrome:</em> The <q>monochrome</q> media feature describes the number of bits per pixel in a monochrome frame buffer. If the device is not a monochrome device, the output device value will be 0.</li>
+ <li><em>resolution:</em> The <q>resolution</q> media feature describes the resolution of the output device, i.e. the density of the pixels. When querying devices with non-square pixels, in "min-resolution" queries the least-dense dimension must be compared to the specified value and in "max-resolution" queries the most-dense dimensions must be compared instead. A "resolution" (without a "min-" or "max-" prefix) query never matches a device with non-square pixels.</li>
+</ul>
+
+
+<h4>Breakpoints:</h4>
+<p>When you build your media queries you have to find out the breakpoints of your site. Obviously here you don't want to add all the possible resolutions but the most common or generic one. Where the screen stop and when it starts to optimize your design?
+
+<p>Here's a list of the most common or generic breakpoints that applies to the most popular devices and desktops.</p>
+<ul>
+ <li>1200px and more</li>
+ <li>960px</li>
+ <li>768px</li>
+ <li>600px</li>
+ <li>480px</li>
+ <li>320px or less</li>
+</ul>
+
+<h4>Examples</h4>
+
+<p>Here's a few examples of CSS media queries you can define in your CSS files.</p>
+
+<p>For small devices</p>
+<pre>
+@media only screen and (max-width: 480px) { /* CSS codes */ }
+</pre>
+
+<p>For iPad</p>
+<pre>
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) { /* CSS codes */ }
+</pre>
+
+<p>For devices in a portrait mode</p>
+<pre>
+@media screen and (orientation: portrait) { /* CSS codes */ }
+</pre>
+
+<p>To match the 16:9 aspect ratio</p>
+<pre>
+@media only screen and (device-aspect-ratio: 16/9) { /* CSS codes */ }
+</pre>
+
+<p>To print a document</p>
+<pre>
+@media print { /* CSS codes */ }
+</pre>
+
+
+<p>Now, you can create css codes that belongs to the right media queries without duplicating any of your CSS code.</p>

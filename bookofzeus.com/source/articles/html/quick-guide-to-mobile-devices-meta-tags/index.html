@@ -1,0 +1,95 @@
+
+<p>More and more people around the world use their smart phones to surf online. The numbers of "phone" users increase rapidly over the last couples of years and will keep increasing drastically. This is why it is important to make your website compatible to these mobiles devices.</p>
+<p>Coding HTML and CSS changed significantly with mobiles devices. New tags can be use to automatically to display a more friendly version of a website without changing practically any code. These mobile meta tags can be use to easily detect the mobile browser and render an optimized content page to the user or consumer.</p>
+
+<p>
+Meta elements are the HTML or XHTML &lt;meta ... &gt; element used to provide structured meta-data about a Web page.
+Multiple elements are often used on the same page: the element is the same, but its attributes are different.
+Meta elements can be used to specify page description, keywords and any other meta-data not provided through the other head elements and attributes.
+</p>
+<p class="note">source: <a href="http://en.wikipedia.org/wiki/Meta_element" class="nw" rel="nofollow" title="Meta_element">http://en.wikipedia.org/wiki/Meta_element</a></p>
+
+<h4>The Viewport META Tag</h4>
+<p>The viewport meta tag is the most common tag used in displaying mobile optimize contents. This meta tag gives a more flexibility on the users browser by automatically detecting the device width and also give the ability to the user to zoom on a page or not.</p>
+
+<p>Properties of viewport meta tag:</p>
+
+<table width="100%" class="comp">
+ <tr>
+  <th>Viewport META directive</th><th>Example Value</th><th>Description</th>
+ </tr>
+ <tr>
+  <td>width</td><td>width=320, width=device-width</td><td>Logical width of the viewport, in pixels. The special device-width value indicates that the viewport height should be the screen width of the device.</td>
+ </tr>
+ <tr>
+  <td>height</td><td>height=480, height=device-height</td><td>Logical height of the viewport, in pixels. The special device-height value indicates that the viewport height should be the screen height of the device.</td>
+ </tr>
+ <tr>
+  <td>user-scalable</td><td>user-scalable=no</td><td>Specifies whether the user can zoom in and out of the viewport, scaling the view of a Web page. Possible values are yes or no.</td>
+ </tr>
+ <tr>
+  <td>initial-scale</td><td>initial-scale=2.0</td><td>Sets the initial scaling or zoom factor (or multiplier) used for viewing a Web page. A value of 1.0 displays an unscaled Web document.</td>
+ </tr>
+ <tr>
+  <td>maximum-scale</td><td>maximum-scale=2.5</td><td>Sets the user's maximum limit for scaling or zooming a Web page. Values are numeric and can range from 0.25 to 10.0. The value of this directives is a scaling factor or multiplier applied to the viewport contents.</td>
+ </tr>
+ <tr>
+  <td>minimum-scale</td><td>minimum-scale=0.5</td><td>Sets the user's minimum limit for scaling or zooming a Web page. Values are numeric and can range from 0.25 to 10.0. The value of this directives is a scaling factor or multiplier applied to the viewport contents.</td>
+ </tr>
+</table>
+<p>
+For example:
+</p>
+<pre>
+&lt;meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, maximum-scale=1, minimum-scale=1.0" /&gt;
+</pre>
+
+<h4>Custom Android properties</h4>
+<p>Android devices has special properties added to the meta tag. For example: target-densitydpi. This property allows developers to specify which screen resolution the page has been developed for.</p>
+<pre>
+&lt;meta name="viewport" content="target-densitydpi=device-dpi" /&gt;
+</pre>
+
+<p>Read more at: <a href="http://developer.android.com/guide/webapps/targeting.html" rel="nofollow" title="android guideline" class="nw">http://developer.android.com/guide/webapps/targeting.html</a></p>
+<p>Because viewport is relatively new, some old phones does not supports it. In this case, other meta tags can be used to display properly HTML content.</p>
+
+<h4>The HandheldFriendly Meta Tag</h4>
+<pre>
+&lt;meta name="HandheldFriendly" content="true" /&gt;
+</pre>
+
+<p>The HandheldFriendly meta tag was supported in Palm devices (AvantGo browsers) to identify mobile optimized content page. The value of the META tag is "true" for mobile content and "false" for desktop content.</p>
+
+<h4>The MobileOptimized Meta tag</h4>
+<pre>
+&lt;meta name="MobileOptimized" content="width" /&gt;
+</pre>
+
+<p>
+The Internet Explorer Mobile default layout fits the page content to the Windows Mobile device screen. The Internet Explorer Mobile default fit-to-screen layout can be changed. Windows Mobile Standard has a Layout menu that enables users to select the Internet Explorer Mobile layout they want.
+</p>
+<p class="note">source: <a href="http://msdn.microsoft.com/en-us/library/bb431690.aspx" class="nw" rel="nofollow" title="Layout Meta Tag">http://msdn.microsoft.com/en-us/library/bb431690.aspx</a></p>
+
+<h4>Apple Specific Meta Tag</h4>
+<p>Apple created custom meta tags specific for their Safari browsers.</p>
+
+<h5>apple-mobile-web-app-capable</h5>
+<p>This meta tag specify a web application runs in full-screen mode (iOS 2.1 and later).</p>
+<pre>
+&lt;meta name="apple-mobile-web-app-capable" content="yes" /&gt;
+</pre>
+
+<h5>apple-mobile-web-app-status-bar-style</h5>
+<p>This meta tag can set a customize style of status bar for a web application (iOS 2.1 and later).</p>
+<pre>
+&lt;meta name="apple-mobile-web-app-status-bar-style" content="black" /&gt;
+</pre>
+
+<h5>format-detection</h5>
+<p>This meta tag enable or disable automatic detection of possible phone numbers in a webpage in Safari on iOS (iOS 1.0 and later).</p>
+<pre>
+&lt;meta name="format-detection" content="telephone=no" /&gt;
+</pre>
+
+<p class="note">source: <a href="http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariHTMLRef/Articles/MetaTags.html" class="nw" rel="nofollow" title="Safari MetaTags">http://developer.apple.com/library/safari/#documentation/appleapplications/reference/SafariHTMLRef/Articles/MetaTags.html</a></p>
+

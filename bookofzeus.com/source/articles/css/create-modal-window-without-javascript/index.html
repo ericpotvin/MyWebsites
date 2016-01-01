@@ -1,0 +1,128 @@
+<style>
+/* Modal **********************************************************************/
+#modalDialog {
+  background: rgba(0,0,0,0.8);
+  bottom: 0;
+  left: 0;
+  opacity:0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 200000;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+}
+/* This is the trick */
+#modalDialog:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+#modalDialog div {
+  background: rgb(238,238,238);
+  border-radius: 12px;
+  height: 400px;
+  margin: 15% auto;
+  padding: 1em 2em 1em 2em;
+  padding: 2em;
+  position: relative;
+  width: 400px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
+.close {
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  position: absolute;
+  right: -12px;
+  text-align: center;
+  top: -10px;
+  width: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
+}
+.close:hover {
+  background: #00d9ff;
+}
+</style>
+<p>Once again, CSS made our life easy. Modal window are commonly use to get the attention of the user. This functionality can be tricky for those who has no or little experience in Javascript. So here's a simple one to make CSS artists happy.</p>
+
+<p>The trick is to use the <q>:target</q> pseudo selector. This can be use to popup a modal window without using javascript. URLs with an # followed by an anchor name, link to a certain element within a document. The element being linked to is the target element. The :target selector is supported in all major browsers, except Internet Explorer.</p>
+
+<p>Here's an example using the following CSS:</p>
+
+<h4>CSS Code:</h4>
+<pre>
+#modalDialog {
+  background: rgba(0,0,0,0.8);
+  bottom: 0;
+  left: 0;
+  opacity:0;
+  pointer-events: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 200000;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+}
+/* This is the trick */
+#modalDialog:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+#modalDialog div {
+  background: rgb(238,238,238);
+  border-radius: 12px;
+  height: 400px;
+  margin: 15% auto;
+  padding: 1em 2em 1em 2em;
+  padding: 2em;
+  position: relative;
+  width: 400px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+}
+#close {
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  position: absolute;
+  right: -12px;
+  text-align: center;
+  top: -10px;
+  width: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
+}
+#close:hover {
+  background: #00d9ff;
+}
+</pre>
+
+
+<h4>HTML Code:</h4>
+<pre>
+&lt;div id="modalDialog"&gt;
+  &lt;div&gt;
+    &lt;a href="#close" title="Close" id="close"&gt;X&lt;/a&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel urna sit amet quam tincidunt suscipit. Proin convallis pulvinar lorem, id consectetur urna dapibus sed. Vivamus justo est, mollis sit amet bibendum non, sollicitudin semper dui.&lt;/p&gt;
+    &lt;p&gt;Aliquam id magna urna, eu tincidunt massa. Donec non laoreet erat. Vestibulum mattis est id eros tincidunt porttitor. Nulla convallis posuere mi a aliquet. Vestibulum sit amet mi nec augue accumsan blandit lacinia at mauris.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>

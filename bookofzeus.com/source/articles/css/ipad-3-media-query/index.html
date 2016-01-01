@@ -1,0 +1,15 @@
+<p>Once again, Apple did it!</p>
+
+<p>What I mean by this is mostly mess-up with us, the developers and user interface developers, have to update yet again our CSS to add new media queries entries.</p>
+
+<p>Based on the <a href="http://www.apple.com/ipad/specs/" title="Apple iPad 3 Requirement" rel="nofollow" class="nw">requirement</a>, this new device has a resolution of <code>2048 by 1536 pixel</code> and a <code>264 pixels per inch (ppi)</code>.</p>
+
+<p>Now the thin line between the mobile and non-mobile resolution got a new face-lift. In other words, this device has more pixels than my 24 inches monitor. Obviously, using pixel in the media query tag won't work if you want to display a different layout for this high-tech device.</p>
+
+<p>Fortunately, there's an easy fix ... and it's quite simple.</p>
+<pre>
+@media only screen and (min-device-width: 1536px) and (max-device-width: 2048px) and (-webkit-min-device-pixel-ratio: 2)
+{
+  // your CSS
+}
+</pre>

@@ -1,0 +1,81 @@
+
+<h4>What is SQL Injection</h4>
+
+<p class="note">
+A SQL injection is often used to attack the security of a website by inputting SQL statements in a web form to get a badly designed website to perform operations on the database (often to dump the database content to the attacker) other than the usual operations as intended by the designer.
+source: http://en.wikipedia.org/wiki/SQL_injection
+</p>
+
+<p>
+Most of the SQL Injections web attacks comes from insecure forms. When someone submits a form, he can use, most of the time, any available characters and put inside the fields whatever he wants. This way, he can "inject" bad code and hope for an insecure process to get into the system.
+</p>
+<p>Here some examples of what he can inject:</p>
+<ul>
+	<li><code>' or 1 = 1; /* '</code></li>
+	<li><code>' or 1 = 1; DROP TABLES `table`; /* '</code></li>
+	<li><code>' or 1 = 1; SELECT SLEEP(86400); /* '</code></li>
+</ul>
+<p>
+The first code will let the unwanted user to the system without having any valid credentials. The second one will allow him to drop any tables (if of course the permission is set, which sometimes all permissions are granted to the MySQL user) and the third one will execute the first query and in addition wait for the query to be completed in 86,400 seconds (or 1 day).</p>
+
+<h4>How this works exactly?</h4>
+<p>Let's use the classic login example. So on the back-end we will get something like this:</p>
+<pre>
+$username = $_POST['username'];
+$password = $_POST['password'];
+mysql_query("SELECT * FROM userTable WHERE username = '$username' AND password = '$password'");
+</pre>
+
+<p>If you insert malicious code, let's take the first example listed above, and use this code as the username.</p>
+<pre>
+mysql_query("SELECT * FROM userTable WHERE username = '' or 1 = 1; /* '' AND password = '$pw'");
+</pre>
+
+<p>As you can see, the query will check if the username is empty (which will return false) and check if <code>1</code> is equal to <code>1</code>, which will always be true, and then ignore the rest of the query because he uses the <code>;</code> to terminate the query and comment out the rest using <code>/*</code>.</p>
+
+<h4>How to prevent this</h4>
+
+<h5>use mysql_real_escape_string()</h5>
+
+<p>The first thing you can use is the <code>mysql_real_escape_string()</code> function. This will escape the special characters in a string for use in an SQL statement. For example it will escape the single quotes (') and replace them with <code>\'</code>.</p>
+<p>This will replace <code>' or 1 = 1; /* '</code> to <code>\' or 1 = 1; /* \'</code>. Therefore, fix the query string to:</p>
+<pre>
+$username = mysql_real_escape_string($_POST['username']);
+mysql_query("SELECT * FROM userTable WHERE username = '\' or 1 = 1; /* \'' AND password = '$pw'");
+</pre>
+
+<h5>Clean the inputs</h5>
+<p>Another solution is to clean the inputs. This practice basically removes unwanted chars and convert the special chars in HTML format.</p>
+<pre>
+function clean(&amp;$var, $default = '') {
+  if(!isset($var)) {
+    $var = $default;
+    return;
+  }
+  $var = preg_replace("/[^a-zA-Z0-9@\"'\.\-_\s]/", "", trim($var));
+  $var = htmlentities($var, ENT_QUOTES);
+}
+</pre>
+<p>For example, this will convert the single quotes <code>'</code> to <code>'</code>.</p>
+
+<p>This way, the string will look like:</p>
+<pre>
+$username = clean($_POST['username']);
+mysql_query("SELECT * FROM userTable WHERE username = '' or 1 = 1; /* '' AND password = '$pw'");
+</pre>
+
+<h5>Prepare the statements</h5>
+
+<p>This will prepare an SQL statement for execution. The SQL statement will be sent to the database and parsed separately.</p>
+<pre>
+$data = array(
+ ':username' => $_POST['username']
+ ':password' => $_POST['password']
+);
+$statement = $databaseConnection->prepare('SELECT * FROM userTable WHERE username = :username AND password = :password');
+$statement->execute($data);
+$rows = $statement->fetchAll();
+</pre>
+
+<p>This will automatically make all your variables safe for query execution.</p>
+

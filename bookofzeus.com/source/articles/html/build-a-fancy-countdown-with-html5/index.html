@@ -1,0 +1,119 @@
+<article>
+<h1>Build a fancy countdown with HTML5</h1>
+<h2>Tuesday, February 26, 2013 CST</h2>
+<hr/>
+<p>HTML5 brings us to a new level when developing fancy features on our website(s). Developers and designers use to build all these fancy animation and gadgets, and let's face it, that was horrible. Hours or development for something we look and say: <q>Yay! I made it</q>.</p>
+
+<p>With that said, I was looking for a countdown for a project I am working on and I found a way to build it in few line of code.</p>
+
+<p>So Here's the code:</p>
+
+<h4>HTML</h4>
+<pre>
+&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;test&lt;/title&gt;
+  &lt;style type="text/css"&gt;
+    body {
+      background: #ddd;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #countDown {
+      height: 182px;
+      position: relative;
+      width: 182px;
+    }
+
+    #countDown #timeLeft {
+      color: #00850D;
+      font: bold 25px Tahoma;
+      left: 0;
+      line-height: 128px;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 100%;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div id="countDown"&gt;
+  &lt;canvas id="canvas" width="190px" height="190px"&gt; &lt;/canvas&gt;
+  &lt;p id="timeLeft"&gt;loading ...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;button class="reset" data-time="15"&gt;Start Over&lt;/button&gt;
+&lt;button class="reset" data-time="10"&gt;Start from 10 &lt;/button&gt;
+
+&lt;script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="countdown.js"&gt;&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h4>Javascript</h4>
+<pre>
+function zeroFill(number, width) {
+  width -= number.toString().length;
+  if (width > 0)
+  {
+    return new Array(width + (/\./.test(number) ? 2 : 1) ).join('0') + number;
+  }
+  return number + '';
+}
+
+
+var clock = {
+  start: 0,
+  end: 15,
+  current: 0,
+  seconds: 0,
+
+  draw: function(clr) {
+    if(clock.seconds > clock.end) {
+      clearInterval(countDown);
+      $('.reset').attr('disabled', true);
+      $("#countDown #timeLeft").css({'fontSize':'45px','lineHeight':'85px'}).html('done');
+      return;
+    }
+    var color = (clock.seconds*15+8);
+    var hex = color.toString(16);
+    var color = '#' + zeroFill(hex,2) + '850D';
+    var canvas = $("#canvas").get(0);
+    cv = canvas.getContext("2d");
+    if(clr) {
+      cv.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    cv.beginPath();
+    cv.strokeStyle = '#' + zeroFill(hex,2) + '850D';
+
+    var startAngle = (Math.PI/180) * 0 - (Math.PI/180) * 90;
+    var endAngle = (Math.PI/180) * ((360/(clock.end - clock.start)) * ((clock.current - clock.start) + clock.seconds)) - (Math.PI/180) * 90;
+    cv.arc(90, 90, 75, startAngle, endAngle);
+    cv.lineWidth = 15;
+    cv.stroke();
+    $("#countDown #timeLeft").css({'color' : color, 'fontSize':'65px','lineHeight':'50px'}).html(Math.round((clock.end - clock.current) - clock.seconds));
+    clock.seconds++;
+  }
+}
+var countDown = setInterval(
+  function() { clock.draw(false); },
+  1000
+);
+
+$('.reset').click(function() {
+  var time = $(this).data('time');
+  clock.start = 0;
+  clock.end = time;
+  clock.current = 0;
+  clock.seconds = 0;
+  $("#countDown #timeLeft").html(time);
+  clock.draw(true);
+});
+</pre>

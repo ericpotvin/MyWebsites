@@ -1,0 +1,48 @@
+
+<p>Recently, I was looking for a session manager tool (other than memcached and redis) to compare and compare benchmark. I found <q>Scache</q>.</p>
+
+<p>Scache is high performance session manager for distributed web applications' session data. SCache provides both persistent and on-demand expiring key-value storage with structured <q>filesystem-like keyspace</q> for referencing the data.</p>
+
+<p>After reading what they had to say, I got curious and decided to try it.</p>
+
+<h4>Install scache</h4>
+
+<p>The installation was easy on Ubuntu. I downloaded their <a href="http://scache.nanona.fi/downloads.html" title="download scache" class="nw">.deb package</a> and that was it.</p>
+
+<p>If you are running a different *nix based OS, you can <a href="http://scache.nanona.fi/docs/build.html" title="build scache from source" class="nw">build it from source</a>.</p>
+
+<p>This comes with the default config but, of course, you can always change it:</p>
+<pre>
+sudo vi /etc/scache/scached.conf
+</pre>
+
+<p>and restart the service.</p>
+<pre>
+/etc/init.d/scached restart
+</pre>
+
+<h4>Using scache with PHP</h4>
+<p>Then I created a simple PHP file to test it.</p>
+<pre>
+$SCache = scache_open('a_secret_key');
+$key = 'abc';
+$scachePath = 'key/' . $key;
+$data = scache_get($SCache, $scachePath);
+if(!$data) {
+  $result = fetch_data($key); // function to fetch your data
+  scache_set($SCache, $scachePath, $result);
+}
+</pre>
+
+<p>Their complete tutorial is available at: <a href="http://scache.nanona.fi/tutorial.html" rel="nofollow" title="scache tutorials">http://scache.nanona.fi/tutorial.html</a>.</p>
+
+<p>You can also use <q>scache</q> as the session handler. Unfortunately scache's session handler emulation is very poorly tested mostly due to scached original mission to provide more flexible replacement for session handler (handle with care).</p>
+
+<pre>
+; in php.ini
+session.save_handler="scache"
+
+; optionally set connection information
+; scache.default_host="remote.host.org"
+</pre>
+

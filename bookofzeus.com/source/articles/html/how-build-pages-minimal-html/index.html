@@ -1,0 +1,69 @@
+<p>Every developer succumbs to the temptation of using the <q>div</q> tag (or other <q>div</q> like tags) over and over to solve issues. If items don't align properly or sections are not properly displaying, stop and think. Why nesting divs will solve the issue? Would CSS fix it?</p>
+
+<p>The over use of divs will not solve your issues and can be a pain to maintain, specially with CSS. The over usage of <q>div</q> is called: <q>divitis</q>, a practice of authoring web-page code with many div elements in place of meaningful semantic HTML elements. In other words, nesting divs to add classes or ids or to use them just to wrap different sections of the page.</p>
+
+<p>This is the same principle as nesting tables, remember? I am sure you did this at some point. It was insane and very messy to maintain. You do not want to do this with your divs. By using nested divs it makes your code more complicated to read, more difficult to maintain with CSS, makes the HTML file bigger for no reason, increase the risk of making mistakes while debugging or fixing code and finally, can be difficult to create your mobile layout.</p>
+
+<h4>Tips</h4>
+<p>Here's a quick example on how to properly code your HTML to make your life easier.</p>
+
+<pre>
+&lt;div id="wrapper"&gt;
+  &lt;div id="menu"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Menu 1&lt;/li&gt;
+      &lt;li&gt;Menu 2&lt;/li&gt;
+      &lt;li&gt;Menu 3&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div id="text"&gt;
+    &lt;p&gt;
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>to:</p>
+
+<pre>
+&lt;section id="wrapper"&gt;
+  &lt;ul id="menu"&gt;
+    &lt;li&gt;Menu 1&lt;/li&gt;
+    &lt;li&gt;Menu 2&lt;/li&gt;
+    &lt;li&gt;Menu 3&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;article&gt;
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+  &lt;/article&gt;
+&lt;/section&gt;
+</pre>
+
+<p>In this case, you don't have to create multiple classes to build your layout. It also simplify your CSS code.</p>
+
+<pre>
+&lt;div class="figure"&gt;
+  &lt;div&gt;
+    &lt;img src="img_pulpit.jpg" alt="The Pulpit Rock" width="304" height="228"&gt;
+  &lt;/div&gt;
+  &lt;div class="figcaption"&gt;
+    Fig1. - A view of the pulpit rock in Norway.
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>to:</p>
+
+<pre>
+&lt;figure&gt;
+  &lt;img src="img_pulpit.jpg" alt="The Pulpit Rock" width="304" height="228"&gt;
+  &lt;figcaption&gt;Fig1. - A view of the pulpit rock in Norway.&lt;/figcaption&gt;
+&lt;/figure&gt;
+</pre>
+
+<p>This way, building pages for desktop, tablets or mobile devices is very easy. Take advantages of the HTML5 tags, that simply the readability of the code and has a great CSS advantages. You don't need to put a class or an id on every divs just to distinguish then.</p>
+
+<p>Use the <q>section</q> to create a generic section, the <q>nav</q> to build a navigation block or menu. The <q>article</q> to create a content section etc...</p>
+
+<p>Quick tip before you build your site, always think about the different layout and devices your user will have. Start with the simplest (mobile) and finish with the desktop version. This way, it will be very easy to code properly and efficiently your page.</p>
+					

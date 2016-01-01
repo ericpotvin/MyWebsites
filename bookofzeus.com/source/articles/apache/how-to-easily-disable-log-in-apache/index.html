@@ -1,0 +1,23 @@
+<p>Logs are important, specially for production server. For development or QA servers, they might not be as important since you can turn on errors directly on the screen. </p>
+<p>Here's how to easily disable log (access and error log) in apache to avoid excessive writes on local server.</p>
+<p>Open your <code>/etc/apache2/apache2.conf</code> file and change the following two configurations:</p>
+<p>Change the ErrorLog to:</p>
+<pre>
+ErrorLog /dev/null
+</pre>
+
+<p>Now, open <code>/etc/apache2/conf.d/other-vhosts-access-log</code> and comment the following line</p>
+<pre>
+#CustomLog /var/log/apache2/other_vhosts_access.log vhost_combined
+</pre>
+
+<p>In addition, you might have to change these files: </p>
+<ul>
+ <li>/etc/apache2/sites-available/default-ssl</li>
+ <li>/etc/apache2/sites-available/default</li>
+</ul>
+<p>and change the <code>ErrorLog</code> and comment out the <code>CustomLog</code>: </p>
+<pre>
+ErrorLog /dev/null
+#CustomLog ${APACHE_LOG_DIR}/access.log combined
+</pre>

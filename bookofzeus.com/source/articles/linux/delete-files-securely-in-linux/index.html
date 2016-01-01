@@ -1,0 +1,39 @@
+
+<p>Deleting files or empty your trash bin does not really remove your file on the disk. It simply just delete the reference for the file in the master boot record so next time a file is either created or update it can use the space.</p>
+
+<p>This is good if you  accidentally deleted file you didn't want to delete like bank records or password list. On the other hand, if you sell your computer or just your hard drive and you want to make sure nobody has access to your personal data you need to "shred" them.</p>
+
+<p>To make sure the data is unrecoverable by anyone, it needs to be overwritten. Shred let you delete files (or your entire hard drive) permanently by overwriting the files with with random data. Not only it destroy the content of the files but also make them impossible to recover. </p>
+
+<h4>Shredding files:</h4>
+<pre>
+shred -z -u -n200 /home/MyUser/Documents/Bank/*
+</pre>
+
+<p class="note">
+-z overwrite with zero's the last time, to mask the shred process. This means the content of the file will ONLY contains zero (0)<br />
+-u means delete when you're done overwriting<br />
+-n200 means overwrite the file(s) 200 times<br />
+</p>
+
+
+<h5>What about files with spaces?</h5>
+<p>Sometimes the <q>shred</q> command will not work with files or folders with spaces. The simple way to bypass this issue is to use the <q>find</q> command.</p>
+<pre>
+find -type f -exec shred -n1 -u -v {} \;
+</pre>
+
+<h5>Wait! my folders are still there</h5>
+<p>Once all files are shredded, you can remove folders using the <q>srm</q> command.</p>
+<pre>
+srm -r *
+</pre>
+
+<h4>Shredding Hard Drive</h4>
+<p>It is recommended to boot from a LIVE CD since the first time the data is overwritten it might crash your system.</p>
+<pre>
+shred -z -n10 /dev/sdb1
+</pre>
+
+<p class="note">The -u option cannot be used since you cannot shred the device.</p>
+

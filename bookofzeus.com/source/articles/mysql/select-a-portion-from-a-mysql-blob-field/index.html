@@ -1,0 +1,40 @@
+
+<p>Selecting columns from a query in a shell script to verify or test queries is pretty common to do. On the other hand, if you have <code>blob</code> or <code>text</code> this can be quite messy, specially if you have lots of data.</p>
+
+<p>Now, would it be nice to show these large text in a nicely friendly way?</p>
+
+<p>Well, of course its possible and here's how:</p>
+
+<p>Let's say you have this set of data:</p>
+<p class="note">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a tempor velit. Integer sit amet ligula nibh, eu rutrum ante. Mauris cursus, neque eu ultrices pulvinar, purus purus fermentum libero, in eleifend tortor orci quis lectus. Cras luctus nunc ac tortor laoreet eu iaculis libero consectetur. Maecenas iaculis facilisis libero sodales auctor. Donec gravida interdum vehicula. Suspendisse vitae massa eget arcu condimentum mattis. Fusce ut ligula ante, nec placerat felis. Maecenas vel nunc nibh, ut luctus urna. Nunc eu lectus a orci iaculis volutpat eget a lorem. Nunc lobortis porttitor tempor. Nulla ipsum neque, volutpat in viverra sit amet, pharetra non tortor. Phasellus at leo pellentesque nunc ultrices euismod.
+<br /><br />
+    Nulla ullamcorper scelerisque leo, eu consequat risus fringilla id. Nulla facilisi. Cras sit amet sem a diam molestie dignissim. Duis interdum, sapien quis laoreet bibendum, dui turpis imperdiet magna, id auctor metus velit sollicitudin dolor. Integer blandit, turpis eget interdum commodo, ante nisl laoreet dui, ac congue purus dui quis nisl. Etiam blandit eleifend tortor at egestas. Vestibulum euismod orci ac nibh consectetur feugiat. Praesent ac libero quam. Morbi elit nulla, gravida ac blandit eu, bibendum vitae lacus. In facilisis pellentesque ipsum aliquam auctor. Nam rhoncus, purus eget fringilla ullamcorper, mauris tellus fermentum lectus, ut tempus tellus arcu vel dolor. Suspendisse eros augue, tincidunt sit amet luctus et, auctor id turpis. Praesent consequat velit ut arcu convallis sodales. Proin pulvinar varius erat, id consequat orci varius sed.
+</p>
+
+<p>So the quick and logical way to do it will be:</p>
+<pre>
+SELECT `description` from `table` WHERE `description` LIKE '%Nam rhoncus%';
+</pre>
+
+<p>What we really want is something like this:</p>
+<pre>
+...m auctor. Nam rhoncus, purus eg...
+</pre>
+	
+<p>Here's what you have to do:</p>
+
+<pre>
+SELECT
+  CONCAT(
+    '...',
+    SUBSTR(`description`,
+      LOCATE('Nam rhoncus', `description`) - 10,
+      (LENGTH('Nam rhoncus') + 20)),
+    '...') AS `description`
+FROM table
+WHERE `description` LIKE '%Nam rhoncus%';
+</pre>
+
+<p class="note">I broke it down like this so it's easier to read. Also, you might have to change the column and the table name to match your query!</p>
+					

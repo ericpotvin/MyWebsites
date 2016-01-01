@@ -1,0 +1,173 @@
+<pre>
+      300   5 Minutes
+      600  10 Minutes
+      900  15 Minutes
+     1800  30 Minutes
+     2700  45 Minutes
+     3600   1 Hour
+     7200   2 Hours
+    10800   3 Hours
+    14400   4 Hours
+    18000   5 Hours
+    36000  10 Hours
+    39600  11 Hours
+    43200  12 Hours
+    46800  13 Hours
+    50400  14 Hours
+    54000  15 Hours
+   86400   1 Day
+  172800   2 Days
+  259200   3 Days
+  345600   4 Days
+  432000   5 Days
+  518400   6 Days
+  604800   1 Week
+ 1209600   2 Weeks
+ 1814400   3 Weeks
+ 2419200   4 Weeks
+ 4838400   2 Months
+ 7257600   3 Months
+ 9676800   4 Months
+12096000   5 Months
+14515200   6 Months
+16934400   7 Months
+19353600   8 Months
+21772800   9 Months
+24192000  10 Months
+26611200  11 Months
+29030400  12 Months
+</pre>
+
+<h4>Hide files in directory browsing</h4>
+<pre>
+IndexIgnore *.gif *.jpg
+IndexIgnore *
+</pre>
+
+<h4>Enable / disable directory browsing</h4>
+<pre>
+Options +Indexes
+</pre>
+<p>-or-</p>
+<pre>
+Options -Indexes
+</pre>
+
+<h4>Customize Error Messages</h4>
+<pre>
+ErrorDocument 403 /forbidden.html
+ErrorDocument 404 /notfound.html
+ErrorDocument 500 /servererror.html
+</pre>
+
+<h4>Change script extensions</h4>
+<pre>
+AddType application/x-httpd-php .myext
+</pre>
+
+<h4>Change Default Page (order is followed)</h4>
+<pre>
+DirectoryIndex somefile.html index.html index.php
+</pre>
+
+<h4>Configure allowed directives in .htaccess files (in main configuration file)</h4>
+<p>AllowOverride [ All | None ] | directive-list ...</p>
+<pre>
+AllowOverride All (AuthConfig, FileInfo, Indexes, Limit, Option)
+</pre>
+
+<h4>Redirect request</h4>
+<p>Redirect [ status ] [ path ] [ url ]</p>
+<pre>
+Redirect oldpage.html /test/newpage.html
+Redirect /olddir http://www.domainname.com/newdir/
+Redirect permanent oldpage.html /test/newpage.html
+Redirect temp oldpage.html newpage.html
+Redirect gone oldpage.html
+</pre>
+
+<h4>Block access from specific IP blocks/Domain</h4>
+<pre>
+&lt;limit GET POST PUT&gt;
+ order deny,allow
+ deny from 1.2.3.4
+ deny from 5.6.7.8
+ deny from .spammers.com
+ allow from all
+&lt;/limit&gt;
+</pre>
+
+<h4>Allow access only from specific IP blocks</h4>
+<pre>
+order deny,allow
+deny from all
+allow from 192.168.0.0/24
+allow from 10.0.
+</pre>
+
+<h4>Enable Gzip – Save Bandwidth</h4>
+<pre>
+&lt;ifmodule mod_deflate.c&gt;
+ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript
+&lt;/ifmodule&gt;
+</pre>
+
+<h4>Set an Expires header and enable Cache-Control</h4>
+<pre>
+&lt;ifmodule mod_expires.c&gt;
+ ExpiresActive On
+ ExpiresDefault "access plus 1 seconds"
+ ExpiresByType text/html "access plus 7200 seconds"
+ ExpiresByType image/gif "access plus 518400 seconds"
+ ExpiresByType image/jpeg "access plus 518400 seconds"
+ ExpiresByType image/png "access plus 518400 seconds"
+ ExpiresByType text/css "access plus 518400 seconds"
+ ExpiresByType text/javascript "access plus 216000 seconds"
+ ExpiresByType application/x-javascript "access plus 216000 seconds"
+&lt;/ifmodule&gt;
+
+&lt;ifmodule mod_headers.c&gt;
+&lt;filesmatch "\.(ico|flv|jpg|jpeg|png|gif|css|swf)$"&gt;
+ Header set Cache-Control "max-age=518400, public"
+&lt;/filesmatch&gt;
+&lt;filesmatch "\.(html|htm)$"&gt;
+ Header set Cache-Control "max-age=7200, private, must-revalidate"
+&lt;/filesmatch&gt;
+&lt;filesmatch "\.(pdf)$"&gt;
+ Header set Cache-Control "max-age=86400, public"
+&lt;/filesmatch&gt;
+&lt;filesmatch "\.(js)$"&gt;
+ Header set Cache-Control "max-age=216000, private"
+&lt;/filesmatch&gt;
+&lt;/ifmodule&gt;
+</pre>
+
+<h4>Block site from specific referrers</h4>
+<pre>
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} badsite\.com [NC]
+RewriteRule .* - [F]
+</pre>
+
+<h4>Block Hot Linking/Bandwidth hogging</h4>
+<pre>
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?mysite.com/.*$ [NC]
+RewriteRule \.(gif|jpg)$ - [F]
+</pre>
+
+<h4>Redirect to domain name without &#039;www&#039; prefix</h4>
+<pre>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+</pre>
+
+<h4>Redirect to domain name with &#039;www&#039; prefix</h4>
+<pre>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^mysite\.com$ [NC]
+RewriteRule ^(.*)$ http://www.mysite.com/$1 [R=301,L]
+</pre>
+

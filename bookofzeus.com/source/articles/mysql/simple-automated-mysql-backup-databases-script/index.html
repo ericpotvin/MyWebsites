@@ -1,0 +1,84 @@
+
+<p>If your site relies on a MySQL database and stores information you can't afford to lose, you definitely need to implement a backup procedure in case, which I don't which, in case of any type of disaster. To save backup, we need to use the "mysqldump" command. mysqldump is a small shell script that make backup (dump) of MySQL Databases.</p>
+
+<h2>First let's create the backup script:</h2>
+<pre>
+vi /path/to/script/mysqlbackup.sh
+</pre>
+
+<p>and add the following code:</p>
+<pre>
+#!/bin/bash
+
+#
+# Config
+#
+
+now=$(date +%Y/%m/%d)
+fileName=$(date +%H-%M)
+
+dbUser=root
+dbPass=
+dbHost=`hostname`
+
+if [ "$1" == "" ]; then
+    dbDatabase="--all-databases"
+else
+    dbDatabase="--databases $1"
+fi
+
+backupFolder="/backup/db/$now/"
+
+#
+# End Config
+#
+
+if [ ! -e "$backupFolder" ]; then
+    mkdir -p "$backupFolder"
+fi
+
+if [ "$dbPass" != "" ]; then
+    dbPass="-p=$dbPass"
+fi
+
+#
+# Functions
+#
+/usr/bin/mysqldump -u$dbUser $dbPass -h$dbHost $dbDatabase | bzip2 &gt; $backupFolder$fileName.bz2
+</pre>
+
+<p>Save the file and exit</p>
+<p>Now let's make that script executable:</p>
+<pre>
+chmod +x /path/to/script/mysqlbackup.sh
+</pre>
+
+<h2>Setup your cronjobs:</h2>
+<pre>
+crontab -e
+</pre>
+
+<p>Add the following information:</p>
+<pre>
+#Daily backup at 00:05
+5 0 * * *  root    /path/to/script/mysqlbackup.sh 'database1' >/dev/null 2>&amp;1
+
+#Weekly backup on sunday at 00:05
+5 0 * * 0  root    /path/to/script/mysqlbackup.sh 'database2 database3' >/dev/null 2>&amp;1
+
+#Monthly backup on the 1st of the month at 00:05
+5 0 1 * *  root    /path/to/script/mysqlbackup.sh >/dev/null 2>&amp;1
+</pre>
+
+<h2>Restore</h2>
+
+<p>To restore a backup, simply unzip it:</p>
+<pre>
+bunzip2 &lt;filename&gt;
+</pre>
+
+<p>and run the following command:</p>
+<pre>
+mysql -uusername -ppassword -hdbserver database &lt; "/path/to/filename.sql"
+</pre>
+					

@@ -1,0 +1,11 @@
+
+<p>Have you ever wondered how to build your iPhone Application full screen? Well here's a quick tips on what to do to make it happen.</p>
+
+<p>In your <code>applicationDidFinishLaunching</code> use this code:</p>
+<pre>
+[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
+</pre>
+
+<p>or if you prefer you can change in your <code>Info.plist</code> set UIStatusBarHidden to true.</p>
+<p class="note">Don't forget if you use background image make sure you set the right size in your .xib file</p>
+

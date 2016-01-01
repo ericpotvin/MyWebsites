@@ -1,0 +1,24 @@
+
+<p>Remember when we use to create custom functions for filtering data input in a web forms?</p>
+
+<p>Well, now we don't have to. Some of them are very intuitive and avoid creating these functions we need to make sure the user won't cheat while filling out a form.</p>
+
+<p>Here's few I personally like and are very useful:</p>
+
+<ul>
+ <li>oncopy</li>
+ <li>onpaste</li>
+ <li>oncut</li>
+</ul>
+
+<h4>Code</h4>
+<pre>
+&lt;input type="text" name="field" oncopy="return false;" maxlength="32" onpaste="return false;" oncut="return false;" size="30" /&gt;
+</pre>
+
+<h4>Demo</h4>
+<p>
+<input type="text" name="field" oncopy="return false;" maxlength="32" onpaste="return false;" oncut="return false;" size="30" />
+</p>
+<p>Easy no? Of course there's more and I won't here list all of them, but before start developing, remember to check if this is not already done for you!</p>
+

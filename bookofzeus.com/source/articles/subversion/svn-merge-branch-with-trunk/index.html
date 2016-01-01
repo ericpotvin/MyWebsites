@@ -1,0 +1,31 @@
+
+<p>Here's a quick article on how to merge your branch to your trunk assuming you already in your working copy (using <code>svn co</code> and your current changes are committed (using <code>svn ci</code>) in your branch.</p>
+
+<h4>Switch to the trunk</h4>
+<pre>
+svn switch ssh://svnserver/myproject/trunk
+</pre>
+
+<h4>Find the revision</h4>
+<p>In the branch directory, run:</p>
+<pre>
+svn log --stop-on-copy
+</pre>
+<p>
+This will display the changes that has been made to the point the branch was created. You will see something like:
+</p>
+<pre>
+rXXXX
+</pre>
+
+<h4>Merging to the trunk</h4>
+<pre>
+svn merge -rXXXX:YYYY ssh://svnserver/branch/myBranch
+</pre>
+<p>This will copy your new code from your working branch for the trunk.</p>
+
+<h4>Committing the changes</h4>
+<pre>
+svn ci -m "MERGE branch to the trunk"
+</pre>
+					

@@ -1,0 +1,53 @@
+
+<p>If your website, do more than just displaying a contact us page and you, have to process data in the background you will need to create cron jobs.</p>
+
+<p>If your cron job accomplish similar tasks or requires the same libraries you will have to include the same files over and over to all your cronjobs ... or use this solution.</p>
+
+<p>Let say you have these cron jobs:</p>
+<pre>
+0 1 * * * php -q /home/user/cron/cron1.php
+20 1 * * * php -q /home/user/cron/cron2.php
+40 1 * * * php -q /home/user/cron/cron3.php
+0 2 * * * php -q /home/user/cron/cron4.php
+</pre>
+
+<p>And each of these cron jobs perform different tasks but use the same libraries like phpmailer, pdf creator, geoip etc...</p>
+
+<p>The idea is simple, separate tasks or commands using parameters:</p>
+
+<pre>
+0 1 * * * php -q /home/user/cron/cron.php --task=task1
+20 1 * * * php -q /home/user/cron/cron.php --task=task2 --filter=cron3
+40 1 * * * php -q /home/user/cron/cron.php --task=task3 --param=cron3
+0 2 * * * php -q /home/user/cron/cron.php --task=task4
+</pre>
+
+<p>In order to accomplish this, the main cronjob file will required the following PHP code:</p>
+<pre>
+function getArguments() {
+  $argument = array();
+  for($i = 1; $i &lt; $_SERVER['argc']; ++$i) {
+    if(preg_match('#--([^=]+)=(.*)#', $_SERVER['argv'][$i], $reg)) {
+      $argument[$reg[1]] = $reg[2];
+    }
+  }
+  return $argument;
+}
+
+$argv = getArguments();
+</pre>
+
+<p>Then in your <code>cron.php</code> simply use this code to separate tasks or commands:</p>
+
+<pre>
+// include libraries
+
+if($argv['task'] == 'task1') {
+  // do task
+}
+elseif($argv['task'] == 'task2') {
+  require('/path/to/cron/task2.php');
+}
+// etc...
+</pre>
+					

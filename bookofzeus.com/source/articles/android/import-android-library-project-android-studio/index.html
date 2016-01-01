@@ -1,0 +1,91 @@
+<p>Common libraries are essential in development. They are very useful and can avoid hours of unwanted development. In a previous article, I talked about how to <a href="http://bookofzeus.com/articles/android/create-android-library-project">create an android library project</a> and why you should create one for your projects.</p>
+
+<p>In this article, I will talk about how to import and use this library in your Android Application Project.</p>
+
+<p>First, let's create a basic application.</p>
+
+<h4>Create an application</h4>
+<p>Start Android Studio and choose <q>Start a new Android Studio project</q>.</p>
+
+<p>Now let's use as <u>Application name</u>: <q>HelloJar</q> and the <u>Company Domain</u>: <q>appdemo</q>.</p>
+
+<p class="note">Click <q>Next</q></p>
+
+<p>Select <q>Phone and Tablet</q> and choose your API level (I use API 15).</p>
+
+<p class="note">Click <q>Next</q></p>
+
+<p>Select <q>Blank Activity</q></p>
+
+<p class="note">Click <q>Next</q></p>
+
+<p>You can customize the <q>Blank Activity</q> settings if you want. For this demo, we will use the default values.</p>
+
+<p class="note">Click <q>Finish</q></p>
+
+<p>The main layout will (or should be) open and you will see the "Hello world!" text in the preview emulator.</p>
+
+
+<h2>Updating the code!</h2>
+
+<p>Let's change this to display: <q>Hello Book of Zeus</q>.</p>
+
+<h4>1) Importing the library</h4>
+<p>First we need to import the .JAR file by copying the library in the <q>libs</q> folder. Make sure you are in the <q>Project</q> view mode (Top left corver of the Project window).</p>
+
+<h4>2) Adding as library</h4>
+<p>Right click on the .JAR file and select the last option <q>Add as library</q>.</p>
+
+<h4>3) Gradle update</h4>
+<p>Gradle should add the library automatically. But just in case open the build.gralde (Module: app) and look under <q>dependencies</q>. You should see something like this:</p>
+<code><pre>
+compile files('libs/MyLibrary.jar')
+</pre></code>
+
+<h4>4) Clean the project</h4>
+<p>Now that the library is added, clean the project (Build -&gt; Clean Project). You should see <q>BUILD SUCCESSFUL</q> in the gradle console.</p>
+
+<h3>Using the library</h3>
+
+<p>To change the text of the TextView object, we will need to make sure the main class (in my case <q>MainActivity</q>) access the TextView.</p>
+
+<p>First, we will need to create an ID to the TextView:</p>
+<code><pre>
+&lt;TextView
+	android:id="@+id/txt_hello"
+	android:text="@string/hello_world"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content" /&gt;
+</pre></code>
+
+<p>Let's modify the "Hello world!" to show, <q>Hello %s!</q> instead!</p>
+
+<p>Open the <q>strings.xml</q> and update the <q>hello_world</q> value to:</p>
+<code><pre>
+&lt;string name="hello_world"&gt;Hello %s!&lt;/string&gt;
+</pre></code>
+
+<p>Then, in the .java file let's use it.</p>
+
+<code><pre>
+TextView mHello = (TextView)findViewById(R.id.txt_hello);
+</pre></code>
+
+<p>Let's now use the library object. Remember the structure of the <q>LibraryDemo</q> class?</p>
+<code><pre>
+LibraryDemo lib = new LibraryDemo();
+CharSequence name = (CharSequence)lib.getSiteName();
+</pre></code>
+
+<p>And set the text to the TextView:</p>
+
+<code><pre>
+mHello.setText(String.format(getString(R.string.hello_world), name));
+</pre></code>
+
+<p class="note">Make sure you import the <q>import com.mylibrary.LibraryDemo;</q> before compiling the application.</p>
+
+<p>Clean and run the project!</p>
+
+<p>Download this project at <a href="https://github.com/BookOfZeus/HelloJar" target="_blank" rel="nofollow">https://github.com/BookOfZeus/HelloJar</a></p>
+

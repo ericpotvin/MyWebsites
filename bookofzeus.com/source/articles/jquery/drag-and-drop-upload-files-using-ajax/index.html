@@ -1,0 +1,227 @@
+<p>Remember when we use to choose a file by clicking on "browse ..."? Then we had to repeat if we need to upload multiple files.</p>
+
+<p>Well, hopefully you want to change that painful process to a modern way and here's a simple solution that will help you.</p>
+
+<p>Here's some benefits using this technique:</p>
+<ul>
+ <li>Drag and Drop</li>
+ <li>Multiple File Uploads</li>
+ <li>Limit the filesize</li>
+ <li>Specify file types</li>
+ <li>Real-time progress indicator</li>
+ <li>Provide instant feedback</li>
+</ul>
+
+<h4>HTML</h4>
+<p>First of all, let's create a simple HTML and put the fancy "drag and drop" area.</p>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+ &lt;head&gt;
+ &lt;title&gt;Drag &amp; Drop Upload&lt;/title&gt;
+ &lt;meta charset="utf-8" /&gt;
+ &lt;script src="jquery-1.7.1.min.js"&gt;&lt;/script&gt;
+ &lt;script src="upload.js"&gt;&lt;/script&gt;
+ &lt;link rel="stylesheet" href="upload.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;Drop file below&lt;/h1&gt;
+
+&lt;div id="error"&gt;&lt;/div&gt;
+
+&lt;section id="uploadBox"&gt;
+	Drop files here!
+&lt;/section&gt;
+
+&lt;section id="uploadStatus"&gt;
+ &lt;div id="progressWrapper"&gt;
+  &lt;div id="progressBar"&gt;&lt;/div&gt;
+  &lt;div id="progressValue"&gt;0%&lt;/span&gt;
+ &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h4>CSS</h4>
+<p>Now, let's make it pretty</p>
+<pre>
+.active {
+  background: #ddd;
+}
+section#uploadStatus {
+  display: none;
+  margin: 20px 0;
+}
+#error {
+  background: #ffbaba;
+  border: 1px solid;
+  color: red;
+  display: none;
+  font: bold 12px verdana;
+  margin: 15px 0px;
+  padding: 5px;
+  width: 400px;  
+}
+#progressWrapper {
+  background: #ddd;
+  -webkit-border-radius: 10px;
+  border-radius: 10px; 
+  padding: 3px;
+  position: relative;
+  width: 400px;
+}
+
+#progressWrapper #progressBar {
+  background-color: #61abed;
+  border-radius: 10px;
+  height: 20px;
+  position: relative;
+  width: 0%;
+}
+#progressWrapper #progressValue{
+  font: bold 12px verdana;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+}
+section#uploadBox {
+  border: 2px dashed #707070;
+  color: #6E6E6E;  
+  height: 70px;
+  padding-top: 50px;
+  text-align: center;
+  width: 400px;
+}
+</pre>
+
+<h4>Javascript/jQuery</h4>
+<p>Now, let's have the javascript code that will do all the work for you.</p>
+
+<pre>
+var maxFileSize = 1048576; //Kb
+
+$(document).ready(function() {
+  if (typeof FormData == "undefined") {
+    $('#error').html('Unable to drop files').fadeIn('fast');
+    $('#uploadBox').hide();
+  }
+  jQuery.event.props.push('dataTransfer');
+
+  $('#uploadBox')
+    .bind('dragenter', function(e) {
+      $(this).addClass("active");
+      e.stopPropagation();
+      e.preventDefault();
+    })
+    .bind('dragleave', function(e) {
+      $(this).removeClass("active");
+      e.stopPropagation();
+      e.preventDefault();
+    })
+    .bind('dragover', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+    })
+    .bind('drop', function(e) {
+      $(this).removeClass("active");
+      e.stopPropagation();
+      e.preventDefault();
+      var files = e.dataTransfer.files;
+
+      var imagetype = /image.*/;
+
+      /* Multiple Uploads */
+      var xhr, provider;
+      var formData = new FormData();
+      var numberFiles = files.length;
+      for(i = 0; i &lt; numberFiles; ++i) {
+        if (!files[i].type.match(imagetype)) {
+          // display some message
+          continue;
+        }
+        if (files[i].size > maxFileSize) {
+          // display some message
+          continue;
+        } 
+        formData.append('uploadedFile[]', files[i]);
+      }
+      $('#error').html('').fadeOut(0);
+
+      $.ajax({
+        cache: false,
+        contentType: false,
+        data: formData,
+        processData: false,
+        url: 'upload.php',
+        type: 'POST',
+        xhr: function() {
+          xhr = jQuery.ajaxSettings.xhr();
+          if (xhr.upload) {
+            $('#uploadStatus').show();
+            xhr.upload.addEventListener('progress', function (e) {
+              var p = parseInt(e.loaded/e.total*100);
+              $('#progressBar').css({'width':p+'%'});
+              $('#progressValue').html(p+'%');
+            }, false);
+          }
+          return xhr;
+        },
+        beforeSend: function() {
+          $('#progressBar').css({'width':'0%'});
+          $('#progressValue').html('0%');
+        }, 
+        success: function(output) {
+          // good to go
+        },
+        error: function() {
+        },
+      });
+    });
+});
+</pre>
+
+<p>Then on your PHP file, you will have to process them and move then to the desired folder. The structure looks like this:</p>
+<pre>
+Array (
+  [uploadedFile] => Array (
+    [name] => Array (
+      [0] => wallpaper1.jpg
+      [1] => fog-wallpaper1920x1080.jpg
+    )
+    [type] => Array (
+      [0] => image/jpeg
+      [1] => image/jpeg
+    )
+    [tmp_name] => Array (
+      [0] => /tmp/phpAX0VFl
+      [1] => /tmp/phpMusPc0
+    )
+    [error] => Array (
+      [0] => 0
+      [1] => 0
+    )
+    [size] => Array (
+      [0] => 651673
+      [1] => 482223
+    )
+  )
+)
+</pre>
+
+<h4>PHP</h4>
+
+<pre>
+&lt;?php
+define('UPLOAD_DIR', '/tmp/test/');
+
+foreach ($_FILES['uploadedFile']['name'] as $key => $value)
+{
+  if ($_FILES['uploadedFile']['error'][$key] == UPLOAD_ERR_OK) {
+    $result = move_uploaded_file($_FILES['uploadedFile']['tmp_name'][$key], UPLOAD_DIR . '/' . $_FILES['uploadedFile']['name'][$key]);
+    // do what ever you need!
+  }
+}
+</pre>

@@ -1,0 +1,79 @@
+
+<p>Postcard are very popular for birthday, holidays or simply say something nice to someone we like.</p>
+<p>Many website allows you to send a postcard to your friend of family member but at what price?</p>
+<p>Some sites requires the name and the email of the recipient and also yours as well! When you read carefully their terms and conditions, you can read something like:</p>
+<p class="note">By sending a postcard, we (the website) allow to send unsolicited emails, bulk mail, spam or other materials to users of the site or any other individual or entity.</p>
+<p>or</p>
+<p class="note">your Email will be provided or sent at a third party.</p>
+<p>Here's a quick PHP script that will allow to create your own custom postcard without all the spams.</p>
+
+<h4>Requirement:</h4>
+<p>This script requires some files:</p>
+<ul>
+ <li>The font: <a href="/download/otto.ttf" title="otto.ttf font">otto.ttf</a></li>
+ <li>The base template image: <a href="http://www.bookofzeus.com/download/postcard-template.jpg" title="postcard-template.jpg" class="nw">postcard-template.jpg</a></li>
+ <li>A sample image: <a href="http://www.bookofzeus.com/download/paris.jpg" title="paris.jpg font" class="nw">paris.jpg</a></li>
+</ul>
+
+<h4>The Code:</h4>
+<pre>
+
+$sourceImage = '/path/to/postcard-template.jpg';
+$uploadedImage = '/path/to/paris.jpg';
+$mime = '';
+$font = '/path/to/otto.ttf';
+$message = "Trip To Paris!\namazing!!\nsee you soon, love\nxxx";
+
+function CroppedThumbnail($source, $width, $height, &amp;$mime) {
+  $data = getimagesize($source);
+  $sourceWidth = $data[0];
+  $sourceHeight = $data[1];
+  $mime = $data['mime'];
+  $image = imagecreatefromjpeg($source);
+  $sourceRatio = $sourceWidth/$sourceHeight;
+  if (($width/$height) > $sourceRatio) {
+    $newHeight = $width/$sourceRatio;
+    $newWidth = $width;
+  }
+  else {
+    $newWidth = $height*$sourceRatio;
+    $newHeight = $height;
+  }
+  $croppedImage = imagecreatetruecolor(round($newWidth), round($newHeight));
+  imagecopyresampled($croppedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $sourceWidth, $sourceHeight);
+  $thumb = imagecreatetruecolor($width, $height);
+  imagecopyresampled($thumb, $croppedImage, 0, 0, (($newWidth/2)-($width/2)), (($newHeight/2)-($height/2)), $width, $height, $width, $height);
+  imagedestroy($croppedImage);
+  imagedestroy($image);
+  return $thumb;
+}
+
+// Create the cropped image first
+$newThumb = CroppedThumbnail($uploadedImage,240,315, $mime);
+switch($mime) {
+  case 'image/gif':
+    $image = imagecreatefromgif($sourceImage);
+    break;
+  case 'image/jpeg':
+    $image = imagecreatefromjpeg($sourceImage);
+    break;
+  case 'image/png':
+    $image = imagecreatefrompng($sourceImage);
+    break;
+  default:
+    // error or stop script
+    break;
+}
+
+imagettftext($image, 40, -1, 320, 180, imagecolorallocate($image, 50, 50, 50), $font, $message);
+imagecopy($image, $newThumb, 30, 40, 0, 0, 240, 315);
+header('Content-Type: image/jpeg');
+imagejpeg($image);
+imagedestroy($image);
+</pre>
+
+<h4>Result:</h4>
+	<p>This will output something like:
+	<img src="http://www.bookofzeus.com/download/postcard.jpg" alt="postcard final" width="640" height="406" class="autofit" />
+</p>
+	

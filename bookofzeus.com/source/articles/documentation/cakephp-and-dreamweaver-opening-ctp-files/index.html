@@ -1,0 +1,29 @@
+<p>I have been working with some web designers recently who do not have a lot of PHP coding experience, but fully understand HTML and CSS in code view using Dreamweaver. So, to help them transition projects to using PHP, or more to the point using the CakePHP framework, I have been making preparations to move in that direction.</p>
+<p>The hurdle, after setting up the base site using the framework, was to get .ctp files rendering in Dreamweaver. (Their editor of choice.)  Initially Dreamweaver does not understand what the ctp file extension is, and how should it syntax highlight the code.  So we help Dreamweaver out by editing a few of its configuration files. (Note: I only have Dreamweaver CS3, otherwise known as version 9, so I am not sure how it affects later versions of Dreamweaver.  Hopefully future versions of Dreamweaver may already understand the ctp file extension.)</p>
+<p><span class="bold">First</span>, we edit a Dreamweaver base configuration file located at <code>"C:\Program Files\Adobe\Adobe Dreamweaver CS3\configuration\Extensions.txt"</code> and alter 2 lines by adding the CTP file extension as follows:</p>
+
+<pre>
+...,INC,JAVA,EDML,MASTER,CTP:All Documents
+</pre>
+
+<p>The very first line should look as above at the end.</p>
+<pre>
+PHP,PHP3,PHP4,PHP5,TPL,CTP:PHP Files
+</pre>
+
+<p>The PHP Files line, which was line 16 for me, should look as above.</p>
+
+<p><span class="bold">Second</span>, we do the exact same thing to the user configuration file located at <code>"C:\Documents and Settings\{user}\Application Data\Adobe\Dreamweaver 9\Configuration\Extensions.txt"</code>. I am not sure why we need to edit the same file in both locations, but that is what is required. (One would think that editing the user configuration file would be enough since it should cascade over the base configuration, but it does not work that way.)</p>
+
+<p>For Windows 7, there is an additional file that needs to be updated the same way at <code>"C:\Users\\AppData\Roaming\Adobe\Dreamweaver 9\Configuration\Extensions.txt"</code>. (Note: For later versions of Dreamweaver there is another folder level under Configuration called "en_US" that contains the Extensions.txt file.)</p>
+
+<p>Fourth, we now need to push Dreamweaver to what type of file ctp is, and how should it be rendered. We do this by editing another configuration file located at <code>"C:\Program Files\Adobe\Adobe Dreamweaver CS3\configuration\DocumentTypes\MMDocumentTypes.xml"</code>. What we are looking for is around the 75th line where it reads <code>"servermodel=PHP MySQL"</code>.</p>
+
+<pre>
+winfileextension="php,php3,php4,php5,ctp"
+macfileextension="php,php3,php4,php5.ctp"
+</pre>
+
+<p>Add the ctp extension to the comma separated list as shown above.</p>
+<p>Your done! But first you must check one more thing. After you start Dreamweaver, open the "Edit->Preferences" and look at the "File Types/Editors". Make sure that ".ctp" is not in the list to "Open in code view", otherwise Dreamweaver will not allow you to use Design View with ctp files. (Note: Design View is not truly useful since Dreamweaver will still not use the Layout file. But you can still assign "Design Time" styles to render views.)</p>
+

@@ -1,0 +1,55 @@
+<script type="text/javascript">
+$(document).ready(function() { 
+    var size = $('#container').css('font-size'); 
+    $("#resetFont").click(function(){ 
+        $('#container').css('font-size', size);
+        return false; 
+    });
+    $("#increaseFont").click(function() { 
+        var size = $('#container').css('font-size');
+        $('#container').css('font-size', parseInt(size)+2); 
+        return false;
+    });
+    $("#decreaseFont").click(function() { 
+        var size = $('#container').css('font-size');
+        $('#container').css('font-size', parseInt(size)-2); 
+        return false;
+    }); 
+});
+</script>
+
+<p>Many older or visually impaired users will appreciate you leaving them the ability to change font sizes as they wish without ruining the layout of your site.This Web standard compliance can be easily made using jQuery with minimal coding.</p>
+
+<p>Here's the jQuery Code:</p>
+
+<pre>
+$(document).ready(function() { 
+    var size = $('#container').css('font-size'); 
+    $("#resetFont").click(function(){ 
+        $('#container').css('font-size', size);
+        return false; 
+    });
+    $("#increaseFont").click(function() { 
+        var size = $('#container').css('font-size');
+        $('#container').css('font-size', parseInt(size)+2); 
+        return false;
+    });
+    $("#decreaseFont").click(function() { 
+        var size = $('#container').css('font-size');
+        $('#container').css('font-size', parseInt(size)-2); 
+        return false;
+    }); 
+}); 
+</pre>
+
+<p>HTML Code:</p>
+<pre>
+&lt;a id="increaseFont"&gt;Increase Font&lt;/a&gt;
+&lt;a id="decreaseFont"&gt;Decrease Font&lt;/a&gt;
+&lt;a id="resetFont"&gt; Reset &lt;/a&gt;
+
+&lt;div id="container"&gt;
+   Here's some text
+&lt;/div&gt;
+</pre>
+

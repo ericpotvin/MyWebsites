@@ -1,0 +1,106 @@
+
+<p>Cron jobs are very useful for data summarization or processing data that requires time to execute. Logging these jobs are important and without them it might be hard to find out if they ran properly. These jobs might sometimes crash or unexpectedly stop running. Under these circumstance, it might be hard to find out where the script stopped and what was processed.</p>
+
+<p>Here's a simple way to implement a way to find out what happen if a cron job fail using the sig_handler PHP function.</p>
+
+<pre>
+ignore_user_abort(false);
+
+function shutdown() {
+  echo "shutdown function\n";
+}
+register_shutdown_function('shutdown');
+
+class shutdown {
+  function __construct() {
+    echo "shutdown::construct\n";
+  }
+  function __destruct() {
+    echo "shutdown::destruct\n";
+  }
+}
+
+$s = new shutdown();
+
+declare(ticks = 1);
+
+function sig_handler($signo) {
+
+  switch ($signo) {
+    case SIGTERM:
+      echo "SIG: handle shutdown tasks\n";
+      break;
+    case SIGHUP:
+      echo "SIG: handle restart tasks\n";
+      break;
+    case SIGUSR1:
+      echo "SIG: Caught SIGUSR1\n";
+      break;
+    case SIGINT:
+      echo "SIG: Caught CTRL+C\n";
+      break;
+    default:
+      echo "SIG: handle all other signals\n";
+      break;
+  }
+  return;
+}
+
+echo "Installing signal handler...\n";
+
+pcntl_signal(SIGTERM, "sig_handler");
+pcntl_signal(SIGHUP,  "sig_handler");
+pcntl_signal(SIGUSR1, "sig_handler");
+pcntl_signal(SIGINT, "sig_handler");
+
+echo "Generating signal SIGTERM to self...\n";
+</pre>
+
+<h4>Killing the script using bad memory allocation</h4>
+<pre>
+ini_set('memory_limit', '1K');
+$data = '';
+for($i = 0; $i &lt; 1000; $i++) {
+  $data .= str_repeat($i . time(), time());
+}
+</pre>
+
+
+<h4>Simulating CTRL+C</h4>
+<pre>
+// don't forget to press CTRL+C
+for($i = 0; $i &lt; 100000000; $i++) {  }
+</pre>
+
+
+<p>if the cronjob runs normally you will get:</p>
+<pre>
+shutdown::construct
+Installing signal handler...
+Generating signal SIGTERM to self...
+Done
+shutdown function
+shutdown::destruct
+</pre>
+
+<p>if you get a Fatal error:</p>
+<pre>
+shutdown::construct
+Installing signal handler...
+Generating signal SIGTERM to self...
+PHP Fatal error:  Possible integer overflow in memory allocation (11 * 1321404273 + 1) in /path/to/cron/script.php on line 51
+shutdown function
+</pre>
+
+<p>if you kill the process:</p>
+<pre>
+kill &lt;processid&gt;
+shutdown::construct
+Installing signal handler...
+Generating signal SIGTERM to self...
+SIG: handle shutdown tasks
+Done
+shutdown function
+shutdown::destruct
+</pre>
+

@@ -1,0 +1,37 @@
+
+<p>The "mail" command is commonly use to send email from the console without attachment. Here's a simple example of sending an email to "someone@domain.com" using "subject of the email" as the subject:</p>
+
+<pre>
+echo 'some message' | mail -s 'subject of the email' someone@domain.com
+</pre>
+
+<p>Let's CC someone else:</p>
+<pre>
+echo 'some message' | mail -s 'subject of the email' -c someoneelse@domain.com someone@domain.com
+</pre>
+
+<p>Now let's BCC someone else:</p>
+<pre>
+echo 'some message' | mail -s 'subject of the email' -c someoneelse@domain.com -b someoneimportant@domain.com someone@domain.com
+</pre>
+
+<p>If you already have your message save in a text file, you can use the following syntax:</p>
+<pre>
+mail -s 'subject' someone@domain.com &lt; /tmp/messagePlease
+</pre>
+
+<h2>Sending email with attachment from the shell</h2>
+
+<p>If you are looking to send email with attachment from the shell prompt, you will need to use the "mutt" tool. Mutt is a powerful text based program for reading electronic mail under Linux. Mutt requires a valid email server and a working mail transfer agent (sendmail, postfix) installed in order to successfully send emails.</p>
+<p>First, let's install mutt (if it's not installed)</p>
+<pre>
+sudo aptitude install mutt
+</pre>
+
+<p>Use the following syntax to send an email with an attachment:</p>
+<pre>
+echo "some message" | mutt -s "subject of the email" -a /home/user/my-file.bzip someone@domain.com
+</pre>
+
+<p class="note">The same parameters are used in mutt to CC or BCC someone.</p>
+

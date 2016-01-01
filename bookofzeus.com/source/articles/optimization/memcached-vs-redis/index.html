@@ -1,0 +1,58 @@
+
+<h4>What is Memcached?</h4>
+
+<p>Free and open source, high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.</p>
+
+<p>Memcached is an in-memory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.</p>
+
+<p>Memcached is simple yet powerful. Its simple design promotes quick deployment, ease of development, and solves many problems facing large data caches. Its API is available for most popular languages.</p>
+
+<h4>What is Redis?</h4>
+<p>Redis is an open source, BSD licensed, advanced key-value store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets.</p>
+
+<hr>
+
+<p>They seem similar but, in fact, they are different.</p>
+
+<p>Memcached and Redis are both key/value storage system. Both of these system handle data directly in memory (RAM).
+
+<h4>Storage type</h4>
+
+<p>Memcached stores variables in it's memory. Which mean, it retreive any information directly from the servers memory. Redis on the other than, is like a database that resides in memory. It executes (read and write) a key/value pair from its database to return the resultset. All data resides in memory.</p>
+
+<h4>Read/Write</h4>
+
+<p>Memcached is very good to handle high traffic websites. It can read lots of information at a time and give you back a great response time (lower the better). Redis can also handle high traffic on read but also can handle heavy writes as well.</p>
+
+<h4>Data Structure</h4>
+
+<p>Memcached uses string and integer as data structure. Everything you save can be either one or the other. With integer, the only data manipulation you can do is adding or subtracting them. If you need to save arrays or objects, you will have to serialize them first and then save them. To read them back, you will need to unserialize.</p>
+
+<p>Redis has a stronger data structures. It can handle strings, integer as well but also can handle binary-safe strings, lists of binary-safe strings, sets of binary-safe strings and sorted sets.</p>
+
+<h4>Persistent</h4>
+
+<p>If you are using Memcached and you restarts the server or the server crash, none of the data you saved will be available. You will have to start all over.</p>
+
+<p>Redis, on the other than, can handle persistent data. At any time if you want to save/store the data, you simply have to tell to the server to save it and that's it!
+
+<h4>Installation/Configuration:</h4>
+
+<p>Both of these system are easy to install. The only difference is Redis provides a bit more configuration options if you need to optimize.</p>
+
+<h4>Simplicity</h4>
+
+<p>If you simply want to save a key/value pair or you don't really care about losing data in case of a server crash, Memcached if more memory efficient.</p>
+
+<h4>Key Length</h4>
+
+<p>Memcached key length has a maximum of 250 bytes whereas Redis key length has a maximum of 2 GiB.
+
+<h4>Security</h4>
+
+<p>There is no security built into Memcached nor Redis. Both of these systems needs to be accessed by trusted clients inside trusted environments.</p>
+
+<h4>Replication</h4>
+
+<p>Memcached does not supports replication. Redis supports replication using a master and multiple slaves.</p>
+

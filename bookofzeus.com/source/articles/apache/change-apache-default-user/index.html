@@ -1,0 +1,37 @@
+<p>It is a pain to always sudo to change permissions on a folder your script or web page created? If yes, then here's a quick solution for you. With <a href="/category/apache/" title="apache category">apache</a>, you can (very) easily fix this issue and set the current user (whoami). This will basically change the <q>www-data</q> to the one you prefer.</p>
+
+<p>First, you need to edit the <q>envvars</q> file:
+<pre>
+sudo vi /etc/apache2/envvars
+</pre>
+
+<p>and change the <q>APACHE_RUN_USER and APACHE_RUN_GROUP</q> to your user.</p>
+
+<pre>
+export APACHE_RUN_USER=MyUserName
+export APACHE_RUN_GROUP=MyUserName
+</pre>
+
+<p>Now, restart apache:</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>If you get an error like this:</p>
+
+<pre>
+ * Restarting web server apache2       ... waiting /var/lock/apache2 already exists but is not a directory owned by <q>user</q>.
+Please fix manually. Aborting.
+</pre>
+
+<p>Don't panic, and change the permission to the apache locks and restart apache:</p>
+
+<pre>
+sudo chown -R myuser:myuser /var/lock/apache2/
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>Now you will see:</p>
+<pre>
+ * Restarting web server apache2  [ OK ]
+</pre>

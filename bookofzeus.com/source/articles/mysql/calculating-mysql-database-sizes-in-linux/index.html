@@ -1,0 +1,73 @@
+
+<p>Checking regularly if you still have space left on your hard drive(s) is a mandatory procedure and can be painful if this procedure is done manually. To create an automated script that sends email (for example) to someone telling how much space the web folder, how big is the database or how much space left on the hard drive can be very useful.</p>
+
+<p class="note">Run this as sudo or any user that has access to all the folder listed</p>
+
+<h4>MySQL Disk Usage:</h4>
+<p>List of Databases disk usage (without the table definition - so data and index data) assuming the path of the MySQL data folder is: <code>/var/lib/mysql</code></p>
+<pre>
+MyDatabase=`ls -l /var/lib/mysql/mydb/ | grep -v '.frm' | awk 'BEGIN { sum = 0 } { sum += $5 } END { print sum }'`
+MyDatabase2=`ls -l /var/lib/mysql/mydb2/ | grep -v '.frm' | awk 'BEGIN { sum = 0 } { sum += $5 } END { print sum }'`
+# etc...
+</pre>
+
+<p class="note">You can ommit the "grep -v '.frm'" if you want full database sizes (table definition, indexes and data)</p>
+<p>Now the total:</p>
+<pre>
+let sumDB=$MyDatabase+$MyDatabase2
+</pre>
+<p>or (if you include the .frm file)</p>
+<pre>
+sumDB=`du -sPb /var/lib/mysql/ | awk '{print $1}'`
+</pre>
+
+<h4>WWW Data Disk Usage:</h4>
+<p>List of the WWw data folder assuming the path of the WWW folder is: /var/www/</p>
+<pre>
+sumWWW=`du -sPb /var/www/ | awk '{print $1}'`
+</pre>
+
+<h4>Total Disk Usage:</h4>
+<pre>
+let sum=$TotalMysql+$sumWWW
+</pre>
+
+<h4>Space left on the disk:</h4>
+<pre>
+SpaceLeft=`df | egrep '^/dev/sda1' | awk '{print $4}'`
+</pre>
+
+<h4>Build the report</h4>
+<pre>
+Message="\nDisk usage (in bytes) @ `date`\nMySQL database - MyDatabase : $MyDatabase\nTotal MySQL: $TotalMysql\n\nWWW data: $sumWWW\n\nTota  l: $sum\n\nSpace Left: $SpaceLeft"
+</pre>
+
+<h4>Send it</h4>
+<pre>
+echo -e $Message | mail -s "Disk Usage" "admin@domain.com"
+</pre>
+
+
+<h3>Here's the full script:</h3>
+<pre>
+#!/bin/bash
+
+MyDatabase=`ls -l /var/lib/mysql/mydb/ | grep -v '.frm' | awk 'BEGIN { sum = 0 } { sum += $5 } END { print sum }'`
+MyDatabase2=`ls -l /var/lib/mysql/mydb2/ | grep -v '.frm' | awk 'BEGIN { sum = 0 } { sum += $5 } END { print sum }'`
+
+let sumDB=$MyDatabase+$MyDatabase2
+#or
+#sumDB=`du -sPb /var/lib/mysql/ | awk '{print $1}'`
+
+sumWWW=`du -sPb /var/www/ | awk '{print $1}'`
+let sum=$TotalMysql+$sumWWW
+
+SpaceLeft=`df | egrep '^/dev/sda1' | awk '{print $4}'`
+
+Message="\nDisk usage (in bytes) @ `date`\nMySQL database - MyDatabase : $MyDatabase\nTotal MySQL: $TotalMysql\n\nWWW data: $sumWWW\n\nTota  l: $sum\n\nSpace Left: $SpaceLeft"
+echo -e $Message | mail -s "Disk Usage" "admin@domain.com"
+
+</pre>
+
+<p>Make sure the script is executable and you are done!</p>
+

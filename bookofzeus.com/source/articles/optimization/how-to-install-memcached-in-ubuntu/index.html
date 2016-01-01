@@ -1,0 +1,52 @@
+
+<h4>What is MemCached?</h4>
+<p>"MemCached is a high-performance, distributed memory object caching system, generic in nature, but originally intended for use in speeding up dynamic web applications by alleviating database load."</p>
+
+<p>Basically, it means it save and retrieve data in the server memory. This is typically used to remove the loads on the database server.</p>
+
+<p>The logic of MemCached is very simple:</p>
+<ul>
+ <li>You verify if MemCached has the data you need, if so you simply use it.</li>
+ <li>if not, you save the data into MemCached and then use it.</li>
+</ul>
+
+<p>run the following command to install memcached:</p>
+<pre>
+sudo aptitude install memcached
+</pre>
+
+<p>If you want to change the default settings, simply create the file and update the configuration.</p>
+<p>First, create memcached configuration file:</p>
+<pre>
+vi /etc/memcached.conf
+</pre>
+
+<p>Then, change the settings:</p>
+<pre>
+# Memory a usage in Mb
+-m 16
+# default port
+-p 11211
+# user to run daemon nobody/apache/www-data or else
+-u nobody
+# only listen locally
+-l 127.0.0.1
+</pre>
+
+<p>Save and quit the file. Once this is complete, don't forget to restart the daemon:</p>
+<pre>
+sudo /etc/init.d/memcached restart
+</pre>
+
+<p>Now lets install for php</p>
+<pre>
+sudo aptitude install php5-memcached
+</pre>
+
+<p>Restart both services:</p>
+<pre>
+sudo /etc/init.d/memcached restart ; sudo /etc/init.d/apache2 restart
+</pre>
+
+<p>If you would like additional information about MemCached please visit: http://memcached.org/</p>
+

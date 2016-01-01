@@ -1,0 +1,132 @@
+<p>Using the classic "alert" or "confirm" are not deprecated but are not just attractive anymore. Web 2.0 brought us a new way to make websites and messages more attractive to the user. </p>
+<p>In response to this, here's a quick way to make all your modal windows as pretty as possible using jQuery and CSS3.</p>
+
+<h4>HTML Code</h4>
+<pre>
+&lt;span class="modal info" title="Some information"&gt;info&lt;/span&gt;
+&lt;br /&gt;
+&lt;span class="modal confirm" title="Are you sure you want to delete this record?"&gt;confirm&lt;/span&gt;
+
+&lt;div id="modalWrapper"&gt;&lt;/div&gt;
+&lt;div id="modalBox"&gt;
+&lt;div class="modalContent"&gt;
+  &lt;div id="modalMessage"&gt;&lt;/div&gt;
+  &lt;div id="modalAction"&gt;
+    &lt;span class="button" id="buttonSubmit"&gt;Yes&lt;/span&gt;
+    &lt;span class="button" id="buttonCancel"&gt;No&lt;/span&gt;
+    &lt;span class="button" id="buttonClose"&gt;Close&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<h4>CSS Code</h4>
+<pre>
+#modalWrapper {
+  width:100%;
+  height:100%;
+  background:#B2AF9E;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:3000;
+  display:none;
+  filter:alpha(opacity=80);
+  -moz-opacity:0.8;
+  -khtml-opacity: 0.8;
+  opacity: 0.8;
+}
+#modalBox {
+  width:500px;
+  background:#E7E3DA;
+  position:absolute;
+  z-index:5000;
+  display:none;
+  -webkit-box-shadow: 4px 4px 10px #422A20;
+  -moz-box-shadow: 4px 4px 10px #422A20;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+#modalBox .modalContent {
+  text-align:left;
+  padding:10px;
+  margin:10px;
+  color:#333;
+  font: normal 12px Tahoma;
+}
+#modalBox #modalAction {
+  text-align:center;
+}
+#modalBox #modalMessage {
+  display: block;
+  margin: 5px 0 25px 0;
+  clear: both;
+}
+span.button {
+  width:60px;
+  background-color: #422A20;
+  color: #fff;
+  margin: 0 10px;
+  padding: 5px 15px;
+  text-align:center;
+  text-decoration: none;
+  font: bold 12px Tahoma;
+  cursor: pointer;
+  -moz-border-radius: 6px;
+  -webkit-border-radius:6px;
+  text-shadow: 0 1px 1px #000;
+  -moz-box-shadow: 0 1px 3px #000;
+  -webkit-box-shadow: 0 1px 3px #000);
+}
+span.button:hover {
+  background: #EC7517;
+}
+span#buttonCancel {
+  background: #BE9E84;
+}
+span#buttonCancel:hover {
+  background: #aaa;
+}
+</pre>
+
+<h4>JavaScript Code</h4>
+<pre>
+$(document).ready(function () {
+  $('#buttonClose, #modalWrapper, #buttonCancel').click(function () {
+    $('#modalWrapper, #modalBox').fadeOut('fast');
+    return false;
+  });
+  $('#buttonSubmit').click(function() {
+    alert('You clicked "Yes"');
+    $('#modalWrapper, #modalBox').fadeOut('fast');
+    return false;
+  });
+  $('.modal').click(function() {
+    popup($(this));
+  });
+});
+
+function popup(element) {
+  var type = 'info';
+  var message = element.attr('title');
+  if(element.hasClass('confirm')) {
+    $('#buttonSubmit').show();
+    $('#buttonCancel').show();
+    $('#buttonClose').hide();
+  }
+  else {
+    $('#buttonSubmit').hide();
+    $('#buttonCancel').hide();
+    $('#buttonClose').show();
+  }
+  var maskHeight = $(document).height();
+  var maskWidth = $(window).width();
+  var modalTop =  (maskHeight/3) - ($('#modalBox').height());
+  var modalLeft = (maskWidth/2) - ($('#modalBox').width()/2);
+  $('#modalWrapper').css({ 'height':maskHeight + 'px', 'width':maskWidth + 'px' }).fadeIn(200, function() {
+    $('#modalMessage').html(message);
+    $('#modalBox').css({ 'top':modalTop + 'px', 'left':modalLeft + 'px' }).fadeIn(100);
+  });
+}
+</pre>
+<p>Now you have an elegant way to show messages or confirmation dialog to the user.</p>

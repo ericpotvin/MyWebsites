@@ -1,0 +1,110 @@
+
+<p>Regular expressions are a very powerful when you want to validate user inputs. They can find any kind of words or characters and identify errors very accurately. Although, because they are very worthy, they are sometimes quite hard to use.</p>
+<p>Here's some quick basics about regular expressions:</p>
+
+<h4>Operators</h4>
+<ul class="none">
+	<li><code>&#094;</code> The circumflex symbol marks the beginning of a pattern, although in some cases it can be omitted;</li>
+	<li><code>&#036;</code> Same as with the circumflex symbol, the dollar sign marks the end of a search pattern;</li>
+	<li><code>.</code> The period matches any single character;</li>
+	<li><code>?</code> It will match the preceding pattern zero or one times;</li>
+	<li><code>+</code> It will match the preceding pattern one or more times;</li>
+	<li><code>*</code> It will match the preceding pattern zero or more times;</li>
+	<li><code>&#124;</code> Boolean OR;</li>
+	<li><code>-</code> Matches a range of elements;</li>
+	<li><code>()</code> Groups a different pattern elements together;</li>
+	<li><code>&#091;&#093;</code> Matches any single character between the square brackets;</li>
+	<li><code>&#123;min, max&#125;</code> It is used to match exact character counts;</li>
+	<li><code>\d</code> Matches any single digit;</li>
+	<li><code>\D</code> Matches any single non digit character;</li>
+	<li><code>\w</code> Matches any alpha numeric character including underscore;</li>
+	<li><code>\W</code> Matches any non alpha numeric character excluding the underscore character;</li>
+	<li><code>\s</code> Matches whitespace character;</li>
+</ul>
+ 	
+<h4>Pattern Modifiers</h4>
+<ul class="none">
+	<li><code>i</code> Ignore case;</li>
+	<li><code>m</code> Multi-line mode;</li>
+	<li><code>S</code> Extra analysis of pattern;</li>
+	<li><code>u</code> Pattern is treated as UTF-8;</li>
+</ul>
+
+<h4>Regular Expression Matches</h4>
+<ul class="none">
+	<li><code>ab</code> Match if "ab" is present anywhere in the string;</li>
+	<li><code>^ab</code> Match if "ab" is present at the beginning of the string;</li>
+	<li><code>ab$</code> Match if "ab" is present at the end of the string;</li>
+	<li><code>ab/i</code> Makes a search in case insensitive mode;</li>
+	<li><code>^ab$</code> The string contains only the "ab";</li>
+	<li><code>ab*</code> Matches a string that has at least "a" and zero or more "b". eg: "a", "ab", "abbb", etc.;</li>
+	<li><code>ab+</code> Matches a string that has at least "a" and at least one "b". eg: "ab", "abbb", etc.;</li>
+	<li><code>ab?</code> There might be an "a", "b" or not;</li>
+	<li><code>a?b+$</code> A possible "a" followed by one or more "b" ending a string;</li>
+	<li><code>ab{2}</code> Matches a string that has an "a" followed by exactly two "b". eg: "abb";</li>
+	<li><code>ab{2,}</code> Matches a string that has an "a" and at least two "b". eg: "abb", "abbbb", etc.;</li>
+	<li><code>ab{3,5}</code> Matches a string that has an "a" and from three to five "b" ("abbb", "abbbb", etc.);</li>
+	<li><code>ab(cde)*</code> There is 0 or more "cde" after "ab";</li>
+	<li><code>ab&#124;cde</code> The string contains the "ab" or the "cde";</li>
+	<li><code>a.cde</code> Any character in place of the dot;</li>
+	<li><code>^.{5}$</code> A string with exactly 5 characters;</li>
+	<li><code>&#091;abc&#093;</code> There is an "a" or "b" or "c" in the string;</li>
+	<li><code>&#091;a-z&#093;</code> There are any lowercase letter in the string;</li>
+	<li><code>&#091;a-z&#093;+</code> One or more lowercase letters;</li>
+	<li><code>&#091;a-zA-Z&#093;</code> There are any lower OR uppercase letter in the string;</li>
+	<li><code>(a&#124;bc)de</code> A string that has either "ade" or "bcde";</li>
+	<li><code>&#091;0-9.-&#093;</code> Numbers, dot, or minus sign;</li>
+	<li><code>^&#091;a-zA-Z0-9_&#093;{1,}$</code> Any word of at least one letter, number or _ at the beginning of a string;</li>
+	<li><code>&#091;^A-Za-z0-9&#093;</code> Any symbol (not a number or a letter);</li>
+	<li><code>(&#091;A-Z&#093;{3}&#124;[0-9&#093;{4})</code> Matches 3 letters OR 4 numbers;</li>
+</ul>
+ 	
+
+<p>Let's see some examples:</p>
+<pre>
+
+define('REGEX_EMAIL', '/^&#091;^\W&#093;&#091;a-zA-Z0-9_-&#093;+(\.&#091;a-zA-Z0-9_-&#093;+)*\@&#091;a-zA-Z0-9-&#093;+(\.&#091;a-zA-Z0-9-&#093;+)*\.&#091;a-zA-Z&#093;&#123;2,6&#125;$/');
+define('REGEX_DOMAIN', '/^((&#091;a-zA-Z0-9-&#093;+)\.?)(&#091;a-zA-Z0-9-&#093;+)\.((&#091;a-zA-Z&#093;&#123;2,6&#125;)|(&#091;a-zA-Z&#093;&#123;2,3&#125;\.&#091;a-zA-Z&#093;&#123;2&#125;))$/');
+
+function isEmail($e) &#123;
+  return (bool)preg_match(REGEX_EMAIL, $e);
+&#125;
+
+function isDomain($d) &#123;
+  return (bool)preg_match(REGEX_DOMAIN, $d);
+&#125;
+
+function highlightWords($str, $word) &#123;
+  return preg_replace('/\b(' . $word . ')\b/i', '&lt;span class="bold"&gt;\1&lt;/span&gt;', $str);
+&#125;
+
+function validateAlpha($str) &#123;
+  return (bool)preg_match('/^&#091;A-Za-z0-9_\-\ &#093;+$/', $str);
+&#125;
+
+// Valid Email:
+var_dump(isEmail('john.doe@domain.tld')); // will output: bool(true)
+var_dump(isEmail('john_doe@do.main.tld')); // will output: bool(true)
+var_dump(isEmail('john-doe@do-main.tld')); // will output: bool(true)
+var_dump(isEmail('john@doe.main.tld')); // will output: bool(true)
+
+// Invalid Email:
+var_dump(isEmail('john@doe')); // will output: bool(false)
+
+// Domain
+var_dump(isDomain('domain.com')); // will output: bool(true)
+var_dump(isDomain('sub.domain.com')); // will output: bool(true)
+var_dump(isDomain('domain.co.uk')); // will output: bool(true)
+var_dump(isDomain('www.domain.co.uk')); // will output: bool(true)
+
+// Invalid Domain:
+var_dump(isEmail('johndoe.')); // will output: bool(false)
+
+// HighLight words
+echo highlightWords('Hi John, How are you?', 'John'); // will output: Hi &lt;span class="bold"&gt;John&lt;/span&gt;, How are you?
+
+// Validate letters, numbers
+var_dump(validateAlpha('abc123')); // will output: bool(true)
+var_dump(validateAlpha('0a.8@')); // will output: bool(false)
+</pre>
+

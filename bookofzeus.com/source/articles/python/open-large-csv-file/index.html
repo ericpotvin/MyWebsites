@@ -1,0 +1,58 @@
+
+<p>Opening large CSV files can be sometimes hard to do. All development languages can import or read CSV files but it might requires some coding or huge memory allocation.</p>
+
+<p>This is why I love Python! I had to parse a very bad formated 5.6 Gig CSV file. For this article I will not put the 5.6 Gig file but instead, here's what we will work with.</p>
+
+<pre>
+first_name,last_name,phone,address,city,zip,first_appearance
+Clark,Kent,2195550001,"344 Clinton Street, Apartment 3D",Metropolis,11111,"April 18, 1938"
+Peter Benjamin,Parker,5185550002,"137 Chrystie Street","New York",22222,"1962"
+Bruce,Wayne,2125550003,"1007 Mountain Drive","Gotham City",10001,"May 1939"
+...
+</pre>
+
+<p>To import or read CSV files we need to first import the csv module.</p>
+
+<pre>
+import csv
+</pre>
+
+<p>This will allow you to use the <q>reader</q> function that wlil parse the CSV file properly.</p>
+
+<pre>
+data = csv.reader(open("myfile.csv", "rb"))
+</pre>
+
+<p>Then, we simply need to loop through the data to read them.</p>
+
+<pre>
+for row in data:
+</pre>
+
+<p>Let say, we need need to import the first name, the address and the zip code. We will need to use the index of the array corresponding to the fields from the CSV file.</p>
+
+<p>Here's the full script:</p>
+
+<pre>
+import csv
+data = csv.reader(open("myfile.csv", "r"))
+for row in data:
+	print row[0],
+	print ",",
+	print row[3],
+	print ",",
+	print row[5]
+</pre>
+
+<p>This will output:</p>
+<code><pre>
+Clark , 344 Clinton Street, Apartment 3D , 11111
+Peter Benjamin , 137 Chrystie Street , 22222
+Bruce , 1007 Mountain Drive , 10001
+</pre></code>
+
+<p>Now, to simply output this to another file, simply use this command:</p>
+
+<pre>
+python myScript.py &gt; anotherfile.csv
+</pre>

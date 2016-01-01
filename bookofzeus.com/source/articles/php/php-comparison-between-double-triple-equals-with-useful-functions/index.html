@@ -1,0 +1,150 @@
+
+<style type="text/css">
+	.true { color:green; }
+	.false { color:red; }
+</style>
+<p>
+Here's a quick table that will help you to find out quickly how PHP compares and use is types.
+</p>
+<h4>Functions comparison:</h4>
+<table width="100%" class="comp">
+    <tr>
+        <th>expression</th> <th>gettype()</th> <th>empty()</th> <th>is_null()</th> <th>isset()</th> <th>boolean test: if($x)</th>
+    </tr>
+    <tr>
+        <td>$x = ''</td> <td>string</td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = NULL</td> <td>NULL</td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = array()</td> <td>array</td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = FALSE</td> <td>boolean</td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = TRUE</td> <td>boolean</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> </tr>
+    <tr>
+        <td>$x = 1</td> <td>integer</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = 42;</td> <td>integer</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = 0</td> <td>integer</td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = -1</td> <td>integer</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = '90'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = '1'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = '0'</td> <td>string</td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <td>$x = '-1'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = 'awesome'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = 'TRUE'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x = 'FALSE'</td> <td>string</td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <td>$x is undefined</td> <td>NULL</td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+</table>
+
+<br />
+<br />
+
+<h4>Comparaison using ==</h4>
+<table>
+    <tr>
+        <th>&nbsp;</th> <th>TRUE</th> <th>FALSE</th> <th>1</th> <th>0</th> <th>-1</th> <th>'1'</th> <th>'0'</th> <th>'-1'</th> <th>NULL</th> <th>array()</th> <th>string</th>
+    </tr>
+    <tr>
+        <th>TRUE</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <th>FALSE</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>1</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>0</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+    <tr>
+        <th>-1</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'1'</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> </tr>
+    <tr>
+        <th>'0'</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'-1'</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>NULL</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>array()</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'string'</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+</table>
+
+<br />
+<br />
+
+<h4>Comparaison using ===</h4>
+<table>
+    <tr>
+        <th>&nbsp;</th> <th>TRUE</th> <th>FALSE</th> <th>1</th> <th>0</th> <th>-1</th> <th>'1'</th> <th>'0'</th> <th>'-1'</th> <th>NULL</th> <th>array()</th> <th>string</th>
+    </tr>
+    <tr>
+        <th>TRUE</th> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>FALSE</th> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>1</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>0</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>-1</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'1'</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'0'</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'-1'</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>NULL</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>array()</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td> <td><span class="false">FALSE</span></td>
+    </tr>
+    <tr>
+        <th>'string'</th> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="false">FALSE</span></td> <td><span class="true">TRUE</span></td>
+    </tr>
+</table>
+

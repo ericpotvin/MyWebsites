@@ -1,0 +1,69 @@
+<p>Have you ever visited a website on your mobile device (assuming it&#039;s yours or a friend&#039;s one) on a portrait and then switch to landscape? Have you noticed a nice smooth transition effect? or it was more a from <em>a</em> to point <em>b</em> type of thing?</p>
+
+<p>Well if you wonder how to visually transition from a landscape view to a portrait view, here&#039;s how.</p>
+
+<p>The setup is pretty easy. Simply choose an element you want to transition, for example <code>H1</code> HTML tag and then apply the CSS for it.</p>
+
+<h4>HTML</h4>
+<pre>
+&lt;h1&gt;Transition Text&lt;/h1&gt;
+</pre>
+
+<h4>CSS</h4>
+<pre>
+* {
+  margin: 0;
+  padding: 0;
+}
+html,body {
+  height: 100%;
+}
+
+body {
+  background: #422A20;
+  margin: 0;
+  padding: 20% 0 0 0;
+  width: 100%;
+}
+
+h1 {
+  -moz-transition: all 1s linear 0s;
+  -o-transition: all 1s linear 0s;
+  -webkit-transition: all 1s linear 0s;
+  color: #fff;
+  display: block;
+  font-size: 225%;
+  margin: 0 auto;
+  text-align: center;
+  width: 95%;
+}
+
+@media screen and (min-width: 1025px) {
+  h1 {
+    font-size: 400%;
+  }
+}
+</pre>
+
+<p>For this example, if your resolution is greater than 1025 pixels, you will see the text taking almost all the width of the page. Once you resize the window to less than 1025 pixels you will see the text shrinking and at the same time see a nice smooth transition.</p>
+
+<h4>How that works?</h4>
+<p>First here&#039;s the syntax:</p>
+<pre>
+transition: property duration timing-function delay;
+</pre>
+
+<p>In this demo, the transition is set to use all the <code>properties</code> (All properties that can have an animated transition will do so). Then, the <code>duration</code> is set 1 second (The transition will last for 1 second). After this, the <code>timing-function</code> is set to <code>linear</code>. Here&#039;s the specifications:</p>
+
+<ul>
+ <li>linear: Specifies a transition effect with the same speed from start to end (equivalent to cubic-bezier(0,0,1,1))</li>
+ <li>ease: Specifies a transition effect with a slow start, then fast, then end slowly (equivalent to cubic-bezier(0.25,0.1,0.25,1))</li>
+ <li>ease-in: Specifies a transition effect with a slow start (equivalent to cubic-bezier(0.42,0,1,1))</li>
+ <li>ease-out: Specifies a transition effect with a slow end (equivalent to cubic-bezier(0,0,0.58,1))</li>
+ <li>ease-in-out: Specifies a transition effect with a slow start and end (equivalent to cubic-bezier(0.42,0,0.58,1))</li>
+ <li>cubic-bezier(n,n,n,n): Define your own values in the cubic-bezier function. Possible values are numeric values from 0 to 1</li>
+</ul>
+
+<p>Then finally, the <code>delay</code> is set to 0 seconds, well as you know it starts right away.</p>
+
+<p>You can find all the information about transition on the <a href="https://developer.mozilla.org/en/CSS/transition" class="nw" title="css3 transition" rel="nofollow">mozilla</a> website.</p>

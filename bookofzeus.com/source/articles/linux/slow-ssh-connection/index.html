@@ -1,0 +1,22 @@
+
+<p>Have you experienced some long delays when you want to connect to a remote server using SSH?</p>
+<p>If so, edit the /etc/ssh/ssh_config file using the following command:</p>
+
+<pre>
+sudo vi /etc/ssh/ssh_config
+</pre>
+
+<p>Comment out the following lines:</p>
+<pre>
+GSSAPIAuthentication yes
+GSSAPIDelegateCredentials no
+</pre>
+
+<p>expected result:</p>
+<pre>
+#GSSAPIAuthentication yes
+#GSSAPIDelegateCredentials no
+</pre>
+
+<p>Save the file and exit</p>
+

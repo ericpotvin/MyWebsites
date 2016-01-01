@@ -1,0 +1,29 @@
+
+<p>Web 2.0 is well known for its AJAX cool features. If you simply enjoy these features, you won't probably care what's behind the scene. On the other hand, if you build them it's something you should care about.</p>
+
+<p>A common way to detect an AJAX request is to add a token as argument, like:</p>
+<pre>
+/script.php?request=ajax
+</pre>
+
+<p>and then on the PHP script use the _GET to validate:</p>
+<pre>
+if(!isset($_GET['request']) || $_GET['request'] != 'ajax') {
+    die();
+}
+// rest of the code ...
+</pre>
+
+<p>This solution works, but there's a better way to implement this solution. The solution is to check for the server variable called HTTP_X_REQUESTED_WITH. When a php script is called via an AJAX request, the value of this variable is set to "XMLHttpRequest". Therefore, you don't need to setup any extra variables in the URL or the form.</p>
+
+<p>Here's how to implement the code using the HTTP_X_REQUESTED_WITH variable:</p>
+<pre>
+if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
+    die();
+}
+
+// rest of the code ...
+</pre>
+
+<p class="note">This works for jQuery; it may or may not work for other Javascript frameworks.</p>
+

@@ -1,0 +1,130 @@
+<p>Developing Android Applications does not differ from developing any other applications. After building few projects you realize you re-use some piece of code and you do not want to duplicate code.</p>
+
+<p>In Android, we commonly call this <q>Android Library Project</q>, or also known as the famous .JAR file. This lets you create a self-contained library or library project that contains all the common files you need for all your projects.</p>
+
+<p class="note">
+Unfortunately, (as of today – Jan 3rd 2015) Android Studio does not really support the creating of .JAR file. Android Studio supports .AAR file. It simply the same concept using binary file with a different extension name.
+<br/><br/>
+To create the .ARR file you update your build.gradle and use this tag: apply plugin: 'android-library'. This will tell Android Studio that this is a library project and save the .AAR file in the <q>build/outputs/aar/</q> folder.
+</p>
+
+<p>Because I do not use Eclipse, we will use the command line (which is honestly way better and faster).</p>
+
+<h2>Create the .JAR file.</h2>
+
+<p>First, we need to create the structure (folder, basic components) of the library project. You need to specify the name of your project, the target, the path and the package name.</p>
+<pre>
+android create lib-project -n MyLibrary -t android-15 -p /path/to/MyLibrary -k com.mylibrary
+</pre>
+
+<p>And create the placeholder for the Java code.</p>
+
+<pre>
+mkdir -p /path/to/MyLibrary/src/com/mylibrary/
+</pre>
+
+<p>
+Now that the basic structure is completed, let's put some code!
+</p>
+<p>In the <q>/path/to/MyLibrary/src/com/mylibrary/</q> you need to place all your Java file. For this example, let's use this code:</p>
+<code><pre>
+package com.mylibrary;
+
+public class LibraryDemo {
+
+	private String name;
+
+	public LibraryDemo() {
+		this.name = "Book of Zeus";
+	}
+
+	public String getSiteName() {
+		return this.name;
+	}
+}
+</pre></code>
+
+<p><b>That's it!</b></p>
+
+<h2>Create the .JAR file</h2>
+<pre>
+cd /path/to/MyLibrary/
+</pre>
+<p>By default, ANT will create the .JAR file in the “bin/” folder with a common name (classes.jar). You can change this by updating the “build.xml” and adding (or updating) this line:</p>
+
+<code><pre>
+&lt;property name="out.library.jar.file" location="bin/${ant.project.name}.jar" /&gt;
+</pre></code>
+
+<p>Finally, build it:</p>
+<pre>
+ant release
+</pre>
+
+<h2>Test your .JAR</h2>
+
+<p>It is important to create unit test in order to validate your library. You do not want to crash your application because you forgot something important.</p>
+
+<h3>Option 1: jUnit</h3>
+
+<p>Visit <a href="http://junit.org/" target="_blank">http://junit.org/</a> to get the latest jUnit Jar file.</p>
+
+<h3>Option 2: Custom Unit Test</h3>
+
+<p>... or, you can create your own set of test cases. I like to separate my test cases from my library. This way your .JAR file will smaller and you probably do not need all the test cases in your application.</p>
+
+<p>To create your own test cases you will need to create a test case folder:</p>
+
+<pre>
+mkdir -p /path/to/MyLibraryTest/
+</pre>
+
+<p>Copy your .JAR file.</p>
+<pre>
+cd /path/to/MyLibraryTest/
+cp /path/to/MyLibrary/bin/LibraryDemo.jar .
+</pre>
+
+
+<p>Now, let's create a simple <q>LibraryDemoTest</q> class (LibraryDemoTest.java).</p>
+<code><pre>
+import com.mylibrary.*;
+
+public class LibraryDemoTest {
+
+	public static void main(String[] args) {
+
+		LibraryDemo lib = new LibraryDemo();
+		String name = lib.getSiteName();
+
+		// test if true
+		System.out.println("Test if TRUE: " + LibraryDemoTest.myAssertTrue(name));
+
+		// test if false
+		System.out.println("Test if FALSE: " + LibraryDemoTest.myAssertFalse(name));
+	}
+
+	// my Assert methods
+
+	private static boolean myAssertTrue(String name) {
+		return name.equals("Book of Zeus");
+	}
+
+	private static boolean myAssertFalse(String name) {
+		return !name.equals("Luke Skywalker");
+	}
+}
+</pre></code>
+
+<p>Now, here's the trick. Because you need to import your library file, you need to where to specify the classpath to make sure Java will include the library properly.</p>
+
+<pre>
+javac -cp .:./MyLibrary.jar LibraryDemoTest.java
+</pre>
+
+<p>Then run it</p>
+<pre>
+java -cp .:./MyLibrary.jar LibraryDemoTest
+</pre>
+
+<p>That's it! Now it's time for your to code and add all your test cases!</p>

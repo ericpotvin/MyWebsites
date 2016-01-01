@@ -1,0 +1,53 @@
+
+<p>I was browsing this website (<a href="http://www.bookofzeus.com/" title="Book Of Zeus">http://www.bookofzeus.com</a>) on my iPhone the other day and I discover how painful it was to navigate using my mobile device. The next hour, my mobile website was ready but one problem was left to be solved.</p>
+
+<p>How would I redirect traffic from my site to a mobile site with a mobile device?</p>
+
+<p>My first idea was was to use Javascript. </p>
+
+<pre>
+//iPhone Version:
+if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+	window.location = "http://m.bookofzeus.com/";
+}
+//Android Version:
+if(navigator.userAgent.match(/android/i)) {
+	window.location = "http://m.bookofzeus.com/";
+}
+</pre>
+
+<p>But then I was thinking that the page has be loaded in order to execute the JavaScript code. Which I wasn't really a fan of this Idea.</p>
+
+<p>Then I was thinking about PHP. Checking the user agent is easy in PHP and this redirection can be done </p>
+<pre>
+// iPhone Version:
+if(strpos($_SERVER['HTTP_USER_AGENT'],'iPhone') !== FALSE || strpos($_SERVER['HTTP_USER_AGENT'],'iPod') !== FALSE)
+{
+  header('Location: http://m.bookofzeus.com/');
+  exit();
+}
+// Android Version:
+if(strpos($_SERVER['HTTP_USER_AGENT'],'Android') !== FALSE)
+{
+  header('Location: http://m.bookofzeus.com/');
+  exit();
+}
+</pre>
+
+<p>This works great, but I realize some of my pages are static. In other words, pure HTML generated code. Which this case, PHP won't work.</p>
+
+<p>So I finally went for the .htaccess solution.</p>
+
+<pre>
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} "iphone|ipod|android" [NC]
+RewriteCond %{HTTP_HOST} !^m.bookofzeus.com
+RewriteRule ^(.*)$ http://m.bookofzeus.com/ [L,R=302]
+</pre>
+
+<p>If you need more mobile devices, here's a quick list you can use:</p>
+
+<pre>
+RewriteCond %{HTTP_USER_AGENT} "android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile" [NC]
+</pre>
+

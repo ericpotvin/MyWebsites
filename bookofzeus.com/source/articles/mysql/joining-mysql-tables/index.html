@@ -1,0 +1,86 @@
+
+<p>left join, join, cross, inners, outer, right ... WAIT!</p>
+
+<p>How many time someone asked your in an interview what is the difference between an INNER JOIN and RIGHT OUTER JOIN? or why the DBA asked you why you didn't use a RIGHT JOIN instead of a LEFT OUTER JOIN? Well here's what to answer to these questions.</p>
+
+<ul>
+	<li>JOIN or INNER JOIN</li>
+	<li>CROSS JOIN</li>
+	<li>LEFT [OUTER] JOIN</li>
+	<li>RIGHT [OUTER] JOIN</li>
+	<li>STRAIGHT_JOIN</li>
+</ul>
+
+<h4>JOIN or INNER JOIN</h4>
+<p>
+The JOIN or INNER JOIN command is used to combines non-null matching rows which are stored in related tables
+In order to join these tables, the join table require a common field (commonly called foreign key) from the left table.
+This type of join requires keywords ON or USING.
+</p>
+<h5>Example</h5>
+<pre>
+SELECT
+ *
+FROM `table_a`
+JOIN `table_b` ON (`table_a`.`id` = `table_b`.`fk_a_id`);
+</pre>
+
+<h4>CROSS JOIN</h4>
+<p>
+The CROSS JOIN command is used to combines non-matching rows which are stored in related tables
+</p>
+<h5>Example</h5>
+<pre>
+SELECT
+ *
+FROM `table_a`
+CROSS JOIN `table_b`
+</pre>
+<p class="note">WARNING! Use this type of join can return invalid records</p>
+
+<h4>LEFT [OUTER] JOIN</h4>
+<p>
+The LEFT [OUTER] JOIN command is used to combines null matching rows which are stored in related tables
+In order to join these tables, the join table require a common field (commonly called foreign key) from the left table.
+This type of join requires keywords ON or USING.
+
+</p>
+<h5>Example</h5>
+<pre>
+SELECT
+ *
+FROM `table_a`
+LEFT JOIN `table_b` ON (`table_a`.`id` = `table_b`.`fk_a_id`);
+</pre>
+
+<h4>RIGHT [OUTER] JOIN</h4>
+<p>
+The RIGHT [OUTER] JOIN command is used to combines null matching rows which are stored in related tables
+In order to join these tables, the join table require a common field (commonly called foreign key) from the left table.
+This type of join requires keywords ON or USING.
+
+</p>
+<h5>Example</h5>
+<pre>
+SELECT
+ *
+FROM `table_a`
+RIGHT JOIN `table_b` ON (`table_a`.`id` = `table_b`.`fk_a_id`);
+</pre>
+
+<h4>STRAIGHT_JOIN</h4>
+<p>
+The STRAIGHT_JOIN command is used to combines non-null matching rows which are stored in related tables.
+STRAIGHT_JOIN is similar to JOIN, except that the left table is always read before the right table.
+In order to join these tables, the join table require a common field (commonly called foreign key) from the left table.
+This type of join requires keywords ON or USING.
+
+</p>
+<h5>Example</h5>
+<pre>
+SELECT
+ *
+FROM `table_a`
+STRAIGHT_JOIN `table_b` ON (`table_a`.`id` = `table_b`.`fk_a_id`);
+</pre>
+

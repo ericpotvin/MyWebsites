@@ -1,0 +1,17 @@
+
+<p>When I upgraded my version of Ubuntu I noticed right away the new scrollbars in my applications. At first, it was kinda cool but after a little while it was not really what I needed.</p>
+
+<p>Here's a quick tip on how to remove the overlay scrollbars in your Ubuntu application</p>
+
+<pre>
+sudo su
+echo "export LIBOVERLAY_SCROLLBAR=0" > /etc/X11/Xsession.d/80overlayscrollbars
+</pre>
+
+<p>Logout then login</p>
+
+<p>If this solution doesn't work for you, you will need to remove the overlay scrollbars packages.</p>
+<pre>
+sudo apt-get remove overlay-scrollbar liboverlay-scrollbar-0.1-0
+</pre>
+					

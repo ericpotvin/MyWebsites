@@ -1,0 +1,81 @@
+<style>
+#sample a { height:32px; width: 32px;display:inline-block; }
+#sampleDigg { background: url('/download/boz.jpg') no-repeat -616px -251px; display: block; border: solid 1px #ddd; }
+#sampleDiggWrong { background: url('/download/boz.jpg') no-repeat -584px -205px; display: block; border: solid 1px #ddd; }
+</style>
+<p>Remember back in the days when we had to pre-load images using JavaScript because we used different images when we "onmouseover" menus? Well that time is long gone now. That can be easily completed by using only CSS!</p>
+<p>The technique, also commonly called Sprites, is simply to use one big (optimized) image that stores multiples images positioned next to each other. Then, by using CSS, you set the position of where the image is in the background-position property.</p>
+
+<h2>Why using Sprites?</h2>
+<ul>
+ <li>No more JavaScript: no more pre-loading;</li>
+ <li>Better optimization: once the image is loaded in cache, the browser reuse the same image over and over;</li>
+ <li>Less number of requests to the server: no need to load tons of images, only need to load one;</li>
+ <li>Easy to update: only one file to update;</li>
+ <li>Smaller size: One image will take less space on the hard drive then more than 10 (including the physical space and the block space, and also no meta-data repeated);</li>
+ <li>No lag between image switch: if you using :hover, the image will load instantly;</li>
+</ul>
+
+<h2>What do you have to keep in mind when you use sprites?</h2>
+<ul>
+ <li>The CSS file will be a little bit heavier;</li>
+ <li>The positioning of all images might be tricky at first;</li>
+ <li>If you don't align all the images correctly, you will see image conflict on your site;</li>
+ <li>All left aligned images should be on the right in your image;</li>
+ <li>All right aligned images should be on the left in your image;</li>
+ <li>Be careful when you use the repeat, repeat-x, repeat-y and background-position: top right; background-position: bottom left;</li>
+</ul>
+
+<h3>Here's a simple example using this website image</h3>
+<p>We will create a "Digg" button. </p>
+<p>
+	Using the this site image, we find out the location of the digg button.
+	<img src="http://www.bookofzeus.com/download/boz.jpg" title="book of zeus css sprites images" class="autofit" alt="book of zeus css sprites images" width="537" height="350" />
+</p>
+
+<h4>Let's build the CSS:</h4>
+
+<p>The idea is to update the X and Y position based on the location of where the image is located. The easy part with this, is you know right away if the position you entered is good. For example:</p>
+
+<pre>
+#sample a {
+  height:32px; width: 32px;display:inline-block;
+}
+#sampleDigg {
+  background: url('/download/boz.png') no-repeat -616px -251px;
+  display: block;
+  border: solid 1px #ddd;
+}
+#sampleDiggWrong {
+  background: url('/download/boz.png') no-repeat -584px -205px;
+  display: block;
+  border: solid 1px #ddd;
+}
+</pre>
+
+<h4>Why negative coordinates?</h4>
+<p>Think sprites images as a X/Y Graph. The top left corner is 0,0. Therefore, if you move the picture to the right and bottom, you are moving the images to the left and up. Which means updated the coordinates negatively.</p>
+
+<h4>Let's build the HTML</h4>
+<pre>
+&lt;a href="#link" id="sampleDigg"&gt;&lt;/a&gt;
+&lt;br /&gt;
+&lt;a href="#link" id="sampleDiggWrong"&gt;&lt;/a&gt;
+</pre>
+
+<h4>Here's the output</h4>
+<div id="sample">
+	<p>
+		<a id="sampleDigg"></a>
+		<br /><br />
+		<a id="sampleDiggWrong"></a>
+	</p>
+</div>
+
+<p>As you can see, the coordinates on the second image are wrong. Therefore, easy see visually see errors on the page.</p>
+
+<h4>Posterize your image</h4>
+<p>A simple trick most designer do when creating a CSS Sprite image, is to posterize it. <q>Posterization of an image entails conversion of a continuous gradation of tone to several regions of fewer tones, with abrupt changes from one tone to another.</q>. This can benefit you to get a smaller image without loosing quality.</p>
+
+<h3>Conclusion</h3>
+<p>At first, Sprites will required a little bit of patience. Don't worry, you will get use to it.</p>

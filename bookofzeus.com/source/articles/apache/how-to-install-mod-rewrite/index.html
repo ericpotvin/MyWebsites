@@ -1,0 +1,32 @@
+<p>First, let's find where the mod_rewrite is located:</p>
+<pre>
+locate mod_rewrite.so
+</pre>
+
+<p>That will display the full path of where is located the file mod_rewrite.so</p>
+<p>Then, create a new file for mod_rewrite:</p>
+<pre>
+sudo vi /etc/apache2/mods-enabled/rewrite.load
+</pre>
+
+<p>And add the following line:</p>
+<pre>
+LoadModule rewrite_module /path/to/mod_rewrite.so
+</pre>
+
+<p>Then edit <code>/etc/apache2/sites-available/default</code> (if that file is not found edit /etc/apache2/sites-available/000-default)
+and change the <code>AllowOverride</code> from <q>None</q> to <q>All</q> in the following configuration:</p>
+<pre>
+DocumentRoot /var/www
+&lt;Directory&gt;
+	Options FollowSymLinks
+	AllowOverride None All
+&lt;/Directory&gt;
+</pre>
+
+<p>Final step, restart apache:</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+<p>Now, you will have to start your head ache with mod_rewrite in your .htaccess file.</p>
+		

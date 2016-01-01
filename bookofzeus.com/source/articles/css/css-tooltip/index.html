@@ -1,0 +1,51 @@
+<style>
+.tooltip { position: relative; text-shadow: 2px 2px 2px #888; cursor: help; display: inline; text-decoration: none; outline: none; }
+.tooltip span { font: normal 14px verdana; color: white; visibility: hidden; position: absolute; bottom: 30px; left: 50%; z-index: 20000; width: 250px; margin-left: -127px; padding: 10px; border: 2px solid #422A20; background: -moz-linear-gradient(top, #B4784C 0%, #422A20 100%); background: -webkit-gradient(linear, center top, center bottom, from(#B4784C), to(#422A20)); background: -o-gradient(top, #B4784C, #422A20); border-bottom: solid 1px #422A20; -moz-border-radius: 4px; border-radius: 4px; -moz-box-shadow: 0 0 5px 5px #B1A59D; -webkit-box-shadow: 0 0 5px 5px #B1A59D; box-shadow: 0 0 5px 5px ##B1A59D; }
+.tooltip:hover span { visibility: visible; }
+</style>
+<p>Tooltips are often used on websites to help the user on how to do something or by simply defining words. Some framework are used to help create these tooltips but it requires JavaScript and CSS files.</p>
+<p>In this example, only CSS is required to display a simple tooltip.</p>
+
+<h3>Demo</h3>
+<p>I saw a <span class="tooltip">Gallinipper<span>A large mosquito or other insect capable of inflicting a painful bite.</span></span> yesterday, so I ran away. </p>
+
+<p>Here's the HTML:</p>
+<pre>
+&lt;span class="tooltip"&gt;Gallinipper&lt;span&gt;A large mosquito or other insect capable of inflicting a painful bite.&lt;/span&gt;&lt;/span&gt;
+</pre>
+
+<p>CSS code:</p>
+<pre>
+.tooltip {
+  position: relative;
+  text-shadow: 2px 2px 2px #888;
+  cursor: help;
+  display: inline;
+  text-decoration: none;
+  outline: none;
+}
+.tooltip span {
+  font: normal 14px verdana;
+  color: white;
+  visibility: hidden;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  z-index: 20000;
+  width: 250px;
+  margin-left: -127px;
+  padding: 10px;
+  border: 2px solid #422A20;
+  background: -moz-linear-gradient(top, #B4784C 0%, #422A20 100%);
+  background: -webkit-gradient(linear, center top, center bottom, from(#B4784C), to(#422A20));
+  background: -o-gradient(top, #B4784C, #422A20); border-bottom: solid 1px #422A20;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0 0 5px 5px #B1A59D;
+  -webkit-box-shadow: 0 0 5px 5px #B1A59D;
+  box-shadow: 0 0 5px 5px #B1A59D;
+}
+.tooltip:hover span {
+  visibility: visible;
+}
+</pre>

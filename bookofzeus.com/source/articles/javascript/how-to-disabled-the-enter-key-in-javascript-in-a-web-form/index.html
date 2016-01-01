@@ -1,0 +1,13 @@
+<p>
+For those who likes to disable the "enter" key when submitting a form, well ... this script is not for you.
+But for all others who wants to know, simply add the following code to your page.
+</p>
+
+<pre>
+function disableEnterKey(evt) {
+  var evt = (evt) ? evt : ((event) ? event : null);
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  if ((evt.keyCode == 13) &#038;&#038; (node.type=="text"))  {return false;}
+}
+document.onkeypress = disableEnterKey;
+</pre>

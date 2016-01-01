@@ -1,0 +1,19 @@
+
+<p>Here's a quick code snipet on how to truncate filename in JavaScript.</p>
+
+<pre>
+function truncate(n, len) {
+    var ext = n.substring(n.lastIndexOf(".") + 1, n.length).toLowerCase();
+    var filename = n.replace('.' + ext,'');
+    if(filename.length <= len) {
+        return n;
+    }
+    filename = filename.substr(0, len) + (n.length > len ? '[...]' : '');
+    return filename + '.' + ext;
+};
+var s = 'this-is-a-very-very-very-long-file-name.jpg';
+
+console.log(truncate(s, 100)); //this-is-a-very-very-very-long-file-name.jpg
+console.log(truncate(s, 10)); //this-is-a-[...].jpg
+console.log(truncate(s, 4)); //this[...].jpg
+</pre>

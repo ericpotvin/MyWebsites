@@ -1,0 +1,109 @@
+<p>Eclipse can be useful to build Android apps, specially the layout. So do not remove it yet.</p>
+
+<p>I still prefer using VIM for development and if you like running everything in command line, this article is for you.</p>
+
+<h2>Download sample app</h2>
+<p>you can get our default android app (or what we can call a start app) on <a href="https://github.com/BookOfZeus/AndroidAppDefault" rel="nofollow" target="_blank">our gituhb account</a>.
+
+<h2>Create the build.xml</h2>
+<p>In order to use the command line compiler, you need to update the current project by adding the <q>build.xml</q>.
+
+<p>First, let's find out which target we have:</p>
+<pre>
+android list targets
+</pre>
+
+<p>To create the build.xml, simply run this command:</p>
+<pre>
+cd ~/path-of-my-android-project/
+android update project --target 1 --path ./
+</pre>
+
+<p>This will create the following output:</p>
+<code><pre>
+Updated project.properties
+Updated local.properties
+No project name specified, using Activity name 'MainActivity'.
+If you wish to change it, edit the first line of build.xml.
+Added file ./build.xml
+Updated file ./proguard-project.txt
+</pre></code>
+
+<h2>Time to code!</h2>
+<p>Now that the build.xml is created, you can compile it.</p>
+
+<h2>Build the project</h2>
+<p>In order to build the project, you will need to use <q>ant</q>. This tool allow you to compile your project and create the <q>.apk</q> you need.</p>
+
+<pre>
+ant clean ; ant debug
+</pre>
+
+<p>This will output a lot of stuff. The most important thing is the last 2 lines. You should see something like this:</p>
+<code><pre>
+// ...
+
+debug:
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+</pre></code>
+
+<p>This creates the <q>bin/MainActivity-debug.apk</q>. This is the application!</p>
+
+<h2>Run the application in the emulator</h2>
+
+<p>To run the emulator, you can simply run:</p>
+
+<pre>
+emulator @MyAndroid
+</pre>
+
+<p class="note">The <q>@MyAndroid</q> will be the name of your android emulator. To see the list you can run: android avd</p>
+
+<p>You can also use different configuration without alter or creating multiple instance of your emulator.</p>
+<pre>
+emulator @MyAndroid -force-32bit -partition-size 1024 -no-audio -no-boot-anim -no-boot-anim -qemu -icount auto -cpu-delay 0
+</pre>
+<p>or</p>
+<pre>
+emulator @MyAndroid -no-boot-anim -qemu -icount auto -cpu-delay 0
+</pre>
+<p>or</p>
+<pre>
+emulator @MyAndroid -wipe-data
+</pre>
+
+<h2>Install/Uninstall the App</h2>
+<p>Now let's install the app. From the root of your application folder.</p>
+
+<h3>Install the app</h3>
+<p>To install the app, simply run:</p>
+<pre>
+adb install bin/MainActivity-debug.apk
+</pre>
+<p>This should output:</p>
+<code><pre>
+1162 KB/s (44504 bytes in 0.037s)
+	pkg: /data/local/tmp/MainActivity-debug.apk
+Success
+</pre></code>
+
+<p>Now you can open the application in emulator.</p>
+
+<h3>Uninstall the app</h3>
+<pre>
+adb shell pm uninstall -k com.bookofzeus.app
+</pre>
+<p>This should output:</p>
+<code><pre>
+Success
+</pre></code>
+
+<h2>Debugging your app</h2>
+<p>Unless you are the absolute grand Jedi in Android Development, you will have errors at some point. The <q>logcat<q> is there to hlep you figure out what is wrong with your app if your application suddenly stopped or if something just does not work.</p>
+
+<p>To see the log, simply run this command:</p>
+<pre>
+adb logcat
+</pre>

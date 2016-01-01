@@ -1,0 +1,73 @@
+<h2>Install Android SDK</h2>
+<p>First, we need to download and install the Android Software Development Kit (SDK). The SDK is available at <a href="http://developer.android.com/sdk/index.html" rel="nofollow" target="_blank">http://developer.android.com/sdk/index.html</a> and Select the <q>Linux 32 &amp; 64-bit</q> package under the <q>SDK Tools Only</q>.</p>
+
+<p>Now that the package is downloaded, extract it. This will create the <q>android-sdk-linux</q> in your home folder.</p>
+
+<h2>Fixing PATH variable</h2>
+<p>In order for the android SDK to work properly, you need to add the new paths folders to your PATH variable.</p>
+<ul>
+	<li>$HOME/android-sdk-linux/tools</li>
+	<li>$HOME/android-sdk-linux/platform</li>
+	<li>$HOME/android-sdk-linux/platform-tools</li>
+</ul>
+
+<pre>
+vi ~/.profile
+</pre>
+<p>Add the following line at the bottom of the file:</p>
+
+<code><pre>
+PATH="$HOME/android-sdk-linux/tools:$HOME/android-sdk-linux/platforms:$HOME/android-sdk-linux/platform-tools:$PATH"
+</pre></code>
+
+<p>This will work next time you login to your session. If you want to make these changes effective in your current session, you can run this command:</p>
+
+<pre>
+export PATH="$HOME/android-sdk-linux/tools:$HOME/android-sdk-linux/platforms:$PATH"
+</pre>
+
+<h2>Installing JAVA</h2>
+<p>Android application works with Java. You will need to install it.</p>
+
+<pre>
+sudo apt-get install openjdk-7-jdk ant
+</pre>
+
+<h2>Verify the installation</h2>
+<p>Let's make sure Java and the SDK is properly installed before we continue.</p>
+
+<p>You can easily check Java by checking the current version installed.</p>
+<pre>
+java -version
+</pre>
+<p>This will output something like this:</p>
+
+<code><pre>
+java version "1.6.0_33"
+OpenJDK Runtime Environment (IcedTea6 1.13.5) (6b33-1.13.5-1ubuntu0.12.04)
+OpenJDK 64-Bit Server VM (build 23.25-b01, mixed mode)
+</pre></code>
+
+<p>Now let's make sure the Android package is working as well.</p>
+
+<pre>
+android
+</pre>
+<p>This will open a window. This window will allow you to get specific packages, add and update existing packages etc.</p>
+
+<p>Go ahead and install the API 21 (and others if you want).</p>
+
+<h2>Android Debug Bridge Package</h2>
+<p>The Android Debug Bridge (adb) is a tool that allows you to communicate with an emulator or a connected Android-powered device.</p>
+
+<p>To install adb, simply run this command.</p>
+<pre>
+sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt-get update
+sudo apt-get install android-tools-adb android-tools-fastboot
+</pre>
+
+<p>If you are on a 64bit system, you also need to install the following two packages:</p>
+<pre>
+sudo apt-get install lib32stdc++6 ia32-libs
+</pre>
