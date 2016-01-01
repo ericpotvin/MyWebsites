@@ -1,0 +1,42 @@
+
+<p>I previously showed two (2) methods on how to <a href="http://customizeubuntu.com/appearance/environment/create-new-launcher-items-in-unity/" title="create new launcher items in unity">create new launcher items in unity</a>. But is it possible to create a sub list or menu in each of these application?</p>
+
+<p>Yes, it is possible and it is actually a simple solution.</p>
+
+<p>The key to make this to work is the <q>X-Ayatana-Desktop-Shortcuts</q>. This allow Unity to look for groups within the <q>.desltop</q> filename and automatically create the new contextual list or menu. <q>X-Ayatana-Desktop-Shortcuts</q> requires at least one (1) name. If you need more than one (1), you need to separate them using the semicolon (;) character. Example:</p>
+
+<pre>
+X-Ayatana-Desktop-Shortcuts=Name1;
+</pre>
+<p class="or">Or</p>
+<pre>
+X-Ayatana-Desktop-Shortcuts=Name1;Name2;Name3
+</pre>
+
+<p>Let's use the terminal example. I want to create a list of terminals I connect to for maintenance. I am going to have 2 servers and I would like to be able to have the list when I right click on the icon.</p>
+
+<pre>
+[Desktop Entry]
+Name=Terminal
+Comment=
+Exec=gnome-terminal
+Icon=utilities-terminal
+Type=Application
+Terminal=false
+StartupNotify=false
+X-Ayatana-Desktop-Shortcuts=Server1;Server2
+
+[Server1 Shortcut Group]
+Name=SSH server1.remote
+Exec=gnome-terminal --class=remoteserver -x ssh server1.remote
+TargetEnvironment=Unity
+
+[Server2 Shortcut Group]
+Name=SSH server2.remote
+Exec=gnome-terminal --class=remoteserver -x ssh server2.remote
+TargetEnvironment=Unity
+</pre>
+
+<p>This will show something like this:</p>
+
+<img src="/download/custom-unity-list.png" width="284" height="151" alt="Creating a custom launcher in Unity" />

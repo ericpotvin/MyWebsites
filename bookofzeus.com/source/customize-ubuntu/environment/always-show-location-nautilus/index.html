@@ -1,0 +1,20 @@
+<p>By default Nautilus does not show the location in the address bar. Here's a simple solution to enable the location in the address bar instead of pressing <kdb>CTRL+L</kbd> all the time.</p>
+
+<h4>Command line</h4>
+<pre>
+gsettings set org.gnome.nautilus.preferences always-use-location-entry true
+</pre>
+
+<h4>Using dconf-tools</h4>
+<p>If you prefer the <q>non geek</q> way, you will need to install <q>dconf-tools</q>.</p>
+<pre>
+sudo apt-get install dconf-tools
+</pre>
+<p>Then, run the command in terminal:</p>
+<pre>
+dconf-tools
+</pre>
+
+<p>Once the application is open, navigate to: org -&gt; gnome -&gt; nautilus -&gt; preferences.</p>
+
+<p>There, you will find the option <q>always-use-location-entry</q>, simply enable it by checking it.</p>

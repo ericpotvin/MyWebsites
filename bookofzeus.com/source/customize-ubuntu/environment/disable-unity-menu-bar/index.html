@@ -1,0 +1,26 @@
+<p>Ubuntu Unity, once you get use to it, can be neat to use. It offers great new features that are easier to use. One of the new feature is the <em>menu bar</em>, or commonly called <em>global menu bar</em>. This <q>Macintosh</q> way to display the menu for each windows might be annoying if you are not use to it (or never used a Mac before).</p>
+
+<p>To restore the menu bar to its window, simple run this command from the terminal:</p>
+<pre>
+sudo apt-get autoremove appmenu-gtk appmenu-gtk3 appmenu-qt
+</pre>
+
+<p>Now, close all your apps and open them again. The menu bar is back the way you like it!</p>
+
+<h4>Firefox</h4>
+<p>Firefox won't probably be affected with this command. To disable it simply go to <code>Tools -> Add-Ons</code> and then disable the <em>Global Menu Bar Integration extension</em>. Restart firefox et voilà!</p>
+
+<p>If by any reason you want to enable this global menu,  you can do it by running the following command:</p>
+<pre>
+sudo apt-get install appmenu-gtk appmenu-gtk3 appmenu-qt
+</pre></p>
+
+<p>If you prefer not to uninstall the package, you can change the settings instead:</p>
+<pre>
+gsettings set com.canonical.desktop.interface scrollbar-mode normal
+</pre>
+
+<p>To enable it:</p>
+<pre>
+gsettings reset com.canonical.desktop.interface scrollbar-mode
+</pre>

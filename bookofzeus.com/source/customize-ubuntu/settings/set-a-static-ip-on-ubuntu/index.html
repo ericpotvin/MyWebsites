@@ -1,0 +1,70 @@
+<p>This article will guide you on how to set a static IP address on Ubuntu. This guide applies to all version of Ubuntu and Ubuntu Server.</p>
+
+<p>Everything you need to setup is in the <q>/etc/network/interfaces</q> file. Use your favorite editor (for example VIM) to edit the file:</p>
+
+<pre>
+sudo vi /etc/network/interfaces
+</pre>
+
+<p>Then, you should see something like this:</p>
+<pre>
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+</pre>
+
+<p>The key here is to change the last 2 lines. The last 2 lines tells the DHCP server to get an IP automatically. To configure properly your static IP, first run the <q>ifconfig</q> command to find out your current configuration:</p>
+
+<pre>
+/sbin/ifconfig
+</pre>
+
+<p>This will give you everything you need to configure properly your static IP. Now that you have everything, you will need to remove or comment the following lines of the <q>/etc/network/interfaces</q>:</p>
+
+<pre>
+#auto eth0
+#iface eth0 inet dhcp
+</pre>
+
+<p>And add these lines with <b>your own configuration</b>:</p>
+<pre>
+auto eth0
+iface eth0 inet static
+    address 192.168.1.10
+    netmask 255.255.255.0
+    network 192.168.1.0
+    broadcast 192.168.1.255
+    gateway 192.168.1.1
+    dns-search google.com
+    dns-nameservers 192.168.1.1
+</pre>
+
+<p>If you prefer to setup the nameserver somewhere else, you can also put the nameserver configuration in the <q>/etc/resolvconf/resolv.conf.d/base</q> file, by adding this line:</p>
+
+<pre>
+nameserver 192.168.1.XXX
+</pre>
+
+<p>Regenerate the resolv.conf:</p>
+<pre>
+sudo resolvconf -u
+</pre>
+
+<p>Remove the DHCP client:</p>
+<pre>
+sudo apt-get remove dhcp-client
+</pre>
+
+<p>Restart network service:</p>
+<pre>
+sudo /etc/init.d/networking restart
+</pre>
+
+<p>Done!</p>

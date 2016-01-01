@@ -1,0 +1,50 @@
+<p>List folders and files in Linux is commonly used in Linux. Using the common output is, as well, common and can be pretty boring. Here's a quick way to display list of folders and files that will suit more your needs.</p>
+
+<h4>List only folders</h4>
+<pre>
+ls -l | grep ^d | awk '{print "\033[1;32;40m"$8"/\033[0m"}'
+</pre>
+
+<h4>List only files</h4>
+<pre>
+ls -lh | grep -v ^d | egrep -v 'total(.*)' | awk '{print "\033[1;34;40m"$8" \033[1;32;40m("$5")\033[0m"}'
+</pre>
+
+<h4>List only files and folders</h4>
+<pre>
+ls -hl | grep -v total | awk '{ if($1 !~ '/^d/') { print "\033[1;34;40m"$8" \033[1;32;40m("$5")\033[0m" } else { print "\033[1;32;40m"$8"/\033[0m" } }'
+</pre>
+
+<p>Here's a quit guide that will help you change the colors if you don't like mine!</p>
+
+<span class="bold">Syntax:</span>
+<pre>\033[<span class="italic">Attribute codes</span>;<span class="italic">Text color codes</span>;<span class="italic">Background color codes</span>m<span class="italic">some random text</span>\033[0m
+</pre>
+
+<h3>Attribute codes:</h3>
+    <div>00=none</div>
+    <div style="font-weight:bold">01=bold</div>
+    <div style="text-decoration:underline">04=underscore</div>
+    <div style="text-decoration: blink;">05=blink</div>
+    <div style="background: white; color:black; ">07=reverse</div>
+    <div>08=concealed</div>
+
+<h3>Text color codes:</h3>
+    <div style="color:black">30=black</div>
+    <div style="color:red">31=red</div>
+    <div style="color:green">32=green</div>
+    <div style="color:yellow">33=yellow</div>
+    <div style="color:blue">34=blue</div>
+    <div style="color:magenta">35=magenta</div>
+    <div style="color:cyan">36=cyan</div>
+    <div style="color:white; background:black">37=white</div>
+
+<h3>Background color codes:</h3>
+    <div style="background: white; color:black; ">40=black</div>
+    <div style="background: red; color:black; ">41=red</div>
+    <div style="background: green; color:black; ">42=green</div>
+    <div style="background: yellow; color:black; ">43=yellow</div>
+    <div style="background: blue; color:white; ">44=blue</div>
+    <div style="background: magenta; color:white; ">45=magenta</div>
+    <div style="background: cyan; color:white; ">46=cyan</div>
+    <div style="background: white; color:black; ">47=white</div>

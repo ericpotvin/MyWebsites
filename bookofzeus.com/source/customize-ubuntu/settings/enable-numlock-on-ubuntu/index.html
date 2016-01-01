@@ -1,0 +1,48 @@
+
+<p>You like to use the <kbd>num</kbd> pad but unfortunately, it is not turned on? Here's a solution to turn on the <kbd>numlock</kbd> by default.</p>
+
+<p>First of all, let's install the <q>numlockx</q>.</p>
+<pre>
+sudo apt-get install numlockx
+</pre>
+
+<p>Now, depending on which display manager you have, you will have to choose the solution that matches your manager.</p>
+
+<pre>
+cat /etc/X11/default-display-manager
+</pre>
+
+
+<h4>lightdm</h4>
+<p>Edit the file <q>/etc/lightdm/lightdm.conf</q> and add the setup script to run the numlock when Ubuntu starts.</p>
+<pre>
+sudo vi /etc/lightdm/lightdm.conf
+</pre>
+
+<p>
+Add the following line at the end of the file:
+</p>
+<pre>
+greeter-setup-script=/usr/bin/numlockx on
+</pre>
+
+<h4>gdm</h4>
+<p>Edit/Add the file <q>/etc/gdm/Init/Default</q> and add the setup script to run the numlock when Ubuntu starts.</p>
+<pre>
+sudo vi /etc/gdm/Init/Default
+</pre>
+
+<p>
+Add the following line at the end of the file before the line that says exit 0:
+</p>
+<pre>
+if [ -x /usr/bin/numlockx ]; then
+  exec /usr/bin/numlockx on
+fi
+</pre>
+
+<h4>Global settings</h4>
+<p>Edit the file <q>/etc/rc.local</q> and add the setup script to run the numlock when Ubuntu starts.</p>
+<pre>
+sudo sed -i 's|^exit 0.*$|# Numlock enable\n[ -x /usr/bin/numlockx ] \&\& numlockx on\n\nexit 0|' /etc/rc.local
+</pre>

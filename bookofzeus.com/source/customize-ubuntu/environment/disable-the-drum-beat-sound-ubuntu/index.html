@@ -1,0 +1,31 @@
+<p>If you are like me and do not like the Ubuntu login sound, here's a quick tip on how to disable it.</p>
+
+<h4>For 12.04 (LightDM)</h4>
+<p>You can simply remove the login sound by overriding the Unity Greeter.</p>
+
+<pre>
+sudo vi /usr/share/glib-2.0/schemas/50_unity-greeter.gschema.override
+</pre>
+
+<p>Add these lines:</p>
+
+<pre>
+[com.canonical.unity-greeter]
+play-ready-sound = false
+</pre>
+
+<p>Save the file and compile it:</p>
+<pre>
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+</pre>
+
+<p>Next time you reboot, the sound will be disable.</p>
+
+<h4>For all other versions</h4>
+<p>All the sounds can be disable by changing the file name:</p>
+
+<h5>Disable the login sound:</h5>
+<pre>
+sudo mv /usr/share/sounds/ubuntu/stereo/desktop-login.ogg /usr/share/sounds/ubuntu/stereo/desktop-login.ogg.old
+sudo mv /usr/share/sounds/ubuntu/stereo/system-ready.ogg /usr/share/sounds/ubuntu/stereo/system-ready.ogg.old
+</pre>

@@ -1,0 +1,27 @@
+
+<p>Here's a quick tutorials on how to change the default desktop theme in Ubuntu 11.10.</p>
+
+<p class="note">Before you start, Ubuntu 11.10 (Oneiric Ocelot) uses GTK 3 theme. Unfortunately, the GTK 2 themes won't work with this new version 3 of GTK. Make sure before installing a new theme it is compatible with version 3.</p>
+
+<p>With that said, Here's how to install a new theme manually. The first step, will be to install the Gnome Tweak Tool.</p>
+<pre>
+sudo apt-get install gnome-tweak-tool
+</pre>
+
+<p>Now, from the command line, create the <code>.themes</code> folder:</p>
+<pre>
+cd ~
+mkdir .themes
+</pre>
+
+<p>This folder will be used to put all the themes downloaded. Simply extract the downloaded themes into this folder. You should get something like this:</p>
+<pre>
+ll ~/.themes
+total 4
+drwxrwxr-x 6 customize customize 4096 2011-07-26 14:25 DownloadedTheme
+</pre>
+
+<p>Now that the theme is extracted to the <code>.themes</code> folder, open the Dash and find "Advanced Settings".</p>
+<img width="503" height="255" border="0" src="/download/unity-advanced-settings.jpg" alt="Unity Advanced Settings" title="Unity Advanced Settings" class="autofit" />
+
+<p>In this Advanced Settings, select Themes and select the theme under "GTK theme" you downloaded and apply.</p>

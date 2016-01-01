@@ -1,0 +1,55 @@
+<p>Ubuntu comes with some great applications. These applications works great but in some cases, we don't use them or worse, the applications we like or need are not installed.</p>
+
+<p>to fix this issue, there's a very simple way to create your own "after install" or "clean install" script that will remove unwanted applications and install the one you like or need.</p>
+
+<p class="note">Please note this is an example. Please modify to match your needs. SUDO required when installing or removing packages.</p>
+
+<h2>Removing unwanted package:</h2>
+
+<h3>Removing thunderbird</h3>
+<pre>
+apt-get purge thunderbird-globalmenu thunderbird-gnome-support thunderbird-locale-en thunderbird-locale-en-us thunderbird
+</pre>
+
+<h3>Removing totem</h3>
+<pre>
+apt-get purge totem-mozilla totem-plugins totem
+</pre>
+
+<h3>Removing transmission</h3>
+<pre>
+apt-get purge transmission-common transmission-gtk
+</pre>
+
+<h3>Removing empathy</h3>
+<pre>
+apt-get purge nautilus-sendto-empathy empathy-common empathy
+</pre>
+
+<h3>Removing gwibber</h3>
+<pre>
+apt-get purge libgwibber-gtk2 libgwibber2 gwibber-service-twitter gwibber-service-identica gwibber-service-facebook gwibber-service gwibber
+</pre>
+
+<h3>Removing shotwell</h3>
+<pre>
+apt-get purge shotwell
+</pre>
+
+<h3>Removing UbuntuOne</h3>
+<pre>
+apt-get purge unity-scope-musicstores rhythmbox-ubuntuone ubuntuone-installer ubuntuone-control-panel ubuntuone-couch ubuntuone-client-gnome
+apt-get purge libsyncdaemon-1.0-1 gir1.2-ubuntuoneui-3.0 libubuntuoneui-3.0-1 ubuntuone-client
+</pre>
+
+<h3>Removing Games</h3>
+<pre>
+apt-get purge gnomine gnome-sudoku mahjongg
+</pre>
+
+<h2>Installing wanted packages:</h2>
+
+<h3>Custom Apps</h3>
+<pre>
+apt-get install vim aptitude pidgin xvnc4viewer filezilla gthumb
+</pre>

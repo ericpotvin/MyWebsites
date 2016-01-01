@@ -1,0 +1,33 @@
+<p>Changing the items in the menu or the context menu of applications can be great if you use specific menu items more than others. Unfortunately, not all applications allow this features but some do:</p>
+
+<ul>
+ <li>Document Viewer</li>
+ <li>Image Viewer</li>
+ <li>Terminal</li>
+ <li>Rhythmbox</li>
+</ul>
+
+<p>To modify the order of each items, you simply need to modify one (1) XML file.</p>
+
+<h4>Document Viewer</h4>
+<pre>
+sudo vi /usr/share/evince/evince-ui.xml
+</pre>
+
+<h4>Image Viewer</h4>
+<pre>
+sudo vi /usr/share/eog/eog-ui.xml
+sudo vi /usr/share/eog/eog-toolbar.xml
+</pre>
+
+<h4>Terminal</h4>
+<pre>
+sudo vi /usr/share/gnome-terminal/terminal.xml
+</pre>
+
+<h4>Terminal</h4>
+<pre>
+sudo vi /usr/share/rhythmbox/rhythmbox-ui.xml
+</pre>
+
+<p>All you need to do is to move around the items you want to be first ... or last!</p>

@@ -1,0 +1,38 @@
+
+<p>By default, the <em>close</em>, <em>maximize</em> and <em>minimize</em> window buttons are located on the left side of the title bar of the window. If you are not use to this, there's a solution to fix this uncomfortable situation.</p>
+
+<p>First of all, you have to open the <em>gconf-editor</em> tool. If this tool is not installed, you can install it using this command:</p>
+<pre>
+sudo apt-get install gconf-editor
+</pre>
+
+<p>After this is installed, you can open it from the menu. You can also open this tool using the <kbd>Alt+F2</kbd> (this will open the Run Application window) and then by typing <code>gconf-editor</code> into the text box and click Run.</p>
+
+<p>Then navigate to <em>/apps/metacity/general</em> using the side pane and then double-click the <em>button_layout</em> item. This will allow you to change the value to put what ever you need.</p>
+
+<p>Default value</p>
+<pre>
+close,minimize,maximize:
+</pre>
+
+<p><em>Menu</em> on the left, <em>minimize,maximize,spacer,close</em> on the right side</p>
+<pre>
+menu:minimize,maximize,spacer,close
+</pre>
+
+<p><em>minimize,maximize,close</em> on the right side</p>
+<pre>
+:minimize,maximize,close
+</pre>
+
+<p class="note">You noticed the <code>:</code>? This is the <em>left</em> and <em>right</em> separator. What's before the <code>:</code> will be placed on the left side of the title bar and what's after the <code>:</code> will be placed on the right side of the title bar.</p>
+
+<p>Click OK and the location of the windows buttons will be updated immediately.</p>
+
+<h4>Command line</h4>
+<p>You can also change this configuration in command line using the gconftool-2.</p>
+
+<p>For example, you want the <q>menu</q> on the left side, the <q>minimize,maximize,close</q>, in this specific order, on the right side:</p>
+<pre>
+gconftool-2 --set /apps/metacity/general/button_layout --type string menu:minimize,maximize,close
+</pre>

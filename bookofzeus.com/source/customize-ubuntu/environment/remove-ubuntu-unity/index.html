@@ -1,0 +1,31 @@
+<p>Canonical introduced, since Ubuntu 11.04, their new desktop environment software called Unity. Although, this great tool is very friendly some users still used to the classic Gnome  environment. Unfortunately, since Ubuntu 11.04, Unity comes installed by default and if you are not use to it you have to uninstall and install the one yo like.</p>
+
+<p>If you are not totally happy with Unity, here's a quick way to revert back to Gnome.</p>
+
+<p>First of all, make sure you have the latest updates:</p>
+<pre>
+sudo apt-get update
+sudo apt-get upgrade
+</pre>
+
+<p>Now, let's install the classic gnome:</p>
+<pre>
+sudo apt-get install gnome-session-fallback
+</pre>
+
+<p>Once this is installed, <em>Log out</em> and choose the <em>Gnome Classic</em> by selecting it under the gear options.</p>
+<img src="/download/login-screen-env.jpg" alt="Gnome Classic" width="494" height="194" class="autofit" />
+
+<p>Remove <em>Unity</em>
+<pre>
+sudo apt-get purge unity-lens-music unity-lens-applications unity-greeter unity-common unity-asset-pool unity-2d-launcher unity-2d libunity-misc4 libunity-2d-private0 gir1.2-unity-4.0 appmenu-gtk appmenu-gtk3 appmenu-qt indicator-appmenu
+</pre>
+
+<p>By removing unity, the <code>gnome-shell</code> will be installed. This gives you an option to login with the gnome-classic automatically.</p>
+
+<p>At this point you can <a href="http://customizeubuntu.com/appearance/window/disable-overlay-scrollbars-in-ubuntu/" title="disable overlay scrollbars in Ubuntu">disable overlay scrollbars in Ubuntu</a>. Also, you can install the <em>gconf-editor</em>:</p>
+<pre>
+    sudo apt-get install gconf-editor
+</pre>
+
+<p>This can be use to easily customize your new Gnome 3 environment.</p>

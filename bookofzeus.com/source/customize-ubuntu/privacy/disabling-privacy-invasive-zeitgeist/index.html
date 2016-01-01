@@ -1,0 +1,25 @@
+
+<p class="note">Release after release, Canonical's Ubuntu is increasingly turning YOUR personal computer into a personal surveillance machine enabling ad companies, intelligence and law enforcement agencies, curious spouses and the occasional Google wifi war driver to harvest personal information on YOU. Aside from that, these processes also waste processing power, memory and internet bandwhich. A couple of weeks ago, a colleague installed Ubuntu for the first time complaining to me how slow it was running on his older computer. The reason offcourse were processes like Zeitgeist and Geoclue. Below some guidelines on how to remove some of these programs and still maintaining some basic OS functionality.</p>
+
+
+<h4>Zeitgeist</h4>
+<p>Zeitgeist is a service which logs the user's activities and events (files opened, websites visited, conversations hold with other people, etc.) and makes the information available to other applications.</p>
+
+<h4>Geoclue</h4>
+<p>GeoClue is a software framework that enables geospatial awareness in applications. In human language: physical location tracking software.</p>
+
+<h5>Check processes</h5>
+<pre>
+ubuntu@customizeubuntu:~$ ps -ef | grep zeitgeist
+ubuntu      2521     1  0 09:13 ?        00:00:02 /usr/bin/zeitgeist-daemon
+ubuntu      2527     1  0 09:13 ?        00:00:20 /usr/lib/zeitgeist/zeitgeist-fts
+ubuntu      2529     1  0 09:13 ?        00:00:02 zeitgeist-datahub
+</pre>
+
+<p>If you see something like this, it means they are running.</p>
+
+<p>So let's remove them:</p>
+<pre>
+sudo apt-get purge zeitgeist-core zeitgeist-datahub python-zeitgeist rhythmbox-plugin-zeitgeist zeitgeist geoclue geoclue-ubuntu-geoip
+rm -rf ~/.local/share/zeitgeist/
+</pre>

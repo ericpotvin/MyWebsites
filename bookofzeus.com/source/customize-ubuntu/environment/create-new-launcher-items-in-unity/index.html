@@ -1,0 +1,65 @@
+
+<p>Having custom application in the Unity menu can be very useful, specially if these applications are used everyday. It will be very nice if nautilus allows us to drag and drop our favorite applications in the menu, no? Unfortunately, it is not the case. So here's two (2) methods on you can add your favorite applications in the Unit Menu.</p>
+
+<h4>Method #1:</h4>
+<p>Unity does support custom launchers from .desktop files. To create custom launcher from a .desktop file you need to create a *.desktop file for your program.</p>
+
+<pre>
+vi ~/.local/share/applications/name_of_your_app.desktop
+</pre>
+
+<p>The .desktop file should look something like this:</p>
+
+<pre>
+[Desktop Entry]
+Name=the name you want shown
+Comment=
+Exec=command to run
+Icon=icon name
+Terminal=false
+Type=Application
+StartupNotify=true
+</pre>
+
+<p>Example:</p>
+
+<pre>
+[Desktop Entry]
+Name=My Favorite App
+Comment=
+Exec=/path/to/my/app
+Icon=/usr/share/icons/gnome/48x48/emotes/face-wink.png
+Terminal=false
+Type=Application
+StartupNotify=true
+</pre>
+
+<p>Using your file manager, navigate to the home folder and navigate to <q>cd ~/.local/share/applications</q> (You may need to press ctrl+h to show) or in shell:</p>
+
+<pre>
+nautilus ~/.local/share/applications/
+</pre>
+
+<h4>Method #2 (In 12.04)</h4>
+<p>Create an "Untitled Document" in your home folder (right click and select <q>Create New Document</q>).</p>
+<p>Edit the file and add the following lines:</p>
+<pre>
+[Desktop Entry]
+Type=Application
+</pre>
+
+<p>Save the file and rename it to what you want with the <q>.desktop</q> extension. For example: <q>MyApp.desktop</q>.</p>
+
+<p>Now if you right click on the document, you will see something like this:
+
+<img src="/download/unity-app.png" width="579" height="498" alt="Create new launcher items in Unity" class="autofit" />
+
+<p>Now simply fill out the name, description, command and comment if you need. To change the application icon, click on the icon on the left of the name. This will pop a window and you can choose the icon you want.</p>
+
+<p>For a complete list of all applications, you can navigate or list all the files in the <q>/usr/share/applications folder</q> or in shell.</p>
+
+<pre>
+ls /usr/share/applications/*.desktop
+</pre>
+
+<p>This way you can customize items based on existing applications.</p>

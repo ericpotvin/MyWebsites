@@ -1,0 +1,22 @@
+
+<p>When you install Ubuntu, lots of keyboard shortcuts are pre-configured. Some of them are very useful but one of them annoyed me. The <kbd>ALT</kbd> one!</p>
+
+<p>Either when I am in the terminal, playing games or using other applications I need to use the <kbd>ALT</kbd> key and the HUD popups up.</p>
+
+<p>So here's how to disable it:</p>
+
+<p>In the system settings, click on the <q>keyboard</q> settings, then the <q>shortcuts</q> tab. Now click on the <q>Key to show the HUD</q> and then you can setup your own shortcut.</p>
+
+<img src="/download/disable-hud.png" width="747" height="484" alt="Disable the HUD when pressing the ALT key" class="autofit" />
+
+<h4>Command line</h4>
+<pre>
+gconftool-2 --set "/apps/compiz-1/plugins/unityshell/screen0/options/show_hud" --type string "&lt;Alt&gt;l"
+</pre>
+
+<p>This will setup the HUD to be <kbd>ALT+L</kbd>
+
+<p>To verify, you can use the <q>get</q>:</p>
+<pre>
+gconftool-2 --get "/apps/compiz-1/plugins/unityshell/screen0/options/show_hud"
+</pre>

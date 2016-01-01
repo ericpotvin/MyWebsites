@@ -1,0 +1,16 @@
+<p>By default, when you install flash player video, the hardware abstraction layer is not installed. This might cause issues when you want to play video (for example in Amazon Prime). You will see a message saying <q>flash version isn't supported</q> or <q>Sorry we are unable to stream this video. This is likely because your Flash Player needs to be updated</q>.</q>
+
+<p>The only way you can get around this error is to install this hardware abstraction layer (hal) by using the folloing command:</p>
+
+<pre>
+sudo apt-get install hal
+</pre>
+
+<p>Once the HAL library install is complete, close all Internet browsers and remove the current cache and data:</p>
+
+<pre>
+cd ~/.adobe/Flash_Player
+rm -rf NativeCache AssetCache APSPrivateData2
+</pre>
+
+<p class="note>The HAL library cannot play protected content that requires the Adobe Flash Access Digital Rights Management.</p>

@@ -1,0 +1,27 @@
+
+<p>Ubuntu comes with a great font, but would it be nice to change this? Of course it is possible.</p>
+
+<p>The first step is to find the fond you like. I personally like <a href="/download/YourSmile.ttf" title="your smile font">YourSmile.ttf</a>.
+Thanks to <a href="http://www.dafont.com/wino-s-kadir.d2209" title="Wino S Kadir" rel="nofollow" class="nw">Wino S Kadir</a>.</p>
+
+<p>Now, there's two (2) way to install your font:</p>
+
+<h4>For all users</h4>
+<p>This will install the font for all users in your system. First copy the font to the <q>/usr/share/fonts</q>:</p>
+<pre>
+sudo cp YourSmile.ttf /usr/share/fonts
+</pre>
+
+<h4>For a single user</h4>
+<p>This will install the font for a specific user in your system. First copy the font to the folder of the user, example: <q>~/.fonts</q>:</p>
+<pre>
+sudo cp YourSmile.ttf /usr/share/fonts
+</pre>
+
+<p>Once the font is installed, we need to build font information cache files:</p>
+<pre>
+fc-cache -fv
+</pre>
+
+<p>The <q>-f</q> flags means to force re-generation of apparently up-to-date cache files, overriding the timestamp checking.</p>
+<p>The <q>-v</q> flags means to display status information while busy.</p>

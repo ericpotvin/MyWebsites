@@ -1,0 +1,46 @@
+<p>Sometimes when we build websites or web applications, we have to make sure it is compatible with other Internet Browsers and operating system.</p>
+
+<p>Here's a quick guide to help you install the MAC OS fonts in Ubuntu.</p>
+
+<p>First get the font library <a href="http://www.customizeubuntu.com/download/mac_fonts.tar.gz" title="mac os fonts">http://www.customizeubuntu.com/download/mac_fonts.tar.gz</a>
+<pre>
+wget http://www.customizeubuntu.com/downloda/mac_fonts.tar.gz
+</pre>
+
+
+<p>Extract it:</p>
+<pre>
+tar zxvf mac_fonts.tar.gz
+</pre>
+
+<p>Install them into the macos folder:</p>
+<pre>
+sudo mkdir /usr/share/fonts/truetype/macos/
+sudo mv fonts/* /usr/share/fonts/truetype/macos/
+</pre>
+
+<p>Update the font cache:</p>
+<pre>
+sudo fc-cache -f -v
+</pre>
+
+<p>This will install the following fonts:</p>
+<ul>
+ <li>Andale Mono</li>
+ <li>Apple Garamond</li>
+ <li>AquaBase</li>
+ <li>Arial</li>
+ <li>Comic Sans MS</li>
+ <li>Courier New</li>
+ <li>Georgia</li>
+ <li>Hard Gothic</li>
+ <li>Impact</li>
+ <li>LithographLight</li>
+ <li>Lucida Grande</li>
+ <li>Lucida Console</li>
+ <li>Monaco</li>
+ <li>Tahoma</li>
+ <li>Times New Roman</li>
+ <li>Trebuchet MS</li>
+ <li>Verdana</li>
+</ul>
