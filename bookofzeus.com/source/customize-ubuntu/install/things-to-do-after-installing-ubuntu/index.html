@@ -1,0 +1,98 @@
+<p>Ubuntu comes with apps and tools that might not be the best for your needs.</p>
+
+<p>This small guide will help you to make Ubuntu at the level you want.</p>
+
+
+<p>See our <a href="http://bookofzeus.github.io/customize-ubuntu/install/post-install-scripts/">Post install scripts</a> if you want to create an automated script.</p>
+
+<h3>Update</h3>
+<p>Let's make sure we have all the latest updates (not upgrades)</p>
+<pre>
+sudo apt-get update
+</pre>
+
+<h3>Default Editor</h3>
+<p>Setup your favorite editor (like VIM)</p>
+<pre>
+sudo update-alternatives --config editor
+</pre>
+
+<h3>Auto Sudo</h3>
+<p>If you don't like to type your password everytime you run the sudo command, here's how to disable it:</p>
+<pre>
+sudo visudo
+</pre>
+<p>Add this line at the end:</p>
+<pre>
+MyUserName ALL=(ALL) NOPASSWD: ALL
+</pre>
+
+<h3>SSH keys</h3>
+<p>Generate your SSH keys</p>
+<pre>
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+cd .ssh
+ssh-keygen -t rsa
+</pre>
+
+<h3>Install Useful Apps</h3>
+<pre>
+sudo apt-get install vim git secure-delete
+sudo apt-get install flashplugin-installer
+sudo apt-get install p7zip-rar p7zip-full unace unrar zip unzip rar 
+</pre>
+
+<h3>Purge Unwanted Apps</h3>
+<pre>
+sudo apt-get purge empathy-common empathy*
+sudo apt-get purge transmission-* shotwell* totem*
+sudo apt-get purge account-plugin-* friends*
+sudo apt-get remove unity-webapps-common
+sudo apt-get purge thunderbird*
+sudo apt-get purge gnome-orca
+sudo apt-get purge gnomine gnome-sudoku gnome-mahjongg
+</pre>
+
+<h3>Fix slow connection in ssh</h3>
+<pre>
+sudo sed -i 's/GSSAPIAuthentication/#GSSAPIAuthentication/g' /etc/ssh/ssh_config
+sudo sed -i 's/GSSAPIDelegateCredentials/#GSSAPIDelegateCredentials/g' /etc/ssh/ssh_config
+</pre>
+
+<h3>Customize even more</h3>
+
+<p>Always use the location (full URL) entry</p>
+<pre>
+gsettings set org.gnome.nautilus.preferences always-use-location-entry true
+</pre>
+
+<p>Disable the HUD when pressing the ALT key</p>
+<pre>
+dconf write /org/compiz/profiles/unity/plugins/unityshell/show-launcher '""'
+dconf write /org/compiz/integrated/show-hud "['disable']"
+</pre>
+
+<p>Disable Features</p>
+<pre>
+gsettings set com.canonical.Unity.Lenses remote-content-search none
+gsettings set com.canonical.Unity.Lenses disabled-scopes "[]"
+</pre>
+
+<p>Install tweak tools</p>
+<pre>
+sudo apt-get install unity-tweak-tool gnome-tweak-tool
+</pre>
+
+<p>Disable security and privacy</p>
+<p>This is all done in the "System Settings" under the "Security and Privacy" tab.</p>
+
+<h3>Grive2</h3>
+<p>Please see our <a href="/articles/linux/install-grive2-ubuntu">How to install Grive2 in Ubuntu</a></p>
+
+<h3>Clean</h3>
+<pre>
+sudo apt-get autoremove
+sudo apt-get autoclean
+</pre>
+
