@@ -1,0 +1,15 @@
+
+<p>You should turn off IRQ Balance to make sure you do not get hardware interrupts in your threads.
+Turning off IRQ Balance, will optimize the balance between power savings and performance through distribution of hardware interrupts across multiple processors.</p>
+
+<p>To disable IRQ Balance, edit <q>/etc/default/irqbalance</q>:</p>
+
+<pre>
+sudo vi /etc/default/irqbalance
+</pre>
+
+<p>And Change the ENABLED value to 0:</p>
+<code><pre>
+ENABLED=0
+</pre></code>
+

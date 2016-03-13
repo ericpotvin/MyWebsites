@@ -1,0 +1,21 @@
+
+<p>The hostname uniquely identifies your computer on the local network. The hostname can be use in many services or applications. Once the hostname is set, it is not recommended to change it.</p>
+
+<p>To setup the hostname run this command:</p>
+
+<pre>
+echo "choose_a_better_hostname" &gt; /etc/hostname
+hostname -F /etc/hostname
+</pre>
+
+<p>Now, let's set the hostname in the host file.</p>
+<pre>
+sudo vi /etc/hosts
+</pre>
+
+<p>and Add the IP address(es) and the the hostname:</p>
+<code><pre>
+127.0.0.1       localhost.localdomain	localhost
+12.34.56.78     choose_a_better_hostname.domain.com	choose_a_better_hostname
+</pre></code>
+

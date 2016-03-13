@@ -1,0 +1,63 @@
+
+<p>Memcached is a high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.</p>
+
+<h2>Install</h2>
+<pre>
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install php5-memcache memcached php5-memcached
+sudo service memcached start
+</pre>
+
+<h2>Config</h2>
+<p>You can change the memcached config file for better server tunning:</p>
+<pre>
+sudo vi /etc/memcached.conf
+</pre>
+
+<p>Then, modify the config to have optimal settings:</p>
+
+<code><pre>
+modify -m 64 to -m 128
+</pre></code>
+
+<p>Restart memcached service</p>
+<pre>
+sudo /etc/init.d/memcached restart
+</pre>
+
+<h2>PHP Module</h2>
+<p>The module should be enable by default, if not you can modify:</>
+<pre>
+sudo vi /etc/php5/apache2/conf.d/20-memcached.ini
+</pre>
+
+<p>Un-comment the next line to enable the module:</p>
+<code><pre>
+extension=memcached.so
+</pre></code>
+
+<p>Or you can customize it. Here's a good example: https://github.com/php-memcached-dev/php-memcached/blob/master/memcached.ini</p>
+
+<p>Restart Apache</p>
+<pre>
+sudo /etc/init.d/apache2 restart
+</pre>
+
+<h2>Test</h2>
+<p>Here's a simple script that will allow to test memcached:</p>
+<code><pre>
+&lt;?php
+  $mc = new Memcached();
+  $mc-&gt;addServer("127.0.0.1", 11211);
+
+  $result = $mc-&gt;get("test_key");
+  if($result) {
+    echo $result;
+  }
+  else {
+    echo "No data on Cache. Please refresh page pressing F5";
+    $mc-&gt;set("test_key", "test data pulled from Cache!") or die ("Failed to save data at Memcached server");
+  }
+</pre></code>
+

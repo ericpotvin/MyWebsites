@@ -1,0 +1,154 @@
+
+<p>Hardening MySQL does not only apply to back-end configuration. Before, we proceed to the hardening process, here's some important principles you need to know first.</p>
+<ul>
+	<li>Sanitise user/form data</li>
+	<li>Parameterize queries</li>
+	<li>Like any software keeping up to date is important</li>
+	<li>Understand password encryption. Salt passwords. Don't use md5 nor sha1</li>
+	<li>Having a policy to change passwords periodically is a good idea.</li>
+	<li>Always start with no privileges and add only the ones they need to preform their role.</li>
+</ul>
+
+<h3>Application Specific Users</h3>
+
+<p>It is recommended to isolated your MySQL users to their own databases. Each application that uses MySQL should have its own users with their limited privileges.</p>
+
+<p>For example, you have a database called <q>mydb</q>.</p>
+
+<p>We need to create a new that only belongs to this database. We can create the user using the <q>CREATE USER</q> command:</p>
+<pre>
+CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+</pre>
+
+<p>Now, you need to setup the permissions (grant privileges) for this user on the <q>mydb</q> database.</p>
+<pre>
+GRANT SELECT,UPDATE,DELETE ON mydb.* TO 'myuser'@'localhost';
+</pre>
+
+<p>If you need to remove privileges (revoke), you can use this command:</p>
+<pre>
+REVOKE UPDATE ON mydb.* FROM 'myuser'@'localhost';
+</pre>
+
+<p>If you need to grant all privileges, you can use this command:</p>
+<pre>
+GRANT ALLUPDATE ON mydb.* FROM 'myuser'@'localhost';
+</pre>
+
+<p>When done, you must run the <q>flush privileges</q> command to make sure all privileges are applied. This command is used everytime you grant or revoke privileges.</p>
+<pre>
+FLUSH PRIVILEGES;
+</pre>
+
+<h3>Change Root Username</h3>
+
+<p>The default user when installing MySQL is <q>root</q>. This user has all privileges on everything. It is the easiest way for a hacker to login with this username and do some damage and steal information from your database.</p>
+
+<p>To make this a little harder for them, you can rename the <q>root</q> user to something else using a complex password.</p>
+
+<p>To rename the <q>root</q> user, use the <q>RENAME USER</q> command.</p>
+
+<pre>
+USE mysql
+UPDATE mysql.user set user = 'myuser' where user = 'root';
+</pre>
+
+<p>Then, change his password:</p>
+<pre>
+SET PASSWORD FOR 'my_new_user'@'%hostname' = PASSWORD('new_pass');
+</pre>
+
+<p>Don't forget to flush privileges:</p>
+<pre>
+FLUSH PRIVILEGES;
+</pre>
+
+<mark>IMPORTANT:</mark>
+<p>Make sure you erase these changes in your <q>~/.mysql_history</q>. This can be very easy from anyone who has access to figure out the new username and password.</p>
+
+<h3>Disable LOCAL INFILE</h3>
+
+<p>The <q>LOCAL INFILE</q> needs to be disable for security reason. It allow MySQL to read files form the local file system. This <q>technique</q> can be used by hackers in application to get local information like username and passwords.</p>
+
+<p>Example, let's read the <q>/etc/passwd</q>:</p>
+
+<pre>
+SELECT load_file("/etc/passwd");
+</pre>
+
+<p>To disable <q>LOCAL INFILE</q>, edit the <q>my.cnf</q>:p>
+
+<pre>
+sudo vi /etc/mysql/my.cnf
+</pre>
+
+<p>And change the value of the <q>local-infile</q> to <q>0</q>.</p>
+<code><pre>
+[mysqld]
+local-infile=0
+</pre></code>
+
+<h3>Disable Remote Access</h3>
+
+<p>Remote access needs to be disable if your don't need to access your MySQL database remotely. This will reduce the risk of an attack by forcing all MySQL connections to be allowed locally.
+
+<p>To restrict MySQL from opening a network socket, you need to add the following parameter in the <q>[mysqld]</q> section of the <q>/etc/mysql/my.cnf</q>.</p>
+<code><pre>
+bind-address=127.0.0.1
+</pre></code>
+
+<h3>Lower Privileges</h3>
+
+<h4>Lower system privileges</h4>
+
+<p>To protect your MySQL database, make sure that the MySQL file directory is owned by the <q>mysql</q> user and the <q>mysql</q> group.</p>
+<pre>
+sudo ls -l /var/lib/mysql
+</pre>
+
+<p>Also, make sure only the <q>mysql and/or root</q> users have access to the directory <q>/var/lib/mysql</q>.</p>
+
+<p>The mysql binaries files should be only owned by <q>mysql or root<q> users.</p>
+<pre>
+sudo ls -l /usr/bin/my*
+</pre>
+
+<h4>Lower database privileges</h4>
+
+<p>A privileges you need to be aware of is <q>SHOW DATABASES</q>. By default, this command can be used by everyone. It will show them all databases in your server.</p>
+
+<p>To disable this command, you need to enter the following parameter in your <q>/etc/my.cnf</q> under the <q>[mysqld]</q>.</q>
+<code><pre>
+[mysqld]
+skip-show-database
+</pre></code>
+
+<h3>Secure MySQL installation</h3>
+
+<p>The <q>mysql_secure_installation</q> will allow you secure the MySQL installation.</p>
+
+<p>It will cover the follwing topic:</p>
+<ul>
+	<li>Change the root password</li>
+	<li>Remove anonymous users</li>
+	<li>Disallow root login remotely</li>
+	<li>Remove test database and access to it</li>
+	<li>Reload privilege tables now<li>
+</ul>
+
+<pre>
+mysql_secure_installation
+</pre>
+
+<p>You should answer "Y" (for yes) to all of the remaining questions</p>
+
+<h3>Secure my.cnf</h3>
+
+<h4>Modify the permission of the config file</h4>
+
+<p>The configuration files should always only be owned by root. To change the permissions you can use the following commands:</p>
+<pre>
+sudo chown -R root:root /etc/mysql/
+sudo chmod 0644 /etc/mysql/my.cnf
+</pre>
+

@@ -1,0 +1,43 @@
+
+<p>Logwatch is a customizable log analysis tool. Logwatch reads through the system's logs and creates a report analyzing specific part of the system you want to monitor.</p>
+
+<h2>Install LogWatch</h2>
+<p>First, let's install LogWatch:</p>
+<pre>
+sudo apt-get install logwatch libdate-manip-perl
+</pre>
+
+<h3>View report</h3>
+<p>To view a logwatch report, or its output. you can use <q>tail</q> or <q>less</q>:</p>
+<pre>
+sudo logwatch | less
+</pre>
+
+<h3>Customize report</h3>
+<p>LogWatch allow parameters. These parameters can help you minimize reports and allow you to make them more human readable.</p>
+<ul>
+	<li><b>--mailto</b> - This parameter will allow you to email a report;</li>
+	<li><b>--output</b> - What type of output you would like;</li>
+	<li><b>--format</b> - The format of the report;</li>
+	<li><b>--range</b> - What date range you want the report;</li>
+</ul>
+<p>More parameters are available, please read the LogWatch help for more info.</p>
+
+<h3>Modify LogWatch</h3>
+<p>If you want to modify LogWatch, you need to opent eh <q>logwatch.conf</q> file.</p>
+<pre>
+vi /etc/log.d/conf/logwatch.conf
+</pre>
+
+<p>You can here change the email, details and many more. It is recommended to modify the details from <q>low</q> to <q>5 or 10</q>. This will give you more details logs.</p>
+
+<h3>Email report</h3>
+<p>You can email a LogWatch report if you prefer.
+<pre>
+sudo logwatch --mailto myemail@domain.com --output mail --format html --range 'between -8 days and -1 day'
+</pre>
+
+<h3>cronjob</h3>
+
+<p>You can run the previous command (email one) in a cronjob. This way, you can get a daily report on your systme logs.</p>
+

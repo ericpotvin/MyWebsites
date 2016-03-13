@@ -1,0 +1,18 @@
+
+<p>On any Ubuntu server, wirless needs to be disable, if of course it is enable.</p>
+
+<p>First, let's disable the wireless network from the interface file:</p>
+<pre>
+sudo vi /etc/network/interfaces
+</pre>
+<p>Add the following line:</p>
+<code><pre>
+iface wlan0 inet manual
+</pre></code>
+
+<p>NetworManager don't manage interfaces configured in the interfaces file. Replace wlan0 with the interface you want to disable, if it's not the name of the built-in interface.</p>
+
+<p>Then restart network manager:</p>
+<pre>
+sudo service network-manager restart
+</pre>

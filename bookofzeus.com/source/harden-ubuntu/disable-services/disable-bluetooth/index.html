@@ -1,0 +1,21 @@
+
+<p>You server probably already has bluetooth disabled or off. Just in case, you can double check and if the service is enable, here's how you can disable it.</p>
+
+<p>To disable bluetooth service on startup, you can add the command to disable it in the <q>/etc/rc.local</q> file.</p>
+<pre>
+sudo vi /etc/rc.local
+</pre>
+
+<p>add this line before exit 0:</p>
+<code><pre>
+rfkill block bluetooth
+</pre></code>
+
+<p>You can also disable it on boot in the main configuration file.</p>
+<pre>
+sudo vi /etc/bluetooth/main.conf
+</pre>
+<p>And set InitiallyPowered to false:</p>
+<code><pre>
+InitiallyPowered = false
+</pre> </code>

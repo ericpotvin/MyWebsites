@@ -1,0 +1,66 @@
+
+<p>For security reason, it is safe to use a <q>shadow user</q> which sudo powers instead of the root account.</p>
+
+<p>To improve security, you can create a user that will not be easy for other people to guess. In this guide, we will use the <q>huser14</q>.</p>
+
+<p>Create the user:</p>
+<pre>
+sudo useradd -d /home/huser14 -s /bin/bash -m huser14
+</pre>
+
+<p>Give the user sudo access:</p>
+<pre>
+sudo usermod -a -G sudo huser14
+</pre>
+
+<p>Set a password:</p>
+<pre>
+sudo passwd huser14
+</pre>
+
+<mark data-label="Password Tips">
+Make sure your password is at least 8 characters long containing a complex combination of numbers, letters, and punctuation marks.
+</mark>
+
+<h2>Remove Password Prompt For sudo</h2>
+
+<p>If it possible to remove password prompt when using the sudo command.</p>
+
+<p>To remove password prompt for sudo during the hardening process, edit the sudoers file:</p>
+
+<pre>
+vi /etc/sudoers
+</pre>
+
+<p>and add or replace the line:</p>
+<pre>
+huser14	ALL=(ALL) NOPASSWD: ALL
+</pre>
+
+<h3>Revert the changes</h3>
+
+<p><b>It is recommended to revert the "Remove Password Prompt" to its original state.</b> If you disable the sudo password, you will compromise the security of your server.</p>
+
+<pre>
+sudo vi /etc/sudoers
+</pre>
+
+<p>and replace the line:</p>
+<pre>
+huser14	ALL=(ALL) NOPASSWD: ALL
+</pre>
+
+<p>
+to
+</p>
+<pre>
+huser14	ALL=(ALL:ALL) ALL
+</pre>
+
+<h3>Try it out!</h3>
+
+<p>Now, let's try to log with your new account.</p>
+<mark data-label="WARNING">
+I recommend NOT to close your current connection, instead open a new shell or putty and try it!
+</mark>
+

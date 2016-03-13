@@ -1,0 +1,29 @@
+
+<p>Shared memory can be used in an attack against a running service, apache2 or httpd for example. To make it more secure, modify /etc/fstab using this command:</p>
+<pre>
+sudo vi /etc/fstab
+</pre>
+
+<p>add the following line for Ubuntu 12.04:</p>
+<code><pre>
+tmpfs     /dev/shm     tmpfs	defaults,noexec,nosuid	0	0
+</pre></code>
+
+<p>add the following line for Ubuntu 12.10 or later:</p>
+<code><pre>
+#secure shared memory
+tmpfs     /run/shm    tmpfs	defaults,noexec,nosuid	0	0
+</pre></code>
+
+<p>You will need to reboot for this setting to take effect.</p>
+
+<p>If you want to make the changes wihtout rebooting, you can run:</p>
+<pre>
+sudo mount -a
+</pre>
+
+<p>This command will allow you to find which files and folders can be secured:</p>
+<pre>
+sudo find / -perm -2 ! -type l -ls
+</pre>
+

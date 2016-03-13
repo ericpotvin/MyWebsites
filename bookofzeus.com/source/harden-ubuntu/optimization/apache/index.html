@@ -1,0 +1,76 @@
+
+<h2>MaxKeepAliveRequests and KeepAliveTimeout</h2>
+
+<p>Apache documentation using HTTP Keep Alive's can improve performance by as much as 50%. These two directives are important and should always be on. You can always change them to any value you desire. The default value of <q>MaxKeepAliveRequests</q> is 100 and the default value of <q>KeepAliveTimeout</q> is 15.</p>
+
+<p>The recommended value for <q>MaxKeepAliveRequests</q> can be between <b>50 and 75</b>.</p>
+<p>The recommended value for <q>KeepAliveTimeout</q> can be between <b>1 and 5</b>.</p>
+
+<h2>MaxClients</h2>
+
+<p>This directive allows you to set the limit on connections that will be served simultaneously. Every new connection will be queued up after this limit. It is available with Prefork and Worker both MPM. The default value of it is <b>256</b>.</p>
+
+<h2>LimitRequestFields</h2>
+<p>It helps us to set a limit on the number of HTTP request's header fields that will be accepted from the clients. Its default value is 100. It is recommended to lower this value if DDos attacks are occurring as a result of so many http request headers.</p>
+
+<h3>Example of optimization:</h3>
+<code><pre>
+Timeout 300
+KeepAlive On
+MaxKeepAliveRequests 100
+KeepAliveTimeout 15
+MinSpareServers 5
+MaxSpareServers 10
+StartServers 5
+MaxClients 150
+MaxRequestsPerChild 0
+</pre></code>
+
+
+<h3>Timeout</h3>
+<p>Usually this value doesn't require editing and a default of 300 is sufficient. Lowering the <q>Timeout</q> value will cause a long running script to terminate earlier than expected. On virtualized servers like VPS servers, lowering this value to 100 can help improve performance.</p>
+
+<h3>KeepAlive</h3>
+<p>This setting should be <q>On</q> unless the server is getting requests from hundreds of IPs at once. High volume and/or load balanced servers should have this setting disabled (Off) to increase connection throughput.</p>
+
+<h3>MaxKeepAliveRequests</h3>
+<p>This setting limits the number of requests allowed per persistent connection when KeepAlive is on. If it is set to 0, unlimited requests will be allowed. It is recommended to keep this value at 100 for virtualized accounts like VPS accounts. On dedicated servers it is recommended that this value be modified to 150.</p>
+
+<h3>KeepAliveTimeout</h3>
+<p>The number of seconds Apache will wait for another request before closing the connection. Setting this to a high value may cause performance problems in heavily loaded servers. The higher the timeout, the more server processes will be kept occupied waiting on connections with idle clients.</p>
+<p>It is recommended that this value be lowered to 5 on all servers.</p>
+
+<h3>MinSpareServers</h3>
+<p>This directive sets the desired minimum number of idle child server processes. An idle process is one which is not handling a request. If there are fewer spareservers idle then specified by this value, then the parent process creates new children at a maximum rate of 1 per second. Setting this parameter to a large number is almost always a bad idea.</p>
+
+<p>The recommended values for this setting are:</p>
+<code><pre>
+Virtualized server, ie VPS 5
+Dedicated server with 1-2GB RAM 10
+Dedicated server with 2-4GB RAM 20
+Dedicated server with 4+ GB RAM 25
+</pre></code>
+
+<h3>MaxSpareServers</h3>
+<p>The MaxSpareServers directive sets the desired maximum number of idle child server processes. An idle process is one which is not handling a request. If there are more than MaxSpareServers idle, then the parent process will kill off the excess processes.</p>
+<p>The MaxSpareServers value should be set as double the value that is set in MinSpareServers.</p>
+
+<h3>StartServers</h3>
+<p>This directivesets the number of child server processes created on startup. This value should mirror what is set in MinSpareServers.</p>
+
+<h3>MaxClients</h3>
+<p>This directive sets the limit on the number of simultaneous requests that will be served. Any connection attempts over the specified limit will be queued. Once a process is freed at the end of a different request, the queued connection will then be served.</p>
+<p>For virtualized servers such as VPS accounts, it is recommended to keep this value at 150. For all dedicated servers the recommended value for this setting is 250.</p>
+
+<h3>MaxRequestsPerChild</h3>
+<p>This directive sets the limit on the number of requests that an individual child server process will handle. After the number of requests reaches the value specified, the child process will die. When this value is set at 0, then the process will never expire.</p>
+<p>The recommended value for this setting are:</p>
+
+<code><pre>
+Virtualized server, ie VPS 300
+Dedicated server with 1-4GB RAM 500
+Dedicated server with 4+GB RAM 1000
+</pre></code>
+
+<p class="note">source: http://www.liquidweb.com/kb/apache-optimization/</p>
+

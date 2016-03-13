@@ -1,0 +1,216 @@
+
+<p>SSH can be very helpful when configuring your server, setup domains or anything else you need to do. It also one of the first point of entry of hackers. This is why it is very important to secure your ssh.</p>
+
+<p>The basic rules of hardening ssh are:</p>
+<ul>
+	<li>No password for ssh access (use private key)</li>
+	<li>Don't allow root to ssh (the appropriate users should ssh in, then su or sudo)</li>
+	<li>Use sudo for users so commands are logged</li>
+	<li>Log unauthorised login attempts (and consider software to block/ban users who try to access your server too many times, like fail2ban)</li>
+	<li>Lock down ssh to only the ip range your require (if you feel like it)</li>
+</ul>
+
+<h3>Generate SSH Keys</h3>
+
+<p>Using password authentication might be a risk if your users uses a weak password.</p>
+<p>It is recommended to use <q>ssh keys</q> instead. A <q>ssh keys</q> can contain over 600 random characters. Which makes very difficult to break.</p>
+
+<h4>On your local computer</h4>
+
+<h5>Generate SSH keys on your local machine</h5>
+<pre>
+cd ~/.ssh
+ssh-keygen -t rsa
+</pre>
+
+<p>For each question, simply press the enter key at every prompt. This will output something like (this may vary). This produces two files: id_dsa.pub (public key) and id_dsa (private key).</p>
+
+<h4>On your server</h4>
+
+<p>Create the folder:</p>
+<pre>
+mkdir -p ~/.ssh/
+</pre>
+
+<h4>On your local computer</h4>
+<p>Copy the <q>id_dsa.pub</q> file to your server:</p>
+<pre>
+scp -P &lt;yourport&gt; ~/.ssh/id_dsa.pub &lt;username@yourdomain.com&gt;:~/.ssh
+</pre>
+
+<h4>On your server</h4>
+<p>Change the filename and setup permissions:</p>
+<pre>
+cd
+cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys
+chmod 700 .ssh
+chmod 600 .ssh/authorized_keys
+rm .ssh/id_dsa.pub
+</pre>
+
+<h4>Testing</h4>
+<pre>
+ssh -P &lt;yourport&gt; &lt;username@yourdomain.com&gt;
+</pre>
+
+<p>If you get an error, you might need to run this command on your server:</p>
+<pre>
+ssh-add
+</pre>
+
+<h5>hardening sshd_config</h5>
+
+<p>Hardening SSH is an important step in securing your server. Everything you need to update is located in the file <q>/etc/ssh/sshd_config</q>:</p>
+
+<pre>
+sudo vi /etc/ssh/sshd_config
+</pre>
+
+<h4>Users security</h4>
+
+<h5>Limit Users Access</h5>
+<p>SSH allows any user to login. Allowing or denying access for specific users can significantly improve your security. It is recommended to specify which users you wan to allow in your system.</p>
+
+<p>To allow users, add or modify the following line:</p>
+<code><pre>
+AllowUsers user_abc user_xyz
+</pre></code>
+
+<p>You can also deny users:</p>
+<code><pre>
+DenyUser bad_user1 bad_user_2
+</pre></code>
+
+<h5>Disable root Login</h5>
+<p>It is recommended to deny the root login. Most hackers will try to use this user to login. The root account should never login in your server. You should always use a user with sudo powers instead.</p>
+<code><pre>
+PermitRootLogin no
+</pre></code>
+
+<h5>Disable Empty Passwords</h5>
+<p>It is recommended to deny any users with empty password on your system.</p>
+<code><pre>
+PermitEmptyPasswords no
+</pre></code>
+
+<h5>Do Not Allow Users to Set Environment Options</h5>
+<p>To prevent users from being able to present environment options to the SSH daemon and potentially bypass some access restrictions, add or correct the following line:</p>
+<code><pre>
+PermitUserEnvironment no
+</pre></code>
+
+<h5>Hide last login</h5>
+<p>You can hide who logged last when a user logins.</p>
+<code><pre>
+PrintLastLog no
+</pre></code>
+
+<h5>Restrict SSH Access by IP</h5>
+<p>If you want to allow SSH connection to be accepted from specific IP addresses, you can add the <q>ListenAddress</q>:</p>
+<code><pre>
+ListenAddress 1.1.1.1
+</pre></code>
+<mark>
+** WARNING: Using this might disable the SSH login if your IP changes.</mark>
+
+<h5>Disable Password Authentication</h5>
+<p>Using password authentication might be a risk if your users uses a weak password.</p>
+<p>It is recommended to use <q>ssh keys</q> instead. A <q>ssh keys</q> can contain over 600 random characters. Which makes very difficult to break.</p>
+
+<p>Here's how to generate <a href="http://hardenubuntu.com/hardening/ssh/generate-ssh-keys/" title="generate ssh keys">ssh keys</a>.</p>
+<code><pre>
+PasswordAuthentication no
+</pre></code>
+
+
+
+<h4>Harden configuration</h4>
+
+<h5>Only use Protocol 2</h5>
+<p>Version 1 of the protocol contains security vulnerabilities. Make sure you only use Protocol 2.</p>
+<code><pre>
+Protocol 2
+</pre></code>
+
+<h5>Changing Default port</h5>
+<p>An effective method is to run ssh on a non-standard port. Any unused port will do, although one above 1024 is preferable. It is recommeneded to not use <q>2222</q> since it is a very common port used by a lot of people.</p>
+<code><pre>
+Port 2345
+</pre></code>
+
+<h5>Disable UseDNS</h5>
+<p>This might create a latency between the client and the server when trying to establish the connection. You can disable it by using this setting:</p>
+<code><pre>
+UseDNS no
+</pre></code>
+
+<h5>Set Idle Timeout Interval</h5>
+<p>It is recommended to lower the idle timeout to avoid unattended ssh session.</p>
+<code><pre>
+ClientAliveInterval 300
+ClientAliveCountMax 0
+</pre></code>
+
+<h5>Disable .rhosts Files</h5>
+<p>SSH can emulate the behavior of the obsolete rsh command in allowing users to enable insecure access to their accounts via .rhosts. It is recommended to disable this.</p>
+<code><pre>
+IgnoreRhosts yes
+RhostsAuthentication no
+RhostsRSAAuthentication no
+RSAAuthentication yes
+</pre></code>
+
+
+<h5>Disable Host-Based Authentication</h5>
+<p>SSH's cryptographic host-based authentication is slightly more secure than .rhosts authentication, since hosts are cryptographically authenticated. However, it is not recommended that hosts unilaterally trust one another, even within an organization.</p>
+<code><pre>
+HostbasedAuthentication no
+</pre></code>
+
+<h5>Set a login grace timeout</h5>
+<p>The <q>LoginGraceTime</q> specifies how long in seconds after a connection request the server will wait before disconnecting if the user has not successfully logged in. It is recommended to reduce it.</p>
+<code><pre>
+LoginGraceTime 300
+</pre></code>
+
+<h5>Set maximum startup connections</h5>
+<p>Specifies the maximum number of concurrent unauthenticated connections to the SSH daemon. This setting can be helpful against a brute-force script that performs forking.</p>
+<code><pre>
+MaxStartups 2
+</pre></code>
+
+<h5>Disable Forwarding</h5>
+<p>It is possible to tunnel network connections through an SSH session. This <q>port fowarding</q> techinque is used by hackers to login into systems. This option should be disable.</p>
+<code><pre>
+AllowTcpForwarding no
+X11Forwarding no
+</pre></code>
+
+<h5>Log More Information</h5>
+<p>By default, OpenSSH logs everything at the <q>INFO</q> level. If you want to record more information like failed login attempts, you can change the value of this to <q>VERBOSE</q>.</p>
+<code><pre>
+LogLevel VERBOSE
+</pre></code>
+
+<h5>Strick Mode</h5>
+<p>Prevent the use of insecure home directory and key file permissions.</p>
+<code><pre>
+StrictModes yes
+</pre></code>
+
+<h5>Use TCP Wrappers</h5>
+<p>TCP Wrapper is a host-based Networking ACL system, used to filter network access to Internet. OpenSSH does supports TCP wrappers. Just update your /etc/hosts.allow file as follows to allow SSH only from 192.168.1.2 172.16.23.12:</p>
+<code><pre>
+sshd : 192.168.1.2 172.16.23.12
+</pre></code>
+<p>More information available at: http://www.cyberciti.biz/faq/tcp-wrappers-hosts-allow-deny-tutorial/</p>
+
+
+<h4>Restart SSH server</h4>
+<pre>
+sudo service ssh restart
+</pre>
+
+<mark>IMPORTANT: NOT DO Logout of the current session. Make sure you can connect first using another shell window. If you can't login, then re-visit the steps above and make sure everything is correct.</mark>
+<mark>IMPORTANT: IF you change your ssh port, make sure you add the rule in the iptables.</mark>
+

@@ -1,0 +1,203 @@
+
+<h2>Using ModEvasive</h2>
+
+<p>The first think to do is to install <q>ModEvasive</q>. All details are provided in <a href="http://hardenubuntu.com/hardening/apache/modsecurity/">http://hardenubuntu.com/hardening/apache/modsecurity/</a>.</p>
+
+<h2>Configuring UFW</h2>
+
+<p>The following instructions can be added to the UFW rules. Edit the <q>/etc/ufw/before.rules</q>:</p>
+
+<pre>
+sudo vi /etc/ufw/before.rules
+</pre>
+
+<p>Add those lines after <q>*filter</q> near the beginning of the file:</p>
+<code><pre>
+:ufw-http - [0:0]
+:ufw-http-logdrop - [0:0]
+</pre></code>
+
+<p>Add those lines near the end of the file, before the <q>COMMIT</q>:</p>
+<code><pre>
+### Start HTTP ###
+
+# Enter rule
+-A ufw-before-input -p tcp --dport 80 -j ufw-http
+-A ufw-before-input -p tcp --dport 443 -j ufw-http
+
+# Limit connections per Class C
+-A ufw-http -p tcp --syn -m connlimit --connlimit-above 50 --connlimit-mask 24 -j ufw-http-logdrop
+
+# Limit connections per IP
+-A ufw-http -m state --state NEW -m recent --name conn_per_ip --set
+-A ufw-http -m state --state NEW -m recent --name conn_per_ip --update --seconds 10 --hitcount 20 -j ufw-http-logdrop
+
+# Limit packets per IP
+-A ufw-http -m recent --name pack_per_ip --set
+-A ufw-http -m recent --name pack_per_ip --update --seconds 1 --hitcount 20 -j ufw-http-logdrop
+
+# Finally accept
+-A ufw-http -j ACCEPT
+
+# Log
+-A ufw-http-logdrop -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW HTTP DROP] "
+-A ufw-http-logdrop -j DROP
+
+### End HTTP ###
+</pre></code>
+
+<h2>Prevent Ping Flood</h2>
+<p>Make sure you don't get ping flood by setting some iptables rules that limit icmp. You can prevent ping/icmp flood with iptables add these rules right before the <q>COMMIT</q>.</p>
+<code><pre>
+-A INPUT -p icmp -m limit --limit 6/s --limit-burst 1 -j ACCEPT
+-A INPUT -p icmp -j DROP
+</pre></code>
+
+
+<h2>Disable IPv6</h2>
+<p>Before reloading all the rules, you need to make sure IPv6 is disable:</p>
+<pre>
+sudo vi /etc/default/ufw
+</pre>
+<p>Change the setting to <q>no</q>.</p>
+<code><pre>
+IPV6=no
+</pre></code>
+
+<p>Make sure ufw runs and reload everything:</p>
+<pre>
+sudo ufw reload
+</pre>
+
+<p class="note">If you get an error like this: <b>ERROR: problem running ufw-init</b>, simply delete the blank lines and manually insert new ones in their place. Most of the time this error is a bad copy and paste.</p>
+
+<h2>Block IPs</h2>
+<p>You can always banned black-listed IP addresses. Simply add the list of IP addresses in your apache2.conf under the <q>LIMIT</q> settings.</p>
+
+<code><pre>
+&lt;Limit GET POST PUT&gt;
+ Order Allow,Deny
+ Allow from all
+ Deny from 208.50.101.
+ Deny from 78.234.5.2
+ Deny from 98.150.108.228
+ Deny from 69.41.14.215
+ Deny from 64.124.98.10
+ Deny from 64.125.188.25
+ Deny from 64.124.203.72
+ Deny from 8.28.16.
+ Deny from 91.121.
+ Deny from 77.222.61.
+ Deny from 74.63.250.
+ Deny from 27.159.223.
+ Deny from 94.23.
+ Deny from 89.185.228.
+ Deny from 95.87.220.
+ Deny from 69.94.34.
+ Deny from 221.132.34.
+ Deny from 114.33.237.
+ Deny from 184.169.163.
+ Deny from 69.162.68.
+ Deny from 91.102.118.
+ Deny from 27.54.93.
+ Deny from 198.57.208.
+ Deny from 142.4.215.
+ Deny from 79.142.67.
+ Deny from 65.111.165.
+ Deny from 69.175.78.
+ Deny from 37.59.47.
+ Deny from 201.10.113.
+ Deny from 1.234.27.
+ Deny from 123.30.50.
+ Deny from 89.221.250.
+ Deny from 202.43.169.
+ Deny from 41.210.123.
+ Deny from 173.54.107.
+ Deny from 69.169.94.
+ Deny from 188.165.
+ Deny from 93.185.106.
+ Deny from 118.98.223.
+ Deny from 200.63.102.
+ Deny from 84.127.22.
+ Deny from 151.28.208.
+ Deny from 176.194.133.
+ Deny from 213.184.242.
+ Deny from 27.153.229.
+ Deny from 72.47.196.
+ Deny from 109.199.242.214
+ Deny from 208.27.69.9
+ Deny from 86.83.234.160
+ Deny from 103.3.223.91
+ Deny from 81.149.190.176
+ Deny from 213.125.223.202
+ Deny from 46.120.100.248
+ Deny from 188.49.63.110
+ Deny from 199.229.249.187
+ Deny from 37.77.162.130
+ Deny from 80.192.66.108
+ Deny from 84.25.70.100
+ Deny from 37.221.160.158
+ Deny from 209.140.28.124
+ Deny from 212.227.18.17
+ Deny from 178.119.213.35
+ Deny from 85.246.12.149
+ Deny from 91.236.116.119
+ Deny from 81.157.96.215
+ Deny from 213.100.101.109
+ Deny from 112.198.77.40
+ Deny from 216.38.8.177
+ Deny from 204.45.133.74
+ Deny from 71.245.243.98
+ Deny from 212.227.18.17
+ Deny from 188.223.209.72
+ Deny from 109.255.36.134
+ Deny from 86.19.152.228
+ Deny from 71.6.203.27
+ Deny from 184.168.116.128
+ Deny from 151.27.123.198
+ Deny from 65.55.24.237
+ Deny from 157.
+ Deny from 81.144.138.34
+ Deny from 111.73.46.4
+ Deny from 186.222.83.11
+ Deny from 60.234.45.151
+ Deny from 157.
+ Deny from 82.170.182.160
+ Deny from 82.169.246.22
+ Deny from 64.14.78.96
+ Deny from 86.156.146.50
+ Deny from 85.59.38.177
+ Deny from 81.144.138.34
+ Deny from 157.55.36.
+ # added 2013/09/02
+ Deny from 8.28.16.
+ Deny from 27.159.233.63
+ Deny from 50.9.101.245
+ Deny from 61.189.22.137
+ Deny from 64.124.203.
+ Deny from 74.217.148.
+ Deny from 78.85.18.135
+ Deny from 89.31.
+ Deny from 109.108.163.154
+ Deny from 110.85.115.183
+ Deny from 120.37.208.95
+ Deny from 120.37.210.111
+ Deny from 120.43.4.142
+ Deny from 120.39.23.174
+ Deny from 124.243.124.206
+ Deny from 150.70.64.
+ Deny from 150.70.75.
+ Deny from 150.70.172.
+ Deny from 174.127.133.
+ Deny from 200.98.197.
+ Deny from 204.13.66.21
+ Deny from 207.241.226.91
+ Deny from 208.50.101.
+ Deny from 221.206.105.219
+ Deny from 183.61.245.
+ Deny from 190.199.229.235
+ Deny from 207.241.237.
+ Deny from 82.165.136.
+&lt;/Limit&gt;
+</pre></code>
+

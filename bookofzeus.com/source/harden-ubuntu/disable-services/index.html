@@ -1,0 +1,22 @@
+
+<p>Ubuntu install lot of services you might not need. These services takes memory and disk space that you might need to use. This section of the guide will help you disable services that are not required to use.</p>
+
+<p>Hardening systems by disabling or removing unnecessary services can enhance security and improve overall system performance. To find out which services are currently running, you can run this command:</p>
+
+<pre>
+sudo initctl list | grep running
+</pre>
+
+<p>To disable services, you can remove the startup script, use a command such as chkconfig, or simply removing it from the system. Most of the services can be disable by running this command:</p>
+<pre>
+echo "manual" &gt; /etc/init/service.override
+update-rc.d -f service_name remove
+</pre>
+
+<p>Some services can be disable by overriding the execution:</p>
+
+<p>or by removing it:</p>
+<pre>
+sudo apt-get purge service_name
+</pre>
+

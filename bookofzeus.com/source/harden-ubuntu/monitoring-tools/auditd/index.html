@@ -1,0 +1,88 @@
+
+<p>The auditctl program is used to control the behavior, get status, and add or delete rules into the kernel's auditd system.</p>
+
+<p>If you are running a web server with sensitive data, you probably want to monitor which files are file accessed and what kind of activities are running in your server.</p>
+
+<h2>Install auditd</h2>
+<pre>
+sudo apt-get install auditd
+</pre>
+
+<h2>Rules</h2>
+<p>Once auditd is installed, you can configure it either:</p>
+
+<ul>
+	<li>Command-line using <q>auditctl</q></li>
+	<li>Using the configuration file <q>/etc/audit/audit.rules</q></li>
+</ul>
+
+<p>I recommend to use the configuration file, since it is easier to configure, backup and restore if there's any error.</p>
+
+<h2>Example configuration file</h2>
+<code><pre>
+# first of all, reset the rules (delete all)
+-D
+
+# increase the buffers to survive stress events. make this bigger for busy systems.
+-b 1024
+
+# monitor unlink() and rmdir() system calls.
+-a exit,always -S unlink -S rmdir
+
+# monitor open() system call by Linux UID 1001.
+-a exit,always -S open -F loginuid=1001
+
+# monitor write-access and change in file properties (read/write/execute) of the following files.
+-w /etc/group -p wa
+-w /etc/passwd -p wa
+-w /etc/shadow -p wa
+-w /etc/sudoers -p wa
+
+# monitor read-access of the following directory.
+-w /etc/secret_directory -p r
+
+# lock the audit configuration to prevent any modification of this file.
+-e 2
+</pre></code>
+
+<p>Restart auditd.</p>
+<pre>
+sudo service auditd restart
+</pre>
+
+<p>The audit daemon will generate a log file: <q>/var/log/audit/audit.log</q>. To search into the logs, you need to use the <q>ausearch</q>. This will look for any unauthorized access.</p>
+
+<p>For example, if you want to check if the <q>/etc/passwd</q> has been accessed, you can run the following command:</p>
+<pre>
+sudo ausearch -f /etc/passwd
+</pre>
+
+
+<h2>Error deleting rule</h2>
+
+<p>If you get the <q>Operation not permitted</q> while tring to delete a rule, it is because audit is in immutable mod and no rules wlil be loaded. You can try to stop the service, but if this does not work, you will have to reboot the server. Modify the rules first, then reboot.</p>
+
+<h2>Rotate log</h2>
+
+<p>You can rotate daily logs for audit. The log are located in <q>/var/log/audit</q>. You can simply create a cronjob with the following command in it:</p>
+
+<code><pre>
+sudo service auditd rotate
+</pre></code>
+
+<p class="note">source: http://xmodulo.com/2013/05/how-to-monitor-file-access-on-linux.html</p>
+
+<h2>Other useful commands</h2>
+
+<p>You can search for events with a specific date and time. If the date is omitted, the current day is assumed. If the time is omitted, the current time is assumed. It is recommended to use 24 hour clock time rather than AM or PM to specify time.</p>
+<pre>
+ausearch -ts today -k password-file
+ausearch -ts 1/1/14 -k password-file
+</pre>
+
+<p>You can also search for an event matching the given executable name. You can accomplish this using <q>-x</q> option. For example find out who has accessed /etc/passwd using rm command:</p>
+<pre>
+ausearch -ts today -k password-file -x rm
+ausearch -ts 1/1/14 -k password-file -x rm
+</pre>
+

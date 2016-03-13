@@ -1,0 +1,149 @@
+
+<p>Make sure the Postfix is running with non-root account:</p>
+<pre>
+ps aux | grep postfix | grep -v '^root'
+</pre>
+
+<p>Change permissions and ownership on the destinations below:</p>
+<pre>
+sudo chmod 755 /etc/postfix
+sudo chmod 644 /etc/postfix/*.cf
+sudo chmod 755 /etc/postfix/postfix-script*
+sudo chmod 755 /var/spool/postfix
+sudo chown root:root /var/log/mail*
+sudo chmod 600 /var/log/mail*
+</pre>
+
+<h3>Configuration update</h3>
+
+<p>Make the following changes in the configuration file:</p>
+<pre>
+sudo vi /etc/postfix/main.cf
+</pre>
+
+<p>Modify the myhostname value to correspond to the external fully qualified domain name (FQDN) of the Postfix server, for example:</p>
+<code><pre>
+myhostname = myserver.mydomain.com
+</pre></code>
+
+<p>Configure network interface addresses that the Postfix service should listen on, for example:</p>
+<code><pre>
+mydestination = $myhostname, localhost.$mydomain, localhost
+inet_interfaces = localhost
+</pre></code>
+
+<p>Configure Trusted Networks, for example:</p>
+<code><pre>
+mynetworks = 10.0.0.0/16, 192.168.1.0/24, 127.0.0.1
+</pre></code>
+
+<p>Configure the SMTP server to masquerade outgoing emails as coming from your DNS domain, for example:</p>
+<code><pre>
+myorigin = mydomain.com
+</pre></code>
+
+<p>Configure the SMTP domain destination, for example:</p>
+<code><pre>
+mydomain = mydomain.com
+</pre></code>
+
+<p>Configure to which SMTP domains to relay messages to, for example:</p>
+<code><pre>
+relay_domains = mydomain.com
+</pre></code>
+
+<p>Configure SMTP Greeting Banner:</p>
+<code><pre>
+smtpd_banner = $myhostname
+</pre></code>
+
+<p>Limit Denial of Service Attacks:</p>
+<code><pre>
+default_process_limit = 100
+smtpd_client_connection_count_limit = 10
+smtpd_client_connection_rate_limit = 30
+queue_minfree = 20971520
+header_size_limit = 51200
+message_size_limit = 10485760
+smtpd_recipient_limit = 100
+</pre></code>
+
+<p>Disable the SMTP VRFY command. This stops some techniques used to harvest email addresses.</p>
+<code><pre>
+disable_vrfy_command = yes
+</pre></code>
+
+<p>It will allows Postfix to log recipient address when denying a client or sender address. Basically, it is not possible to find out which mail is being rejected.</p>
+<code><pre>
+smtpd_delay_reject = yes
+</pre></code>
+
+<p>Requiring that the client sends the HELO or EHLO command before sending the MAIL FROM or ETRN command. This may cause problems with home-grown applications that send mail. </p>
+<code><pre>
+smtpd_helo_required = yes
+</pre></code>
+
+<p>Reject email if remote hostname is not in fully-qualified domain form.</p>
+<code><pre>
+smtpd_helo_restrictions = permit_mynetworks, reject_non_fqdn_hostname
+</pre></code>
+
+<p>Reject all bots sending email from computers connected via DSL/ADSL computers. They don't have valid internet hostname. (If you use the previous directive, you will need to add it at the end).</p>
+<code><pre>
+smtpd_helo_restrictions = reject_invalid_hostname
+</pre></code>
+
+<p>You can put the following access restrictions that the Postfix SMTP server applies in the context of the RCPT TO command.</p>
+<code><pre>
+smtpd_recipient_restrictions =
+ reject_invalid_hostname, 		// Reject email if it not valid hostname
+ reject_non_fqdn_hostname, 		// Reject email if it not valid FQDN
+ reject_non_fqdn_sender, 		// Reject the request when the MAIL FROM address is not in fully-qualified domain form. For example email send from xyz or abc is rejected.
+ reject_non_fqdn_recipient, 		// Reject the request when the RCPT TO address is not in fully-qualified domain form
+ reject_unknown_sender_domain,		// Reject email, if sender domain does not exists
+ reject_unknown_recipient_domain,	// Reject email, if recipient domain does not exists
+ permit_mynetworks,
+ reject_rbl_client list.dsbl.org, 	// Configure spam black lists
+ reject_rbl_client sbl.spamhaus.org,
+ reject_rbl_client cbl.abuseat.org,
+ reject_rbl_client dul.dnsbl.sorbs.net,
+ permit
+</pre></code>
+
+<p>Set the limits for error sleep, soft and hard error limits:</p>
+<code><pre>
+smtpd_error_sleep_time = 1s
+smtpd_soft_error_limit = 10
+smtpd_hard_error_limit = 20
+</pre></code>
+
+<h3>Foward emails</h3>
+
+<p>To foward emails, open the <q>/etc/postfix/virtual</q> file:</p>
+<pre>
+sudo vi /etc/postfix/virtual
+</pre>
+
+<p>Now, to foward emails, you simply need to add both email addresses on the same line:</p>
+<code><pre>
+email1@domain.com	email2@domain.com
+</pre></code>
+
+<p>This will foward all emails from <q>email1@domain.com</q> to <q>email2@domain.com</q>.</p>
+
+<p>You can also have a catch-all email address.</p>
+<code><pre>
+@some-other-domain.com         email3@domain.com
+</pre></code>
+
+<p>Make sure following two line exists in <q>/etc/postfix/main.cf</q>:</p>
+<code><pre>
+virtual_alias_domains = mydomain.com
+# virtual_alias_domains = mydomain.com myotherdomain.com ..
+virtual_alias_maps = hash:/etc/postfix/virtual
+</pre></code>
+
+<p>Restart the Postfix daemon:</p>
+<pre>
+sudo service postfix restart
+</pre>

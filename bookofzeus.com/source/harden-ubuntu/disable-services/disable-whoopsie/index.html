@@ -1,0 +1,18 @@
+
+<p>Whoopsie is a service that sends a crash log to ubuntu. Althought very useful, it can be removed.</p>
+
+<p>To disable the service, edit the file:</p>
+<pre>
+sudo vi /etc/default/whoopsie
+</pre>
+
+<p>and change the <q>report_crashes</q> parameter to <q>false</q>:</p>
+<code><pre>
+report_crashes=false
+</pre></code>
+
+<h2>Remove Whoopsie</h2>
+<p>To completely remove the service, run this command:</p>
+<pre>
+sudo apt-get purge whoopsie
+</pre>

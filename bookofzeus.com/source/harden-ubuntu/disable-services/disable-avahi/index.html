@@ -1,0 +1,15 @@
+
+<p>The Avahi daemon provides mDNS/DNS-SD discovery support (Bonjour/Zeroconf) allowing applications to discover services on the network.</p>
+
+<p>You can disable the service by running this command:</p>
+<pre>
+cd /etc/init
+touch avahi-daemon.override
+echo "manual" &gt; avahi-daemon.override
+</pre>
+
+<h2>Removing avahi</h2>
+<p>You can completely remove Avahi by running the following command:</p>
+<pre>
+sudo apt-get remove avahi-daemon avahi-utils
+</pre>

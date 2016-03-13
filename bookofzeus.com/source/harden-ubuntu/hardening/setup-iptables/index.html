@@ -1,0 +1,160 @@
+
+<p>iptables is a user space application program that allows a system administrator to configure the tables provided by the Linux kernel firewall and the chains and rules it stores.</p>
+
+<p>There's is not really one iptables configuration you can use. IPTables can be set based on your preferences and your needs.</p>
+
+<p>Here some examples you can look and update based on your needs. Please note, you will need <q>sudo</q> in order to use IPTables.</p>
+
+<mark>Before you start, you can always setup these rules in the <u>/etc/ufw/before.rules</u> file.</mark>
+
+<h3>Limit Imcoming SSH Connections</h3>
+
+<p>The following example will drop incoming connections which make more than 5 connection attempts upon port 22 within 60 seconds:</p>
+
+<pre>
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --set
+iptables -I INPUT -p tcp --dport 22 -i eth0 -m state --state NEW -m recent --update --seconds 60 --hitcount 5 -j DROP
+</pre>
+
+<h3>Rate-limit Incoming SSH Port Connections</h3>
+<p>Both netfilter and pf provides rate-limit option to perform simple throttling on incoming connections on port the ssh port, by default 22 unless you changed it.</p>
+<p>The following example will drop any incoming connections which make more than 3 connection attempts on the ssh port within 15 seconds:</p>
+<pre>
+iptables -I INPUT -p tcp --dport ssh -i eth0 -m state --state NEW -m recent  --set
+iptables -I INPUT -p tcp --dport ssh -i eth0 -m state --state NEW -m recent  --update --seconds 15 --hitcount 3 -j DROP
+</pre>
+
+<h3>Use Port Knocking</h3>
+<p>Port knocking is a method of externally opening ports on a firewall by generating a connection attempt on a set of prespecified closed ports. Once a correct sequence of connection attempts is received, the firewall rules are dynamically modified to allow the host which sent the connection attempts to connect over specific port(s).</p>
+<pre>
+iptables -N stage1
+iptables -A stage1 -m recent --remove --name knock
+iptables -A stage1 -p tcp --dport 3456 -m recent --set --name knock2
+iptables
+iptables -N stage2
+iptables -A stage2 -m recent --remove --name knock2
+iptables -A stage2 -p tcp --dport 2345 -m recent --set --name heaven
+iptables
+iptables -N door
+iptables -A door -m recent --rcheck --seconds 5 --name knock2 -j stage2
+iptables -A door -m recent --rcheck --seconds 5 --name knock -j stage1
+iptables -A door -p tcp --dport 1234 -m recent --set --name knock
+iptables
+iptables -A INPUT -m --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -m recent --rcheck --seconds 5 --name heaven -j ACCEPT
+iptables -A INPUT -p tcp --syn -j doo
+</pre>
+
+<h3>Attempt to block portscans</h3>
+<p>Anyone who tried to portscan us is locked out for an entire day.</p>
+<pre>
+iptables -A INPUT   -m recent --name portscan --rcheck --seconds 86400 -j DROP
+iptables -A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP
+</pre>
+
+<p>Once the day has passed, remove them from the portscan list.</p>
+<pre>
+iptables -A INPUT   -m recent --name portscan --remove
+iptables -A FORWARD -m recent --name portscan --remove
+</pre>
+
+
+<p>These rules add scanners to the portscan list, and log the attempt.</p>
+<pre>
+iptables -A INPUT   -p tcp -m tcp --dport 139 -m recent --name portscan --set -j LOG --log-prefix "Portscan:"
+iptables -A INPUT   -p tcp -m tcp --dport 139 -m recent --name portscan --set -j DROP
+
+iptables -A FORWARD -p tcp -m tcp --dport 139 -m recent --name portscan --set -j LOG --log-prefix "Portscan:"
+iptables -A FORWARD -p tcp -m tcp --dport 139 -m recent --name portscan --set -j DROP
+</pre>
+
+<p>Force SYN packets check</p>
+<pre>
+iptables -A INPUT -p tcp ! --syn -m state --state NEW -j DROP
+</pre>
+
+<p>Drop all NULL packets</p>
+<pre>
+iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+</pre>
+
+<p>Drop ping</p>
+<pre>
+iptables -A OUTPUT -p icmp -o eth0 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-reply -s 0/0 -i eth0 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type destination-unreachable -s 0/0 -i eth0 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type time-exceeded -s 0/0 -i eth0 -j ACCEPT
+iptables -A INPUT -p icmp -i eth0 -j DROP
+</pre>
+
+<p>To block an attackers ip address called 1.2.3.4, enter:</p>
+<pre>
+iptables -A INPUT -s 1.2.3.4 -j DROP
+iptables -A INPUT -s 192.168.0.0/24 -j DROP
+</pre>
+
+
+
+<h2>Sample Configuration</h2>
+<pre>
+# Accept traffic from internal interfaces
+iptables -A INPUT ! -i eth0 -j ACCEPT
+
+# Accept traffic with the ACK flag set
+iptables -A INPUT -p tcp -m tcp --tcp-flags ACK ACK -j ACCEPT
+
+# Allow incoming data that is part of a connection we established
+iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
+
+# Allow data that is related to existing connections
+iptables -A INPUT -m state --state RELATED -j ACCEPT
+
+# Accept responses to DNS queries
+iptables -A INPUT -p udp -m udp --dport 1024:65535 --sport 53 -j ACCEPT
+
+# Accept responses to our pings
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-reply -j ACCEPT
+
+# Accept notifications of unreachable hosts
+iptables -A INPUT -p icmp -m icmp --icmp-type destination-unreachable -j ACCEPT
+
+# Accept notifications to reduce sending speed
+iptables -A INPUT -p icmp -m icmp --icmp-type source-quench -j ACCEPT
+
+# Accept notifications of lost packets
+iptables -A INPUT -p icmp -m icmp --icmp-type time-exceeded -j ACCEPT
+
+# Accept notifications of protocol problems
+iptables -A INPUT -p icmp -m icmp --icmp-type parameter-problem -j ACCEPT
+
+# Allow connections to our SSH server
+iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+
+# Respond to pings
+iptables -A INPUT -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+
+# Allow connections to webserver
+iptables -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+
+# Allow SSL connections to webserver
+iptables -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+#Allow connections to SMTP server for mail delivery
+iptables -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT
+</pre>
+
+<h2>Saving Rules</h2>
+
+<p>To save the IPTables rules, you need to use the <q>iptables-save</q> command:</p>
+<pre>
+iptables-save &gt; /root/my.active.firewall.rules
+</pre>
+
+<h2>Restore Rules</h2>
+<p>To restore rules, simply use the <q>iptables-restore</q> command:</p>
+<pre>
+iptables-restore < /root/my.active.firewall.rules
+</pre>
+
+<p>For more information about IPTables, please read : https://help.ubuntu.com/community/IptablesHowTo</p>
+

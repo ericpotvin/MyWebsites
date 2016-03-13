@@ -1,0 +1,14 @@
+
+<p>This the standard network file sharing for Unix/Linux/BSD style operating systems. Unless you require to share data in this manner, disable this.</p>
+
+<p>The following packages are used for the NFS service:</p>
+<ul>
+	<li>nfs-kernel-server</li>
+	<li>nfs-common</li>
+	<li>portmap</li>
+	<li>rpcbind</li>
+	<li>autofs</li>
+</ul>
+<pre>
+sudo apt-get purge nfs-kernel-server nfs-common portmap rpcbind autofs
+</pre>

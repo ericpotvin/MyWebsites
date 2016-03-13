@@ -1,0 +1,18 @@
+
+<p>For security reasons, it is safe to disable the root account. Removing the account might not be a good idea at first, instead we simply need to disable it.</p>
+
+<pre>
+passwd --help | grep lock
+  -l, --lock                    lock the password of the named account
+  -u, --unlock                  unlock the password of the named account
+</pre>
+
+<p>To disable the root account, simply use the <q>-l</q> option:</p>
+<pre>
+sudo passwd -l root
+</pre>
+
+<p><b>If</b> for some valid reason you need to re-enable the account, simply use the <q>-u</q> option:</p>
+<pre>
+sudo passwd -l root
+</pre>

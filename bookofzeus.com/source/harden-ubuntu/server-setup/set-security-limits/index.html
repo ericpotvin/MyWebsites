@@ -1,0 +1,15 @@
+
+<p>You might need to protect your system against <a href="http://www.cyberciti.biz/faq/understanding-bash-fork-bomb/" rel="nofollow" target="_blank">fork bomb</a> attacks. A simple way to prevent this is by setitng up processes limit for your users. All the limits can be configured in the <q>/etc/security/limits.conf</q> file.</p>
+
+<pre>
+sudo vi /etc/security/limits.conf
+</pre>
+
+<p>This file comes with all the help you need. Here's an example:</p>
+<code><pre>
+user1 hard nproc 100
+@group1 hard nproc 20
+</pre></code>
+
+<p>This will prevent users from a specific group from having a maximum of 20 processs and maximize the number of processes to 100 to user1.</p>
+

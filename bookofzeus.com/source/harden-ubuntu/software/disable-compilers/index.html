@@ -1,0 +1,26 @@
+
+<p>Compilers can be used by hackers from compiling software like worms or root kits to be used on your Ubuntu server. If one or more of these compilers are installed, and you don't want to remove the compilers, you can change the permissions to them.</p>
+
+<pre>
+sudo chmod 000 /usr/bin/byacc
+sudo chmod 000 /usr/bin/yacc
+sudo chmod 000 /usr/bin/bcc
+sudo chmod 000 /usr/bin/kgcc
+sudo chmod 000 /usr/bin/cc
+sudo chmod 000 /usr/bin/gcc
+sudo chmod 000 /usr/bin/*c++
+sudo chmod 000 /usr/bin/*g++
+</pre>
+
+
+<p>If you need to use them, you can re-enable them by setting the permissions back to its original state or like this:</p>
+<pre>
+sudo hmod 755 /usr/bin/byacc
+sudo hmod 755 /usr/bin/yacc
+sudo hmod 755 /usr/bin/bcc
+sudo hmod 755 /usr/bin/kgcc
+sudo hmod 755 /usr/bin/cc
+sudo hmod 755 /usr/bin/gcc
+sudo hmod 755 /usr/bin/*c++
+sudo hmod 755 /usr/bin/*g++
+</pre>

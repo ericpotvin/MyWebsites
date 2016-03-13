@@ -1,0 +1,47 @@
+
+<p>psad is a collection of three lightweight system daemons (two main daemons and one helper daemon) that run on Linux machines and analyze iptables log messages to detect port scans and other suspicious traffic.</p>
+
+<h2>Install PSAD</h2>
+<p>To install psad, run the following command:</p>
+<pre>
+sudo apt-get install psad
+</pre>
+
+
+<h3>Edit the config file</h3>
+<p>You need to update some parameters in the <q>psad.conf</q> file first.</p>
+<pre>
+sudo vi /etc/psad/psad.conf
+</pre>
+
+<p>Before changing anything, double check to make sure the <q>HOSTNAME</q> parameter is set properly. Then, update the following parameters:</p>
+
+<ul>
+	<li><b>EMAIL_ADDRESSES:</b> Put your email address there;</li>
+	<li><b>HOSTNAME:</b> Change this value using your hostname;</li>
+	<li><b>ENABLE_AUTO_IDS:</b> Change this to <q>Y</q> if you like PSAD to take any actions;</li>
+	<li><b>ENABLE_AUTO_IDS_EMAILS:</b> Change this to <q>Y</q> if you want to receive emails if psad detect an intrusion;</li>
+</ul>
+
+<h3>Add iptables rules</h3>
+<p>The main requirement for an iptables policy to be compatible with psad is simply that iptables logs packets. This is commonly accomplished by adding rules to the INPUT and FORWARD chains like so:</p>
+<pre>
+sudo iptables -A INPUT -j LOG
+sudo iptables -A FORWARD -j LOG
+</pre>
+
+<p class="note">More information available at: http://www.cipherdyne.org/psad/docs/fwconfig.html</p>
+
+<h3>Restart psad</h3>
+<p>To update and make sure everything works properly, restart the service:</p>
+<pre>
+sudo psad -R
+sudo psad --sig-update
+sudo psad -H
+</pre>
+
+<h3>Check psad</h3>
+<p>You can check the status of psad using the folling command:</p>
+<pre>
+sudo psad --Status
+</pre>

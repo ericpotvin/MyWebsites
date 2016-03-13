@@ -1,0 +1,112 @@
+
+<p>Some <q>pre-installed</q> Ubuntu Server are not configured with SWAP. Linux swaps allow a system to harness more memory than was originally physically available</p>
+
+<h2>Check for SWAP space:</h2>
+
+<p>Let's check if a SWAP file exists and it's enabled before we create one.</p>
+<pre>
+sudo swapon -s
+</pre>
+
+<p>If there's no SWAP file, you should get a result like this:</p>
+<pre>
+Filename				Type		Size	Used	Priority
+</pre>
+
+<h2>Create and Enable the Swap File</h2>
+
+<p>Before we create the SWAP file, we need to find out how much we need. Here's a quick guide to help you.</p>
+
+<table>
+	<tr>
+		<th>RAM in your Server</th>
+		<th>Recommended swap space</th>
+	</tr>
+	<tr>
+		<td>2GB of RAM or less</td>
+		<td>2 times the amount of RAM</td>
+	</tr>
+	<tr>
+		<td>2GB to 8GB of RAM</td>
+		<td>Equal to the amount of RAM</td>
+	</tr>
+	<tr>
+		<td>8GB to 64GB of RAM</td>
+		<td>0.5 times the amount of RAM</td>
+	</tr>
+	<tr>
+		<td>64GB of RAM or more</td>
+		<td>4GB of swap space</td>
+	</tr>
+</table>	
+
+<p>To create the SWAP file, you will need to use the <q>dd</q> command:</p>
+<pre>
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=512k
+</pre>
+
+<p>All of this means:</p>
+<code><pre>
+if=/dev/zero  : Read from /dev/zero file. /dev/zero is a special file in that provides as many null characters to build storage file called /swapfile1.
+of=/swapfile1 : Read from /dev/zero write stoage file to /swapfile1.
+bs=1024       : Read and write 1024 BYTES bytes at a time.
+count=524288  : Copy only 523288 BLOCKS input blocks.
+</pre></code>
+
+<p>Prepare the swap file by creating a linux swap area:</p>
+<pre>
+sudo mkswap /swapfile
+</pre>
+
+<p>The results display:</p>
+<code><pre>
+Setting up swapspace version 1, size = 524284 KiB
+no label, UUID=265d3e61-6e2b-4126-baba-6e6185e97b46
+</pre></code>
+
+<p>Activate the swap file:</p>
+<pre>
+sudo swapon /swapfile
+</pre>
+
+<p>Confirm that the swap partition exists.</p>
+
+<pre>
+$ sudo swapon -s
+</pre>
+
+<p>This will output something like:</p>
+<code><pre>
+Filename				Type		Size	Used	Priority
+/swapfile                               file		524284	0	-1
+</pre></code>
+
+<p>This will last until the server reboots. Before, rebooting the server. Let's create the entry in the fstab:</p>
+<pre>
+sudo vi /etc/fstab
+</pre>
+<p>and add the following line:</p>
+<pre>
+/swapfile       none    swap    sw      0       0
+</pre>
+
+<h2>Improve performance</h2>
+
+<p>Swappiness in the file should be set to 0. Skipping this step may cause both poor performance, whereas setting it to 0 will cause swap to act as an emergency buffer, preventing out-of-memory crashes. You can do this with the following commands:</p>
+
+<pre>
+echo 0 | sudo tee /proc/sys/vm/swappiness
+echo vm.swappiness = 0 | sudo tee -a /etc/sysctl.conf
+</pre>
+
+<h2>Secure SWAP</h2>
+
+<p>To prevent the file from being world-readable, you should set up the correct permissions on the swap file:</p>
+
+<pre>
+sudo chown root:root /swapfile
+sudo chmod 0600 /swapfile
+</pre>
+
+<p>Reboot to make sure the new swap gets activated properly at startup.</p>
+

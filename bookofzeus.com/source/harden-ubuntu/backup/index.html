@@ -1,0 +1,48 @@
+<p>Every system should have backups. In case of emergency, backup are very useful. Your backup can save you hours of down time with a minimum impact.</P>
+
+<p>There's is some tools you can use to backup your entire system or your most important files. <q>tar</q>, <q>gzip</q>, <q>bzip2</q>, <q>dump</q> and <q>rsync</q> are some tools you can use to backup files and folders. <q>automysqlbackup</q> is a tool to backup your MySQL databases.</p>
+
+<h3>Example backup</h3>
+<p>Here's an example of a folder backup including all the sub-folders and files within.</p>
+<pre>
+tar -cvf archive-name.tar dir1 dir2 dir3....
+</pre>
+
+<p>Now, let's compress it:</p>
+<pre>
+gzip -9 archive-name.tar
+</pre>
+
+<p>You can use <q>bzip2</q> instead. bzip2 has a better compression rate but is a little slower.</p>
+
+<p>To combine both command, you can use the <q>-z</q> option.</p>
+
+<h3>dump</h3>
+<q>dump</q> is written specifically for backups. It backs up the entire file system and allows multiple levels of backups. The corresponding <q>restore</q> command allows for restore from a dump backup.<p>
+
+<p>For example, to backup /boot file system:</p>
+<pre>
+dump 0zf backup.boot /boot
+</pre>
+
+<h2>Backup MySQL</h2>
+
+<p>There's an easy command to backup MySQL databases. <q>automysqlbackup</q> can automatically make daily, weekly, and monthly backups of your MySQL database.</p>
+
+<h3>Install</h3>
+<pre>
+sudo aptitude install automysqlbackup
+</pre>
+
+<h3>Configure Backup</h3>
+<pre>
+sudo vi /etc/default/automysqlbackup
+</pre>
+<p>All the backup are stored in the <q>/var/lib/automysqlbackup<q> by default. It is recommended to change this folder. To change the default backup folder, edit the file and modify the <q>BACKUPDIR=</q> to the new location.</p>
+<p>You can also receive an email if there's an error while running the backup. To do this, you need to change the <q>MAILADDR=</q> and add your email address.</p>
+
+<h2>Backup Home Folder</h2>
+<p>You can backup your entire home folder using the <q>zip</q> command. If you want to exclude some folder, you need to use the <q>--exclude</q> parameter.</p>
+<pre>
+zip -r myzipbackup.zip  * --exclude=access_log --exclude=public_ftp --exclude=tmp
+</pre>

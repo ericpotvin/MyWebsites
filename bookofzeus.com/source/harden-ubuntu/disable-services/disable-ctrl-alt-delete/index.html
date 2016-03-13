@@ -1,0 +1,15 @@
+
+<p>You don't want to reboot your server if you accidentally hit the CTRL+ALT+DELETE key combo.</p>
+
+<p>To disable the reboot action, edit the control-alt-delete.conf file:</p>
+
+<pre>
+sudo vi /etc/init/control-alt-delete.conf
+</pre>
+
+<p>and delete or comment out the following line:</p>
+
+<code><pre>
+#exec shutdown -r now "Control-Alt-Delete pressed"
+</pre></code>
+

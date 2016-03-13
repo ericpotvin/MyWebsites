@@ -1,0 +1,52 @@
+
+<p>Temporary storage directories such as /tmp, /var/tmp and /dev/shm gives the ability to hackers to provide storage space for malicious executables.</p>
+
+<h2>Securing /tmp folder</h2>
+
+<p>Let's create a 1GB (or what is best for you) filesystem file for the /tmp parition.</p>
+<pre>
+sudo dd if=/dev/zero of=/usr/tmpDSK bs=1024 count=1024000
+</pre>
+<p>This might take a little while, be patient if it is the case.</p>
+
+<p>Create a backup of the current /tmp folder:</p>
+<pre>
+sudo cp -Rpf /tmp /tmpbackup
+</pre>
+
+<p>Mount the new /tmp partition and set the right permissions.</p>
+<pre>
+sudo mount -t tmpfs -o loop,noexec,nosuid,rw /usr/tmpDSK /tmp
+sudo chmod 1777 /tmp
+</pre>
+
+<p>Copy the data from the backup folder, and remove backup folder.</p>
+<pre>
+sudo cp -Rpf /tmpbackup/* /tmp/
+sudo rm -rf /tmpbackup/*
+</pre>
+
+<p>Set the /tmp in the fbtab.</p>
+<pre>
+/usr/tmpDSK /tmp tmpfs loop,nosuid,noexec,rw 0 0
+</pre>
+
+<p>Test your fstab entry:</p>
+<pre>
+sudo mount -o remount /tmp
+</pre>
+
+<p>If you try to execute a script or run a binary file on the /tmp and you get a <q>permission denied</q>, that mean everything works properly.</p>
+
+<h2>Secure /var/tmp</h2>
+
+<p>Securing the /var/tmp should be done because some software this folder as a temporary folder. Any files and folders within this directory needs to be serured. We will use the /tmp folder we just created by creating a symbolic link.</p>
+
+<pre>
+sudo mv /var/tmp /var/tmpold
+sudo ln -s /tmp /var/tmp
+sudo cp -prf /var/tmpold/* /tmp/
+</pre>
+
+<p class="note">You should restart and services that uses /tmp partition</p>
+

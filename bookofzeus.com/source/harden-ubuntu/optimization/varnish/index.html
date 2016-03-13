@@ -1,0 +1,87 @@
+
+<p>Varnish reduce considerebally server load, especially CPU works. It makes the website load faster because it stores the content in RAM.</p>
+
+<h2>Install</h2>
+
+<p>It is recommended to install varnish through varnish repository. To do so, you need to get the repository:</p>
+<pre>
+sudo curl http://repo.varnish-cache.org/debian/GPG-key.txt | sudo apt-key add -
+</pre>
+
+<p>Then, you need to add the repository to the list of apt sources:</p>
+<pre>
+echo "deb http://repo.varnish-cache.org/ubuntu/ lucid varnish-3.0" &gt;&gt; /etc/apt/sources.list
+</pre>
+
+<p>Update the repositories and install it:</p>
+<pre>
+sudo apt-get update
+sudo apt-get install varnish
+</pre>
+
+<h2>Configure Varnish</h2>
+
+<p>Varnish will serve the content of the website using the port 80 while getting that information from Apache on port 8080.</p>
+
+<p>In order for varnish to work as mentionned above, you need to open the config file:</p>
+<pre>
+sudo vi /etc/default/varnish
+</pre>
+
+<p>Uncomment all of the lines under <q>DAEMON_OPTS</q> --under Alternative 2, and use the following configuration:</p>
+<code><pre>
+ DAEMON_OPTS="-a :80 \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+             -s malloc,256m"
+</pre></code>
+
+
+<p>Now, lets tell varnish to look for the server content.</p>
+<pre>
+sudo vi /etc/varnish/default.vcl
+</pre>
+
+<p>Let's tell varnish to get the content on port 8080 (from apache):</p>
+<code><pre>
+backend default {
+    .host = "127.0.0.1";
+    .port = "8080";
+}
+</pre></code>
+
+<p>Since Apache listens on port 80 by default, we need to change this to 8080 in the <q>ports.conf</q> or the <q>apache2.conf</q> file.</p>
+<pre>
+sudo vi /etc/apache2/ports.conf
+or
+sudo vi /etc/apache2/apache2.conf
+</pre>
+
+<p>Change the port number for both <q>NameVirtualHost and Listen</q> line to port 8080:</p>
+<code><pre>
+NameVirtualHost 127.0.0.1:8080
+Listen 127.0.0.1:8080
+</pre></code>
+
+<p>If you have virtual host, you will have to change them as well:</p>
+<pre>
+sudo vi /etc/apache2/sites-available/default
+</pre>
+
+<p>And update the <q>VirtualHost</q> entry:</p>
+<code><pre>
+&lt;VirtualHost 127.0.0.1:8080&gt;
+</pre></code>
+
+<p>Restart Apache and Varnish</p>
+<pre>
+sudo service apache2 restart
+sudo service varnish restart
+</pre>
+
+<p>You can now check the stats of varnish using this command:</p>
+<pre>
+varnishstat
+</pre>
+

@@ -1,0 +1,15 @@
+
+<p>ModemManager is a daemon that to control specific modem functions. It can be disabled or removed.</p>
+
+<p>To disable, just add the line <q>manual</q> to a corresponding override file.</p>
+
+<code><pre>
+echo "manual" &gt; /etc/init/modemmanager.override
+</pre></code>
+
+<h2>Removing Cups</h2>
+
+<p>If you really want to remove this service, simply run:</p>
+<pre>
+sudo apt-get purge modemmanager
+</pre>

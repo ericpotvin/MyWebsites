@@ -1,0 +1,24 @@
+
+<p>Disable shell accounts will allow the account to be active without the ability to login on your server.
+
+<p>To see which active accounts are on your server, run:</p>
+<pre>
+cat /etc/passwd | egrep -v '\/false|\/nologin|\/shutdown|\/halt' | cut -d':' -f 1,7
+</pre>
+
+<p>You can disable account using this command:</p>
+<pre>
+usermod -s /usr/sbin/nologin "username"       (without quotes)
+</pre>
+
+<h2>Example of user that can be disabled:</h2>
+<ul>
+	<li>irc</li>
+	<li>eggdrop</li>
+	<li>bnc</li>
+	<li>BNC</li>
+	<li>ptlink</li>
+	<li>BitchX</li>
+	<li>guardservices</li>
+	<li>psyBNC</li>
+</ul>

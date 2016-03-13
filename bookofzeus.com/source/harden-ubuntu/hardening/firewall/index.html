@@ -1,0 +1,31 @@
+
+<p>Ubuntu has simple firewall you can install. UFW (Uncomplicated Firewall) is a basic firewall that works very well and easy to configure with its Firewall configuration tool.</p>
+
+<p>To install UFW and enable it, simply execute this command:</p>
+<pre>
+sudo apt-get install ufw
+</pre>
+
+<p>Allow SSH and Http services.</p>
+<pre>
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw deny 23
+sudo ufw default deny
+</pre>
+
+<p>Enable the firewall.</p>
+<pre>
+sudo ufw enable
+</pre>
+
+<p>Check the status of the firewall.</p>
+<pre>
+sudo ufw status verbose
+</pre>
+
+<p>You can see all the changes in the IPTables config:</p>
+<pre>
+sudo iptables -L
+</pre>
+

@@ -1,0 +1,89 @@
+
+<p>APC is a great operation code caching system for PHP that can help speed up your site.</p>
+
+<h2>Install APC</h2>
+<p>To install APC, execute the following command:</p>
+<pre>
+sudo apt-get install php-apc
+</pre>
+
+<h3>php.ini configuration</h3>
+
+<p>Edit the <q>php.ini</q> file:</p>
+<pre>
+sudo vi /etc/php5/apache2/php.ini
+</pre>
+
+<p>And add the following code:</p>
+
+<code><pre>
+[APC]
+apc.enabled=1
+apc.shm_segments=1
+
+;32M per WordPress install
+apc.shm_size=128M
+
+;Relative to the number of cached files (you may need to watch your stats for a day or two to find out a good number)
+apc.num_files_hint=7000
+
+;Relative to the size of WordPress
+apc.user_entries_hint=4096
+
+;The number of seconds a cache entry is allowed to idle in a slot before APC dumps the cache
+apc.ttl=7200
+apc.user_ttl=7200
+apc.gc_ttl=3600
+
+;Setting this to 0 will give you the best performance, as APC will
+;not have to check the IO for changes. However, you must clear
+;the APC cache to recompile already cached files. If you are still
+;developing, updating your site daily in WP-ADMIN, and running W3TC
+;set this to 1
+apc.stat=1
+
+;This MUST be 0, WP can have errors otherwise!
+apc.include_once_override=0
+
+;Only set to 1 while debugging
+apc.enable_cli=0
+
+;Allow 2 seconds after a file is created before it is cached to prevent users from seeing half-written/weird pages
+apc.file_update_protection=2
+
+;Leave at 2M or lower. WordPress does't have any file sizes close to 2M
+apc.max_file_size=2M
+
+;Ignore files
+apc.filters = "/var/www/apc.php"
+
+apc.cache_by_default=1
+apc.use_request_time=1
+apc.slam_defense=0
+apc.mmap_file_mask=/tmp/apc.XXXXXX
+apc.stat_ctime=0
+apc.canonicalize=1
+apc.write_lock=1
+apc.report_autofilter=0
+apc.rfc1867=0
+apc.rfc1867_prefix =upload_
+apc.rfc1867_name=APC_UPLOAD_PROGRESS
+apc.rfc1867_freq=0
+apc.rfc1867_ttl=3600
+apc.lazy_classes=0
+apc.lazy_functions=0
+</pre></code>
+
+<p class="note">source: http://gregrickaby.com/the-perfect-apc-configuration/</p>
+
+<p>For more information about APC configuration, please read: http://www.php.net/manual/en/apc.configuration.php</p>
+
+<h2>Test APC</h2>
+<p>To see if APC is enable and running, create a php file called <q>info.php</q> in your apache2 root folder and the following code:</p>
+<code><pre>
+&lt;?php
+phpinfo();
+</pre></code>
+
+<p>And go to your website and check if you see the APC module</p>
+

@@ -1,0 +1,18 @@
+
+<p>To scan ports, you need to use a tool called <q>nmap</q>.  Nmap ("Network Mapper") is a free tool for network discovery and security auditing.</p>
+
+<h2>Install nmap</h2>
+<pre>
+sudo apt-get install nmap
+</pre>
+
+<h3>Scan for open ports</h3>
+<pre>
+nmap -v -sT localhost
+</pre>
+
+<h3>SYN scanning</h3>
+<pre>
+sudo nmap -v -sS localhost
+</pre>
+

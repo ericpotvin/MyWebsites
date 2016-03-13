@@ -1,0 +1,8 @@
+<p>The anacron subsystem is designed to provide cron functionality for machines which may be shut down during the normal times that system cron jobs run, frequently in the middle of the night.</p>
+<p>If you want to disable the anacron service, you can do it by commenting the following lines in the <q>/etc/crontab</q> file.</p>
+
+<code><pre>
+#  25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )
+#  47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )
+#  52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )
+</pre></code>

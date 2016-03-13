@@ -1,0 +1,21 @@
+<p>You can disable <q>autofs</q> if you don't need it. This will prevent to mount automatically removable media or NFS filesystems.</p>
+
+<p>You can simply write a udev rule to disable automounting.</p>
+
+<p>First, create the file <q>/etc/udev/rules.d/85-no-automount.rules</q>
+<pre>
+sudo vi /etc/udev/rules.d/85-no-automount.rules
+</pre>
+
+<p>and add the following lines:</p>
+<code><pre>
+SUBSYSTEM=="usb", ENV{UDISKS_AUTO}="0"
+</pre></code>
+
+<p>Restart the service:</p>
+<pre>
+sudo service udev restart
+</pre>
+
+<p>This will prevent any USB device from being mounted by the udisksd daemon. If the service didn't worked, you might need to reboot the server.</p>
+

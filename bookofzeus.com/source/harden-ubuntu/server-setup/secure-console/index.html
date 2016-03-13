@@ -1,0 +1,22 @@
+
+<p>You can limit where you can login by restricting which terminals you want to use. By default, lots of terminals are active. This can be resovled by only allowing one terminal. Open the <q>securetty</q>:</p>
+<pre>
+sudo vi /etc/securetty
+</pre>
+
+<p>Change which terminal you want to use and disable. For example, if you want to only allow <q>tty1</q>, you have to disable all other terminals using the <q>#</q> sign.</p>
+<code><pre>
+tty1
+#tty2
+#tty3
+#tty4
+# etc ...
+</pre></code>
+
+<h2>Update security</h2>
+<p>You will also need to secure the <q>/etc/securetty<q/> file to make sure only root can modify it.</p>
+<pre>
+sudo chown root:root /etc/securetty
+sudo chmod 0600 /etc/securetty
+</pre>
+

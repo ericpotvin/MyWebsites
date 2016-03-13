@@ -1,0 +1,15 @@
+
+<p>CUPS (formerly an acronym for Common Unix Printing System, but now with no official expansion) is a modular printing system for Unix-like computer operating systems which allows a computer to act as a print server.</p>
+
+<p>To disable, just add the line <q>manual</q> to a corresponding override file.</p>
+
+<code><pre>
+echo "manual" &gt; /etc/init/cups.override
+</pre></code>
+
+<h2>Removing Cups</h2>
+
+<p>If you really want to remove cups, simply run:</p>
+<pre>
+sudo apt-get remove cups
+</pre>

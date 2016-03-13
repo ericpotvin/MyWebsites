@@ -1,0 +1,178 @@
+<p>PHP's default configuration contains a set of rules and functionalities that can be used to help secure your web applications.</p>
+
+<h3>php.ini</h3>
+
+<p>All the settings are located in the <q>/etc/php5/apache2/php.ini</q>. First, let's open this file.</p>
+<pre>
+sudo vi /etc/php5/apache2/php.ini
+</pre>
+
+<h4>Safe Mode</h4>
+<p>Safe Mode should be <q>On</q>. It checks if functions in one file on the server that affect other files all have the same ownership.</p>
+<p>Safe mode will also restrict executables that may be run by scripts in the same way it restricts file and directory access. Safe mode can also be configured so that only executables in a certain directory can be run. This can help limit exposure of shell commands to certain scripts.</p>
+<code><pre>
+safe_mode = On
+safe_mode_gid = On
+sql.safe_mode=On
+</pre></code>
+
+<p>If you want to limit directories of included or executed files, you can update the following directives:</p>
+<code><pre>
+safe_mode_include_dir = /path/to/dir
+safe_mode_exec_dir = /path/to/exec/dir
+</pre></code>
+
+
+<h4>Disable Globals</h4>
+<p>Global variables are very unsave and needs to be set to <q>Off</q>.
+<code><pre>
+register_globals = Off
+</pre></code>
+
+<h4>Hide PHP Information</h4>
+<p>to restrict PHP information leakage disable expose_php.</p>
+<code><pre>
+expose_php = Off
+track_errors = Off
+html_errors = Off
+</pre></code>
+
+
+<h4>Hide errors</h4>
+<p>Hide all php errors, hackers will use information that your web server exposes in order to gain information. Error messages are the first information they can get to start their attacks.</p>
+<code><pre>
+display_errors = Off
+</pre></code>
+
+<h4>Disabling Functionality</h4>
+<p>There are some PHP functionality that are unsafe to use. Use un-wisely, they can harm your system and make your server vulnerable to attacks. By disabling these functions, you prevent users and attackers from utilizing these functions.</p>
+<code><pre>
+disable_functions = php_uname, getmyuid, getmypid, passthru, leak, listen, diskfreespace, tmpfile, link, ignore_user_abord, shell_exec, dl, set_time_limit, exec, system, highlight_file, source, show_source, fpaththru, virtual, posix_ctermid, posix_getcwd, posix_getegid, posix_geteuid, posix_getgid, posix_getgrgid, posix_getgrnam, posix_getgroups, posix_getlogin, posix_getpgid, posix_getpgrp, posix_getpid, posix, _getppid, posix_getpwnam, posix_getpwuid, posix_getrlimit, posix_getsid, posix_getuid, posix_isatty, posix_kill, posix_mkfifo, posix_setegid, posix_seteuid, posix_setgid, posix_setpgid, posix_setsid, posix_setuid, posix_times, posix_ttyname, posix_uname, proc_open, proc_close, proc_get_status, proc_nice, proc_terminate, phpinfo
+</pre></code>
+
+
+<h4>Disable Remote File Includes</h4>
+<p>By allowing remote file inclusion, hackers can include file remotely that can harm your system. It is recommended to disable this.</p>
+<code><pre>
+allow_url_fopen = Off
+allow_url_include = Off
+</pre></code>
+
+<h4>Restrict File Uploads</h4>
+<p>If you are not using the file uploads functionality, you should disable it. Uploading files is one technique hackers do to upload virues or trojans.</p>
+<code><pre>
+file_uploads = Off
+</pre></code>
+
+<p>If this function is essential for you, you should limit the maximum size and upload folder.</p>
+<code><pre>
+upload_tmp_dir = /var/php_tmp
+upload_max_filezize = 2M
+</pre></code>
+
+<h4>Resource Control</h4>
+<p>You can set maximum execution time of each php script, set maximum amount of time each script may spend parsing request data, and maximum amount of memory a script may consume.</p>
+<code><pre>
+max_execution_time =  10
+max_input_time = 30
+memory_limit = 40M
+</pre></code>
+
+
+<h4>Control POST Size</h4>
+<p>The HTTP POST request method is used when the client needs to send data to the Apache web server via a form for example. A basic attacks will attempt to send oversized POST requests to eat your system resources.</p>
+<p>You can limit the maximum size POST request that PHP will process.</p>
+<code><pre>
+post_max_size=1K
+</pre></code>
+
+
+<h4>Protect Sessions</h4>
+<p>Make sure the web server can read and write to the location you specify. You also need to make sure PHP writes cookies that can't be read from JavaScript. This will prevent Cross Site Scripting in your web applications.</p>
+<code><pre>
+session.cookie_httponly = 1
+</pre></code>
+
+<p>You can prevent users from accidentally publishing session information to an external users.</p>
+<code><pre>
+session.referer_check = mydomain.com
+</pre></code>
+
+<h4>magic_quotes_gpc</h4>
+<p><q>magic_quotes_gpc</q> should always be <q>Off</q>. You should always clean the data in your PHP code.</p>
+<code><pre>
+magic_quotes_gpc=Off
+</pre></code>
+
+<h3>suhosin</h3>
+
+<p>Suhosin is an advanced protection system for PHP installations. It was designed to protect servers and users from known and unknown flaws in PHP applications and the PHP core.</p>
+
+<h4>Install suhosin</h4>
+<pre>
+sudo apt-get install php5-suhosin
+</pre>
+
+<h4>Configure suhosin</h4>
+<p>To edit the suhosin, you need to opent the <q>suhosin.ini</q> located in <q>/etc/php5/conf.d</q>.</p>
+<pre>
+sudo vi /etc/php5/conf.d/suhosin.ini
+</pre>
+
+<h3>Enable suhosin</h3>
+<code><pre>
+extension=suhosin.so
+</pre></code>
+
+<h3>Disable session encryption</h3>
+<code><pre>
+suhosin.session.encrypt = Off
+</pre></code>
+
+<h3>Log all errors</h3>
+<code><pre>
+suhosin.log.syslog=511
+</pre></code>
+
+<h3>Max traversal</h3>
+<p>Set the maximal depth of paths, eg: <q>../../</q>.</p>
+<code><pre>
+suhosin.executor.include.max_traversal=4
+</pre></code>
+
+<h3>Disable eval</h3>
+<code><pre>
+suhosin.executor.disable_eval=On
+</pre></code>
+
+<h3>Disable /e modifier</h3>
+<code><pre>
+suhosin.executor.disable_emodifier=On
+</pre></code>
+
+<h3>Disallow newlines in Subject:, To: headers and double newlines in additional headers</h3>
+<code><pre>
+suhosin.mail.protect=2
+</pre></code>
+
+<h3>Recommend Settings</h3>
+<p>Silently fail all failed sql queries:</p>
+<code><pre>
+suhosin.sql.bailout_on_error=On
+</pre></code>
+
+<h3>Filtering Options</h3>
+<code><pre>
+suhosin.cookie.max_vars = 2048
+suhosin.get.max_array_index_length = 256
+suhosin.post.max_array_index_length = 256
+suhosin.post.max_totalname_length = 8192
+suhosin.post.max_vars = 2048
+suhosin.request.max_totalname_length = 8192
+suhosin.request.max_varname_length = 256
+</pre></code>
+
+<h4>Restart Apache</h4>
+<pre>
+sudo service apache2 restart
+</pre>

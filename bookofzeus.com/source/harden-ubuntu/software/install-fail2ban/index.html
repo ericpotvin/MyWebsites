@@ -1,0 +1,77 @@
+
+<p>Any servers with the most basic SSH configuration can be vulnerable to brute force attacks.</p>
+<p>Fail2Ban provides a way to automatically detect and protect (virtual) servers from malicious attackers. The program works by scanning log files and reacting to untrusted actions, like failed login attempts. </p>
+
+<h2>Install Fail2Ban</h2>
+
+<p>Fail2Ban can be installed by using the following command:</p>
+<pre>
+sudo apt-get install fail2ban
+</pre>
+
+<h3>Create a config file</h3>
+
+<p>Fail2Ban needs a config file in order to run properly. A default configuration file (<q>/etc/fail2ban/jail.conf</q>)) file is created. This configuration file is not the one you need. You willneed to create a <q>.local</q> file in order to setup everything you need.</p>
+
+<pre>
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+</pre>
+
+<h3>Updating the config file</h3>
+
+<p>The first section covers the basic rules that fail2ban will follow. If you want to update or increase the protection of your Ubuntu server, you can customize the config in each section.</p>
+
+<p>Let's open the file first:</p>
+<pre>
+sudo vi /etc/fail2ban/jail.local
+</pre>
+
+<h4>Fail2Ban SSH Config</h4>
+
+<p>The <q>[ssh]</q> and <q>ssh_ddos</q> section can be updated to maximize ssh security.</p>
+
+<code><pre>
+[ssh]
+
+enabled  = true
+port     = <q>your port number</q> or <q>ssh</q>
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 2
+
+[ssh-ddos]
+
+enabled  = true
+port     = <q>your port number</q> or <q>ssh</q>
+filter   = sshd-ddos
+logpath  = /var/log/auth.log
+maxretry = 2
+</pre></code>
+
+<p>The filter, set by default to sshd, refers to the config file containing the rules that fail2ban uses to find matches .sshd refers to the <q>/etc/fail2ban/filter.d/sshd.conf</q>.</p>
+
+<h4>Email notifications</h4>
+<p>You can get notified when Fail2Ban detect suspicious activity by email, simply edit the following lines:</p>
+
+<code><pre>
+destemail = <q>MyEmail@MyDomain.com</q>
+action = %(action_mwl)s
+</pre></code>
+
+<h3>Restart Fail2Ban</h3>
+
+<p>In order for these changes to take effects, you need to restart the service:</p>
+<pre>
+sudo service fail2ban restart
+</pre>
+
+<p>You can check the status with the following command:</p>
+
+<pre>
+sudo fail2ban-client status
+</pre>
+
+<p>You can also check the iptables rules:</p>
+<pre>
+sudo iptables -L
+</pre>

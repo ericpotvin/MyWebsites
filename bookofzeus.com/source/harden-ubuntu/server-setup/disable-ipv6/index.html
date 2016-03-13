@@ -1,0 +1,34 @@
+
+<p>IPv6 might caus issues with the Internet connection being slow. Unless you absolutely need it, it is recommended to disable it.</p>
+
+<p>Edit the <q>/etc/sysctl.conf</q> file:</p>
+<pre>
+sudo vi /etc/sysctl.conf
+</pre>
+
+<p>Add at the bottom of the file or change the lines:</p>
+<code><pre>
+#disable ipv6
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+</pre></code>
+
+<p>Reload the configuration.</p>
+<pre>
+sudo sysctl -p
+</pre>
+
+<h2>Disable IPv6 on bind9</h2>
+<p>If installed, you need to fix the IPv6 on bind9. This will not stop bind from blindly trying to use IPv6. You also need to alter <q>/etc/default/bind9</q>, if of course your are using bind9:</p>
+<pre>
+sudo vi /etc/default/bind9
+</pre>
+<p>Add or modify the following lines:</p>
+<code><pre>
+# run resolvconf?
+RESOLVCONF=yes
+# startup options for the server
+OPTIONS="-4 -u bind" -
+</pre></code>
+

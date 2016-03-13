@@ -1,0 +1,14 @@
+
+<p>Make sure you get warnings or notifications if, by any bad luck, someone does happen to get root or got into your account. This will allow you to get the hackers ip address.</p>
+
+<p>To enable this, simply edit the <q>.bash_profile</q>:</p>
+
+<pre>
+vi .bash_profile
+</pre>
+
+<p>And add the following line:</p>
+<code><pre>
+echo 'ALERT - ACCESS GRANTED on:' `date` `who` | mail -s "ALERT - ACCESS GRANTED from `who | awk '{print $6}'`" my-email@m-domain.com
+</pre></code>
+

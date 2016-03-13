@@ -1,0 +1,21 @@
+<p>Apport is commonly known as the system that intercepts crashes right when happen the first time. It gathers potentially useful information about the crash and the OS environment. </p>
+<p>If apport is currently active you can disable it.</p>
+
+<pre>
+sudo vi /etc/default/apport
+</pre>
+
+<p>and change the enabled to 0:</p>
+<code><pre>
+# set this to 0 to disable apport, or to 1 to enable it
+# you can temporarily override this with
+# sudo service apport start force_start=1
+enabled=0
+</pre> </code>
+
+<h2>Removing apport</h2>
+
+<p>If you really need to get rid of apport, you can remove it by executing this command:</p>
+<pre>
+sudo apt-get purge apport
+</pre>

@@ -1,0 +1,18 @@
+
+<p>In rare occasions, it may be beneficial to reboot your server reboot if it runs out of memory. This simple solution can avoid you hours of down time.</p>
+
+<p>To enable the <q>Rebooting on OOM</q> feature, you need to edit the <q>/etc/sysctl.conf</q> file:</p>
+
+<pre>
+sudo vi /etc/sysctl.conf
+</pre>
+
+<p>and add or edit the following lines:</p>
+
+<code><pre>
+vm.panic_on_oom=1
+kernel.panic=10
+</pre></code>
+
+<p>The <q>vm.panic_on_oom=1</q> line enables panic on OOM; the <q>kernel.panic=10</q> line tells the kernel to reboot <b>ten seconds</b> after panicking.</p>
+

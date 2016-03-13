@@ -1,0 +1,12 @@
+<p>The at command is used to schedule commands to be executed once, at a particular time in the future. If you are using cronjob, you might not need the this daemon.</p>
+
+<pre>
+echo 'manual' &gt; /etc/init/atd.override
+</pre>
+
+<h2>Removing at</h2>
+
+<p>To remove a service from the startup execute the following command:</p>
+<pre>
+sudo apt-get purge at
+</pre>

@@ -1,0 +1,30 @@
+
+<p>TCP wrapper based its access List on Rules that can be included in the following two files:</p>
+<ul>
+	<li>/etc/hosts.allow</li>
+	<li>/etc/hosts.deny</li>
+</ul>
+
+<p>The syntax for both /etc/hosts.allow and /etc/hosts.deny file are similar and are defined as follow:</p>
+<code><pre>
+daemon : client [:option1:option2:...]
+</pre></code>
+
+<p>For example, if you want to allow SSH from a specific IP (and/or a range of IPs) and deny access to all other IPs:</p>
+
+<p>Put the following code in the <q>/etc/hosts.allow</q>:</p>
+<code><pre>
+sshd : 111.111, 222.222.222.222
+</pre></code>
+
+<p>and put this in the <q>/etc/hosts.deny</q>:</p>
+<code><pre>
+sshd : ALL
+</pre></code>
+
+<p>As a reminder, there is some rule you have to respect.</p>
+<ul>
+	<li>You can have only one rule per service in hosts.allow and hosts.deny file.</li>
+	<li>Any changes to hosts.allow and hosts.deny file takes immediate effect.</li>
+	<li>The last line in the files hosts.allow and hosts.deny must be a new line character. Or else the rule will fail.</li>
+</ul>
