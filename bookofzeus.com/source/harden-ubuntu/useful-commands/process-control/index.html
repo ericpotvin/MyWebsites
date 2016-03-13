@@ -1,0 +1,37 @@
+
+<h2>Commands for Process control</h2>
+
+<p>PID Bring a background or stopped process to the foreground.</p>
+<pre>
+fg
+</pre>
+
+<p>PID Send the process to the background. This is the opposite of fg. The same can be accomplished with Ctrl z</p>
+<pre>
+bg
+</pre>
+
+<p>Run any command in the background (the symbol <q>&amp;</q> means run the command in the background?</p>
+<pre>
+any_command &amp;
+</pre>
+
+<p>Force a process shutdown. First determine the PID of the process to kill using ps.</p>
+<pre>
+kill PID
+</pre>
+
+<p>Kill program(s) by name.</p>
+<pre>
+killall -9 program_name
+</pre>
+
+<p>Run program_name adjusting its priority. Since the priority is not specified in this example, it will be adjusted by 10 (the process will run slower), from the default value (usually 0). The lower the number (of niceness to other users on the system), the higher the priority. The priority value may be in the range -20 to 19. Only root may specify negative values. Use top to display the priorities of the running processes.</p>
+<pre>
+nice program_name
+</pre>
+
+<p>(as root) Change the priority of a running process to -1. Normal users can only adjust processes they own, and only up from the current value (make them run slower).</p>
+<pre>
+renice -1 PID
+</pre>

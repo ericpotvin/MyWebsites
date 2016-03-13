@@ -1,0 +1,115 @@
+<h2>System Information</h2>
+<p>List the users logged in on the machine.</p>
+<pre>
+who
+</pre>
+
+<p>List all users logged in on your network. The rwho service must be enabled for this command to work.</p>
+<pre>
+rwho -a
+</pre>
+
+<p>System info about a user. Try: finger root last. This lists the users last logged-in on your system.</p>
+<pre>
+finger user_name
+</pre>
+
+<p>Show the last (1000 or so) commands executed from the command line on the current account. The | more causes the display to stop after each screen fill.</p>
+<pre>
+history | more
+</pre>
+
+<p>Print working directory, i.e. display the name of your current directory on the screen.</p>
+<pre>
+pwd
+</pre>
+
+<p>Print the name of the local host (the machine on which you are working).</p>
+<pre>
+hostname
+</pre>
+
+<p>Print your login name.</p>
+<pre>
+whoami
+</pre>
+
+<p>Print user id (uid) and his/her group id (gid), effective id (if different than the real id) and the supplementary groups.</p>
+<pre>
+id username
+</pre>
+
+<p>Print or change the operating system date and time. E.g., change the date and time to 2000-12-31 23:57 using this command</p>
+<pre>
+date
+</pre>
+
+<p>To set the hardware clock from the system clock, use the command (as root) setclock</p>
+<pre>
+date 123123572000
+</pre>
+
+<p>Determine the amount of time that it takes for a process to complete+ other info. Don't confuse it with date command. For e.g. we can find out how long it takes to display a directory content using time ls</p>
+<pre>
+time
+</pre>
+
+<p>Amount of time since the last reboot</p>
+<pre>
+uptime
+</pre>
+
+<p>List the processes that are have been run by the current user.</p>
+<pre>
+ps
+</pre>
+
+<p>List all the processes currently running, even those without the controlling terminal, together with the name of the user that owns each process.</p>
+<pre>
+ps aux | more
+</pre>
+
+<p>Keep listing the currently running processes, sorted by cpu usage (top users first).</p>
+<pre>
+top
+</pre>
+
+<p>Info on your server.</p>
+<pre>
+uname -a
+</pre>
+
+<p>Memory info (in kilobytes).</p>
+<pre>
+free
+</pre>
+
+<p>Print disk info about all the file systems in a human-readable form.</p>
+<pre>
+df -h
+</pre>
+
+<p>Print detailed disk usage for each subdirectory starting at root (in a human readable form).</p>
+<pre>
+du / -bh | more
+</pre>
+
+<p>(as root. Use /sbin/lsmod to execute this command when you are a non-root user.) Show the kernel modules currently loaded.</p>
+<pre>
+lsmod
+</pre>
+
+<p>Show the current user environment.</p>
+<pre>
+set|more
+</pre>
+
+<p>Show the content of the environment variable PATH. This command can be used to show other environment variables as well. Use set to see the full environment.</p>
+<pre>
+echo $PATH
+</pre>
+
+<p>Print kernel messages (the current content of the so-called kernel ring buffer). Press q to quit less. Use less /var/log/dmesg to see what dmesg dumped into the file right after bootup. - only works on dedciated systems</p>
+<pre>
+dmesg | less
+</pre>

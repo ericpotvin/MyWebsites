@@ -1,0 +1,7 @@
+
+<h2>Mitigating (D)DOS</h2>
+<p>If you're being DDOS'd or DOS'd you can use this command:</p>
+<pre>
+netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -n
+</pre>
+<p>That will help you see how many connections each IP address has in total to your server.</p>
