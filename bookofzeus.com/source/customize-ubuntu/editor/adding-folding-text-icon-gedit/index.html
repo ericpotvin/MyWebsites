@@ -1,0 +1,48 @@
+
+<p>
+Fortunaly, jefferyto created a great plugins that allow to wrap/unwrap text with a click of a button.
+</p>
+
+<h3>Install "gedit-toggle-text-wrapping"</h3>
+
+<p>First, let's download and extract the plugin</p>
+
+<pre>
+wget https://github.com/jefferyto/gedit-toggle-text-wrapping/archive/master.zip
+unzip master.zip
+</pre>
+
+<p>Then, lets create the plugin folder</p>
+
+<pre>
+mkdir -p ~/.local/share/gedit/plugins
+</pre>
+
+<p>Now, we need to copy the right file based on the version of gEdit.</p>
+<pre>
+gedit --version
+</pre>
+
+<p>IF the version if 3.6 or less:</p>
+<pre>
+cp toggletextwrapping.plugin.python2 ~/.local/share/gedit/plugins/toggletextwrapping.plugin
+</pre>
+
+<p>IF the version is 3.8 or newer:</p>
+<pre>
+cp toggletextwrapping.plugin ~/.local/share/gedit/plugins/toggletextwrapping.plugin
+</pre>
+
+<p>Copy the plugin</p>
+<pre>
+cp -r toggletextwrapping ~/.local/share/gedit/plugins
+</pre>
+
+<h3>Activate plugin</h3>
+<p>Restart gedit</p>
+
+<p>Now, navigate to "Edit -&gt; Preferences</p>
+
+<p>Select the "plugins" tab and check the "Toggle Text Wrapping".</p>
+
+<p>to wrap or unwrap text, you can either click on the Green Check or by using the keyboard shortcut: Ctrl+Shift+B</p>
