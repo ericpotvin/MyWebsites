@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+{% for key, value in URLS %}
+<url>
+    <loc>http://bookofzeus.com/{{ value['url'] }}/</loc>
+    <lastmod>{{ value['date'] }}</lastmod>
+    <priority>{{ value['priority'] }}</priority>
+</url>
+{% endfor %}
+</urlset>
