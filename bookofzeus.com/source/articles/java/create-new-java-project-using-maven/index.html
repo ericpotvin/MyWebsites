@@ -1,0 +1,109 @@
+<p>
+    Creating new Java project happens somehow often, but remember to add the pom.xml file is always something I forget.
+    Of course, after creating this I will remember but in case you don't remember how or you do not know how here's
+    two simple ways on how to create a Java project using maven:
+
+    <ul>
+        <li>The first method, (non geeky?) is using the UI</li>
+        <li>The second method, is by using the command line</li>
+    </ul>
+</p>
+
+<h2>The UI method</h2>
+
+<p>
+    First, let's start by creating a new Project:
+    <img src="/media/ui-1.png" class="autofit center" />
+</p>
+
+<p>
+    Name your project and location:
+    <img src="/media/ui-2.png" class="autofit center" />
+</p>
+
+<p>
+    This creates the basic structure:
+    <img src="/media/ui-3.png" class="autofit center" />
+</p>
+
+<h3>Adding Maven / pom.xml</h3>
+<p>
+    Now, let's make this project a Maven project. Right click on the Project name in the "breadcrumb" section,
+    then select "Add Framework Support..."
+    <img src="/media/ui-4.png" class="autofit center" />
+</p>
+<p>
+    Select, Maven and click OK
+    <img src="/media/ui-5.png" class="autofit center" />
+</p>
+
+<p>
+Now we have a pom file that looks like this:
+</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    &lt;modelVersion>4.0.0&lt;modelVersion>
+
+    &lt;groupId>groupId&lt;groupId>
+    &lt;artifactId>MyProject&lt;artifactId>
+    &lt;version>1.0-SNAPSHOT&lt;version>
+&lt;/project>
+</pre>
+
+<p>This pom file needs some love!</p>
+
+<p>Simply change the "groupId", "artifactId" and "version" tags, example:</p>
+
+<pre>
+&lt;groupId>com.bookofzeus.app&lt;/groupId>
+&lt;artifactId>BookOfZeusApp&lt;/artifactId>
+&lt;version>0.0.1&lt;/version>
+</pre>
+
+<p>At this point now you can create new files in the src/main folder and create some test that goes with it.</p>
+
+
+<h2>The Command line method</h2>
+
+<p>Another way to (very) easily build a maven project is using the command line tool.</p>
+
+<pre>
+mvn archetype:generate \
+    -DgroupId=com.bookofzeus.app \
+    -DartifactId=BookOfZeusApp \
+    -DarchetypeArtifactId=maven-archetype-quickstart \
+    -DinteractiveMode=false
+</pre>
+
+<p>
+    The "archetypeArtifactId" means what archetype to use to create the initial structure of the project
+</p>
+<p>
+    The interactiveMode means:
+    <br/>true if Maven should attempt to interact with the user for input, false if not. Defaults to true
+</p>
+
+<p>This will create everything you need, including a sample script!</p>
+<pre>
+./src
+./src/main
+./src/main/java
+./src/main/java/com
+./src/main/java/com/bookofzeus
+./src/main/java/com/bookofzeus/app
+./src/main/java/com/bookofzeus/app/App.java
+./src/test
+./src/test/java
+./src/test/java/com
+./src/test/java/com/bookofzeus
+./src/test/java/com/bookofzeus/app
+./src/test/java/com/bookofzeus/app/AppTest.java
+./pom.xml
+</pre>
+
+
+<p><b>Notes:</b> You might want to change the jUnit version from the pom.xml file.</p>
