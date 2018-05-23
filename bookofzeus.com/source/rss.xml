@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>BookOfZeus RSS Feed</title>
+    <link>https://www.bookofzeus.com</link>
+    <description>An online community for articles, tutorials and source code on the latest technology</description>
+
+    {% for key, value in RSS %}
+    <item>
+        <title>{{ value['title'] }}</title>
+        <link>http://bookofzeus.com/{{ value['url'] }}/</link>
+        <description>{{ value['desc'] }}</description>
+    </item>
+    {% endfor %}
+
+</channel>
+</rss>
