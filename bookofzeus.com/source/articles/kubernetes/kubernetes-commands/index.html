@@ -1,0 +1,151 @@
+<p>
+    Kubernetes includes simple and yet powerful commands for anyone getting started with Kubernetes.
+    The complete list of Kubectl commands can be found at <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands" target="_blank">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands</a>.
+</p>
+
+<p class="note">
+    Make sure your minikube service is running.
+</p>
+
+<!-- -->
+<h2>minikube</h2>
+
+<pre>minikube start</pre>
+<p>Start a local Kubernetes cluster</p>
+
+<pre>minikube get-k8s-versions</pre>
+<p>Get the available Kubernetes versions for the localkube bootstrapper.</p>
+
+<pre>minikube ip</pre>
+<p>Get the IP address of your cluster.</p>
+
+<pre>minikube dashboard</pre>
+<p>Open the dashboard</p>
+
+<pre>minikube addons list</pre>
+<p>List addons</p>
+
+<pre>minikube ssh</pre>
+<p>ssh to minikube</p>
+
+
+<!-- -->
+<h2>kubectl basic commands</h2>
+
+<pre>kubectl version</pre>
+<p>Find the version of the Kubectl command line.</p>
+
+<pre>kubectl version</pre>
+<p>Get the Client and Server Version.</p>
+
+<pre>kubectl cluster-info</pre>
+<p>Get cluster info and IP addresses of master and services</p>
+
+<pre>kubectl cluster-info dump --namespaces</pre>
+<p>List all the namespace used in Kubernetes.</p>
+
+<pre>kubectl config view</pre>
+<p>Get configuration</p>
+
+<pre>kubectl get componentstatus</pre>
+<p>Get component status</p>
+
+<pre>kubectl describe node</pre>
+<p>Get node status</p>
+
+<pre>kubectl get svc</pre>
+<p>Get services for current namespace</p>
+
+<pre>kubectl get service --all-namespaces</pre>
+<p>Get all services for all namespace</p>
+
+<pre>kubectl -n kube-system get cm kubeadm-config -oyaml</pre>
+<p>Get system configuration</p>
+
+
+
+<!-- -->
+<h2>kubectl Pod commands</h2>
+
+<pre>kubectl get pods</pre>
+<p>List all pods</p>
+
+<pre>kubectl get pod -o wide</pre>
+<p>List pods with node info attached</p>
+
+<pre>kubectl get pods --show-labels</pre>
+<p>List all pods with labels</p>
+
+<pre>kubectl get services</pre>
+<p>List all services</p>
+
+<pre>kubectl get -n kube-system pods -a</pre>
+<p>List all critical pods</p>
+
+<pre>kubectl describe pod &lt;my-pod&gt;</pre>
+<p>Get pod info</p>
+
+
+<!-- -->
+<h2>kubectl Pod commands</h2>
+<pre>kubectl exec -it &lt;my-pod&gt; -- bash</pre>
+<p>Open a bash terminal in a pod</p>
+
+<pre>kubectl exec &lt;my-pod&gt; env</pre>
+<p>Check pod environment variables</p>
+
+<pre>kubectl delete pod &lt;my-pod&gt;</pre>
+<p>Delete pod</p>
+
+<pre>kubectl run hello --image=&lt;my-image&gt;g --port=80</pre>
+<p>Start a service</p>
+
+<pre>kubectl get nodes</pre>
+<p>Similar to docker ps</p>
+
+<pre>kubectl describe pod &lt;my-pod&gt;</pre>
+<p>Similar to docker inspect</p>
+
+<pre>kubectl logs</pre>
+<p>Similar to docker logs</p>
+
+<pre>kubectl exec</pre>
+<p>Similar to docker exec</p>
+
+<pre>kubectl get events</pre>
+<p>View cluster events</p>
+
+<pre>kubectl get deploy</pre>
+<p>Get deployment info</p>
+
+
+<!-- -->
+<h2>Namespace and Security</h2>
+
+<pre>kubectl config get-contexts</pre>
+<p>List authenticated contexts</p>
+
+<pre>kubectl config use-context &lt;my-context-name&gt;</pre>
+<p>Set the context to interact with</p>
+
+<pre>kubectl get namespaces</pre>
+<p>List all namespaces defined</p>
+
+
+<!-- -->
+<h2>Volume</h2>
+
+<pre>kubectl exec &lt;my-storage&gt; ls /data</pre>
+<p>Check the mounted volumes</p>
+
+<pre>kubectl describe pv &lt;my-pv&gt;</pre>
+<p>Check persist volume</p>
+
+
+
+
+<p>
+    Want more?
+
+    Visit <a href="https://kubernetes.io/docs/reference/kubectl/cheatsheet/" target="_blank">https://kubernetes.io/docs/reference/kubectl/cheatsheet/</a>
+</p>

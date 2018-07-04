@@ -1,0 +1,230 @@
+<p class="note">
+    Before we start, please make sure you read and understand what is a <a href="/articles/docker/get-started-with-docker-ce-with-example" title="Get Started with Docker CE with example">docker container</a> first.
+    This will help you understand better what is kubernetes.
+</p>
+
+<h2>What is Kubernetes?</h2>
+<p>
+    Kubernetes is a container management solution. It includes several logical layers:
+</p>
+
+<ul>
+    <li><b>Development:</b> Agile micro-services development with data and container services</li>
+    <li><b>Continuous Delivery and Integration:</b> Host application on Kubernetes</li>
+    <li><b>Services:</b> containerized application orchestration</li>
+    <li><b>as-a-Service Automation:</b> provisioning, scaling, self-healing, monitoring, logging, etc...</li>
+    <li><b>Infrastructure:</b> public or private cloud & virtualization</li>
+</ul>
+
+<p class="note">
+    Another wat to put this is think Kubernetes as you own Data-center.
+    In your data-center you have racks of servers, which in kubernetes worlds these are called <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod/" target="_blank">Pods</a>.
+    Each racks (or in this case Pods) contains at least one server, which are called <i>containers</i>.
+</p>
+
+<!-- -->
+
+<h2>All about Continuity</h2>
+
+<!-- -->
+<h3>Continuous Integration</h3>
+<p>
+    Continuous integration (CI) is the practice of merging all developer working copies to a shared mainline several times a day.
+</p>
+<p>
+    This split into two categories:
+</p>
+<h4>Source code control</h4>
+<p>
+    Automatically trigger CI/CD pipeline based on code check-in
+</p>
+<p>
+    For example: Github or Bitbucket
+</p>
+
+<h4>Build and tests</h4>
+<p>
+    Automated build and tests, including: regression, cycle, functional, security and performance tests.
+</p>
+<p>
+    For example: Jenkins or CircleCi
+</p>
+
+<!-- -->
+<h3>Continuous Deployment‎</h3>
+<p>
+    Continuous deployment is a way to automatically release committed code (that passes automated tests) into a production environment.
+    Therefore, making the new changes instantly visible to the users.
+</p>
+
+<p>
+    This split into two categories:
+</p>
+
+<h4>Release</h4>
+<p>
+   Update the repository with latest successful code artifacts and pull newest images.
+</p>
+<p>
+    For example: Artifactory or Docker
+</p>
+
+<h4>Deploy, monitor, and log</h4>
+<p>
+    Deploy applications to the orchestration, watch and get alerts via monitoring and logging.
+</p>
+<p>
+    For example: Prometheus (monitoring) or EFK (Elasticsearch, Fluentd, Kibana for Logging)
+</p>
+
+<!-- -->
+<h2>Components of Kubernetes</h2>
+
+<p>
+    Kubernetes work with <a href="https://kubernetes.io/docs/concepts/architecture/nodes/" target="_blank">nodes</a>.
+    A node is a worker machine in Kubernetes, previously known as a minion.
+    A node may be a VM or physical machine, depending on the cluster.
+    Each node has the services necessary to run pods and is managed by the master components.
+    The Kubernetes node has the services necessary to run application containers and be managed from the master systems.
+    The services on a node include Docker, kubelet and kube-proxy.
+</p>
+
+<h3>Master Components</h3>
+
+<p>
+    <a href="https://kubernetes.io/docs/concepts/overview/components/#master-components" target="_blank">Master components</a> provide the cluster’s control plane.
+    Master components make global decisions about the cluster (for example, scheduling),
+    and detecting and responding to cluster events
+    (starting up a new pod when a replication controller’s "replicas" field is unsatisfied).
+</p>
+
+<p>This includes:</p>
+<ul>
+    <li>kube-apiserver</li>
+    <li>etcd</li>
+    <li>kube-scheduler</li>
+    <li>kube-controller-manager</li>
+    <li>cloud-controller-manager</li>
+</ul>
+
+<h3>Node Components</h3>
+
+<p>
+    Node components run on every node, maintaining running pods and providing the Kubernetes runtime environment.
+</p>
+
+<p>This includes:</p>
+<ul>
+    <li>kubelet</li>
+    <li><a href="https://kubernetes.io/docs/admin/kube-proxy/" target="_blank">kube-proxy</a></li>
+    <li>Container Runtime</li>
+</ul>
+
+<p>
+    Kubernetes also includes <a href="https://kubernetes.io/docs/concepts/cluster-administration/addons/" target="_blank">addons</a>
+    Addons are pods and services that implement cluster features.
+    The pods may be managed by Deployments, ReplicationControllers, and so on. Namespaced addon objects are created in the <kbd>kube-system</kbd> namespace.
+</p>
+
+<p>Addons includes:</p>
+<ul>
+    <li>DNS</li>
+    <li>Web UI (Dashboard)</li>
+    <li>Container Resource Monitoring</li>
+    <li>Cluster-level Logging</li>
+</ul>
+
+<h2>Ecosystem required components</h2>
+<p>
+    In order to successfully deploy to production your Kubernetes solution, you need to include the following components:
+</p>
+
+<h4>Infrastructure</h4>
+<ul>
+    <li>Kubernetes can be installed on any type of servers. Dedicated, virtual, public or private cloud</li>
+</ul>
+
+<h4>Ingress Controller</h4>
+<ul>
+    <li>HTTP traffic access control for Kubernetes services</li>
+    <li>Interacts with Kubernetes API for state changes</li>
+    <li>Applies ingress rules to service load balancer</li>
+</ul>
+
+<h4>Monitoring</h4>
+<ul>
+    <li>Metrics collected on Kubernetes infrastructure and hosted objects</li>
+    <li>Typical options: Prometheus, Sysdig, Datadog</li>
+</ul>
+
+<h4>Network Plugin</h4>
+<ul>
+    <li>Network overlay for policy and software defined networking</li>
+    <li>Network overlays use the Container Network Interface (CNI) standard that</li>
+</ul>
+
+<h4>Load Balancing</h4>
+<ul>
+    <li>Software load balancing to each Kubernetes services</li>
+</ul>
+
+<h4>as-a-Service Automation</h4>
+<ul>
+    <li>Required management layer for Kubernetes CI/CD and data services</li>
+    <li>Mesosphere DC/OS provides intelligent machines as-a-Service automation on any infrastructure</li>
+    <li>DC/OS features abstraction, declarative, and immutable management</li>
+</ul>
+
+<h4>Private Container Registry</h4>
+<ul>
+    <li>Registry for an organization’s standard container images</li>
+    <li>Require access credentials (from IDM or secrets located in Kubernetes pod)</li>
+</ul>
+
+<h4>Logging & Auditing</h4>
+<ul>
+    <li>Centralized logging for Kubernetes</li>
+    <li>Typical options: FluentD, Logstash</li>
+</ul>
+
+<h4>Secrets Management</h4>
+<ul>
+    <li>Holds sensitive information such as passwords, OAuth tokens, and ssh keys required for services, developers and operations works with all Kubernetes clusters</li>
+</ul>
+
+<h4>Container Runtime</h4>
+<ul>
+    <li>Specific containers used in Kubernetes</li>
+    <li>Currently Kubernetes supports Docker</li>
+</ul>
+
+<h2>Kubernetes Concepts</h2>
+
+<h4>Namespaces</h4>
+<p>Virtual segmentation of single clusters</p>
+
+<h4>Pods</h4>
+<p>A logical grouping of one or more containers that is managed by Kubernetes</p>
+
+<h4>Nodes</h4>
+<p>Infrastructure fabric of Kubernetes (host of worker and master components)</p>
+
+<h4>ReplicaSet</h4>
+<p>continuous loop that ensures given number of pods are running</p>
+
+<h4>Roles</h4>
+<p>role based access controls for Kubernetes cluster</p>
+
+<h4>Ingresses</h4>
+<p>manages external HTTP traffic to hosted service</p>
+
+<h4>Deployments</h4>
+<p>manages a ReplicaSet, pod definitions/updates and other concepts</p>
+
+<h4>Services</h4>
+<p>a logical layer that provides IP/DNS/etc. persistence to dynamic pods</p>
+
+<p class="small">
+Source: mesosphere kubernetes cheatsheet (dead link removed), <a href="http://kubernetes.io" target="_blank">kubernetes.io</a>
+</p>
+
