@@ -1,0 +1,123 @@
+<h2>Start minikube</h2>
+
+<p>
+    The first step we need to do is to start the Kubernetes cluster.
+    To do so, we need to use the "start" <a href="/articles/kubernetes/kubernetes-commands">command</a>.
+</p>
+<pre>
+minikube start
+</pre>
+
+<p class="note">
+    If the "~/.minikube/" folder does not exists, minikube will automatically download the ISO files.
+</p>
+
+<p>
+    The output will looks like this:
+</p>
+<pre>
+Starting local Kubernetes v1.10.0 cluster...
+Starting VM...
+Downloading Minikube ISO
+ 153.08 MB / 153.08 MB [============================================] 100.00% 0s
+Getting VM IP address...
+Moving files into cluster...
+Downloading kubelet v1.10.0
+Downloading kubeadm v1.10.0
+Finished Downloading kubeadm v1.10.0
+Finished Downloading kubelet v1.10.0
+Setting up certs...
+Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...
+Kubectl is now configured to use the cluster.
+Loading cached images from config file.
+</pre>
+
+<p>
+    We can verify to make sure all is good:
+</p>
+
+<pre>
+minikube status
+</pre>
+
+<p>
+    This will show the status and the IP address of the cluster.
+</p>
+<pre>
+minikube: Running
+cluster: Running
+kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
+</pre>
+
+<h3>Dashboard</h3>
+<p>
+    Now let's navigate to the dashboard.
+</p>
+<pre>
+minikube dashboard
+</pre>
+
+<!-- -->
+<h2>Create a test deployment</h2>
+
+<p>
+    Kubernetes comes with a "hello-minikube" to play and test deployment.
+    Kubernetes deployments manage stateless services running on your cluster
+    (as opposed to for example StatefulSets which do manage stateful services).
+    Their purpose is to keep a set of identical pods running and upgrade them in a controlled way – performing a rolling update by default.
+</p>
+
+<h3>Create and run the deployment</h3>
+
+<pre>
+kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.10 --port=8080
+</pre>
+
+<p>
+    The output should show "deployment.apps "hello-minikube" created".
+    This means now the "hello-minikube" deployment is added to the dashboard.
+    If you refresh your dashboard, you should see it.
+</p>
+
+<h3>Expose the deployment</h3>
+<pre>
+kubectl expose deployment hello-minikube --type=NodePort
+</pre>
+<p>
+    This will now expose and launch a new deployment and create the service for it.
+</p>
+
+<h3>List the pod</h3>
+<pre>
+kubectl get pods
+</pre>
+
+<p>
+    This will show the newly created pod:
+</p>
+<pre>
+NAME                              READY     STATUS    RESTARTS   AGE
+hello-minikube-7c77b68cff-tvgrt   1/1       Running   0          7m
+</pre>
+
+<h3>See it in action!</h3>
+<p>
+    This newly service can be access from your Internet browser.
+    You can find the URL to load in the "Discovery and load balancing / Services / hello-minikube" or by running this command:
+</p>
+<pre>
+minikube service hello-minikube --url
+</pre>
+
+<!-- -->
+<h2>Delete the service</h2>
+<p>
+    If a service is not required anymore, we can remove it from the cluster.
+</p>
+<pre>
+kubectl delete services hello-minikube
+kubectl delete deployment hello-minikube
+kubectl delete pods hello-minikube-7c77b68cff-tvgrt # you can get this name using the "kubectl get pods" command
+</pre>

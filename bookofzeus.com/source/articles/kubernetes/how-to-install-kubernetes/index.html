@@ -1,0 +1,117 @@
+<p class="note">
+    Before we start, please make sure you read the <a href="/articles/kubernetes/kubernetes-101/" title="kubernetes-101">kubernetes-101</a> first.
+    <br/>
+    This article will not cover installation on Windows system.
+</p>
+
+<!-- -->
+<h2>Verify virtualization</h2>
+<p>
+    Before you start, make sure that VT-x/AMD-v virtualization is enabled. Minikube requires it!
+    A simple check can help you figure out if virtualization is already enabled.
+</p>
+
+<h3>Linux</h3>
+<pre>
+cat /proc/cpuinfo | egrep 'vmx|svm' | wc -l
+</pre>
+
+<h3>OS X</h3>
+<pre>
+sysctl -a | grep machdep.cpu.features | grep VMX | wc -l
+</pre>
+
+<p>If the output number is greater than zero, you all set!</p>
+
+
+<h2>Install a Hypervisor</h2>
+<p>
+    A hypervisor is a program that would enable you to host virtual machines on a single hardware.
+    <br/>
+</p>
+<h3>Linux</h3>
+<p>
+    <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" title="VirtualBox">VirtualBox</a> or
+    <a href="https://www.linux-kvm.org/page/Main_Page" target="_blank" title="kvm">kvm</a>
+</p>
+
+<h3>OS X</h3>
+<p>
+    <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" title="VirtualBox">VirtualBox</a> or
+    <a href="https://github.com/moby/hyperkit" target="_blank" title="hyperkit">hyperkit</a>
+</p>
+
+
+<!-- -->
+<h2>Installing kubectl</h2>
+
+<h3>Linux (Debian)</h3>
+
+<pre>
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo touch /etc/apt/sources.list.d/kubernetes.list
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+</pre>
+
+<h3>Linux (RHEL)</h3>
+<pre>
+cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+yum install -y kubectl
+</pre>
+
+<h3>OS X</h3>
+<pre>
+brew install kubernetes-cli
+</pre>
+
+<p class="note">
+    If links are broken, please see the official procedure at
+    <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">https://kubernetes.io/docs/tasks/tools/install-kubectl/</a>
+</p>
+
+<!-- -->
+<h2>Install minikube</h2>
+<p>
+First let's find out the newest version.
+</p>
+<pre>
+curl -q "https://github.com/kubernetes/minikube/releases/latest"
+</pre>
+<p>
+    This will output something like:
+</p>
+<pre>
+&lt;html&gt;&lt;body&gt;You are being &lt;a href="https://github.com/kubernetes/minikube/releases/tag/v0.28.0"&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;
+</pre>
+<p>
+    The latest (as of July 8th, 2018) version is v0.28.0.
+</p>
+
+<h3>Linux</h3>
+<pre>
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+#                                                                     ^--- make sure to change this if needed
+</pre>
+
+<h3>OS X</h3>
+<pre>
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.0/minikube-darwin-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+#                                                                     ^--- make sure to change this if needed
+</pre>
+
+
+
+<p>
+    Installation done! Now let's <a href="/articles/kubernetes/getting-started-with-kubernetes/"> get started with kubernetes</a>.
+</p>
