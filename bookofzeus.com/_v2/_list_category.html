@@ -1,0 +1,38 @@
+<article>
+	<h1>{{ PAGE_TITLE }}</h1>
+</article>
+
+{% for record in records %}
+<article id="itemList">
+    {% if VERSION == "2" %}
+
+      <div class="items">
+        <aside class="item {{ record.title|lower()| replace(' ','-') }}"></aside>
+        <aside>
+            <h2>
+                <a href="{{ record.url }}">{{ record.title }}</a>
+            </h2>
+            <p>{{ record.desc }}</p>
+            <p class="nb">[ {{ record.nb }} articles ]</p>
+        </aside>
+    </div>
+
+    {% else %}
+        <header>
+            <h2>
+                <a href="{{ record.url }}">{{ record.title }}</a>
+            </h2>
+        </header>
+        <p>{{ record.desc }}</p>
+
+        <footer>
+            <p>Number of articles: {{ record.nb }}</p>
+        </footer>
+	{% endif %}
+
+</article>
+{% endfor %}
+
+
+
+

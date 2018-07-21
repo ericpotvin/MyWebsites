@@ -6,16 +6,16 @@ set nowrap
 "set showmatch
 set tabstop=4
 set shiftwidth=4
-"set expandtab
+set expandtab
 set ruler
 set foldcolumn=2
 set nowrap
 nmap &lt;F8&gt; :set wrap! wrap?&lt;CR&gt;
 " change // style comment to phpDoc comment
 nmap &lt;F1&gt; :s/\(.*\)\/\/ \(.*\)/\/**\r *\r *\r * \2\r *\r * @param\r * @return\r *\/&lt;CR&gt;
-map &lt;C-P&gt; :!php -l %&lt;CR&gt;
-
-map &lt;C-M&gt; :NoMatch&lt;CR&gt;
+map &lt;C-P> :!phpcs --standard=SW -l %&lt;CR&gt;
+map &lt;C-E> :!php -l %&lt;CR&gt;
+map &lt;C-M> :NoMatch&lt;CR&gt;
 
 set hlsearch
 "set incsearch
@@ -24,14 +24,12 @@ set background=dark
 "set number
 "set backspace=indent,eol,start
 set noshowmatch
+set number
 
 syntax on
 "set NoMatch
 let g:loaded_matchparen=1
+
+highlight ColorColumn ctermbg=darkgray guibg=lightgrey
+set colorcolumn=120
 </pre>
-					
-
-
-
-
-

@@ -1,0 +1,11 @@
+{% for key, value in MAIN_MENU.iteritems() %}
+	<li><a href="/{{ key }}/" title="{{ value.name }}" {% if key == FOLDER1 %}class="selected"{% endif %}>{{ value.name }}</a>
+	{% if value.child %}
+		<ul>
+		{% for kkey in value.child %}
+			<li><a href="/{{ key }}/{{ kkey }}/" title="{{ value.child[kkey] }}" {% if kkey == FOLDER2 %}class="selected"{% endif %}>{{ value.child[kkey] }}</a></li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+	</li>
+{% endfor %}
